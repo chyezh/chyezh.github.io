@@ -41,6 +41,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
 
+  a {
+    color:#000000;
+    text-decoration:none;
+  }
+
   a::before {
     content: '';
     position: absolute;
@@ -52,6 +57,7 @@
 
   a + a {
     opacity: 0.5;
+    text-decoration:none;
   }
 }
 
