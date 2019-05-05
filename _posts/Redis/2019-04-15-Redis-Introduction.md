@@ -62,3 +62,44 @@
     expireat key timestamp
     persist key
     ttl key
+
+## Redis List
+
+*redis*的*list*是由链表实现的，这意味着在*list*的头尾做插入都只用常数时间。
+*rpush*从尾部依次插入元素，*lpush*从头部依次插入元素；*lrange*从左向右遍历并且支持*负range*，虽然*lrange*是一个*O(N)*复杂度的操作，但是在头和尾部的小范围内遍历可以认为是常数时间；
+*lpop*从头部弹出元素，*rpop*从尾部弹出元素，并且针对空*list*弹出返回*null*。
+
+    rpush key value [value ...]
+    lpush key value [value ...]
+    lrange key mylist start end
+    rpop key
+    lpop key
+
+*list*有如下常见用法：
+
+- 记录最近操作。
+- 构造生产者-消费者队列。
+
+*redis list*同时支持构造*caped list*，即定长的*list*，并且会自动舍弃旧元素。
+
+    ltrim key start end
+
+*ltrim*使*list*只保留[start, end]范围内的元素。
+
+此外，*list*还支持构造阻塞队列*blocking queue*。
+比如，希望在进程间构造一个生产者消费者队列，
+
+- 生产者一方调用*lpush*实现生产。
+- 消费者一方调用*rpop*实现消费。
+
+此时，若队列为空，消费方只能进行*polling*，即不断的重试，有两点缺陷：
+
+- 白白的空占了cpu并且对*redis*服务器造成压力，
+- 为了腾出cpu执行*sleep*，造成性能问题。
+
+理想情况下，希望消费方在队列为空时阻塞。
+
+    brpop key [key ...] timeout
+    blpop key [key ...] timeout
+
+这两个阻塞操作，可以等待多个*list*，直到其中任意*list*可以返回，同时如果超时时间设置为*0*，可以永久阻塞而不超时。
