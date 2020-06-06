@@ -54,3 +54,204 @@ ES提供了丰富的聚合运算，聚合运算的作用文档对象取决于运
 |top_hits|可以对bucketing聚合结果实现TopN运算||
 |top_metrics|类似top_hits，没大看明白使用场景|
 |value_count|对于进入聚合运算的文档进行计数||
+
+### Bucket Aggregations
+
+|运算符|操作|备注|
+|:---:|:---:|:---:|
+|adjacency_matrix|通过给定的filters决定的多个集合，获取各个集合直接的邻接矩阵，权值为集合共有的文档个数|可以通过指定separator参数来指定集合名分隔符|
+|auto_date_histogram|通过指定分桶数量，ES自动适配时间间隔来进行聚合计数||
+|children|针对需要聚合包含join类型的父文档，通过指定子文档的标记type来统计子文档数量||
+|composite|通过指定source字段，产生由多个bucket复合成的key，并以该key作为新的bucket|可以通过指定after获取被截断后的聚合结果|
+|date_histogram|针对时间字段，指定固定时间间隔进行分桶聚合||
+
+#### Example
+
+    // adjacency_matrix
+    POST /kibana_sample_data_logs/_search
+    {
+      "size" : 0,
+      "aggs": {
+        "tags": {
+          "adjacency_matrix": {
+            "separator":"#",
+            "filters": {
+              "success": {
+                "term": {
+                  "tags": "success"
+                }
+              },
+              "security":{
+                "term":{
+                  "tags":"security"
+                }
+              },
+              "login": {
+                "term": {
+                  "tags":"login"
+                }
+              },
+              "warning": {
+                "terms": {"tags": ["warning"]}
+              },
+              "error": {
+                "terms": {"tags": ["error"]}
+              },
+              "info": {
+                "terms": {"tags": ["info"]}
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // auto_date_histogram
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "aggs": {
+        "log_over_time": {
+          "auto_date_histogram":{
+            "field": "timestamp",
+            "format": "yyyy-MM-dd HH:mm:ss",
+            "time_zone": "Asia/Shanghai"
+          }
+        }
+      }
+    }
+
+    // child
+
+    PUT child_example
+    {
+      "mappings": {
+        "properties": {
+          "join": {
+            "type" : "join",
+            "relations": {
+              "question" : "answer"
+            }
+          }
+        }
+      }
+    }
+    PUT child_example/_doc/1
+    {
+      "join": {
+        "name": "question"
+      },
+      "body": "<p>I have Windows 2003 server and i bought a new Windows 2008 server...",
+      "title": "Whats the best way to file transfer my site from server to a newer one?",
+      "tags": [
+        "windows-server-2003",
+        "windows-server-2008",
+        "file-transfer"
+      ]
+    }
+    PUT child_example/_doc/2?routing=1
+    {
+      "join": {
+        "name": "answer",
+        "parent": "1"
+      },
+      "owner": {
+        "location": "Norfolk, United Kingdom",
+        "display_name": "Sam",
+        "id": 48
+      },
+      "body": "<p>Unfortunately you're pretty much limited to FTP...",
+      "creation_date": "2009-05-04T13:45:37.030"
+    }
+    PUT child_example/_doc/3?routing=1&refresh
+    {
+      "join": {
+        "name": "answer",
+        "parent": "1"
+      },
+      "owner": {
+        "location": "Norfolk, United Kingdom",
+        "display_name": "Troll",
+        "id": 49
+      },
+      "body": "<p>Use Linux...",
+      "creation_date": "2009-05-05T13:45:37.030"
+    }
+    POST child_example/_search
+    {
+      "size": 0,
+      "aggs": {
+        "top_tags": {
+          "terms": {
+            "field": "tags.keyword",
+            "size": 10
+          },
+          "aggs": {
+            "to_answers": {
+              "children": {
+                "type": "answer"
+              },
+              "aggs": {
+                "top_names": {
+                  "terms": {
+                    "field": "owner.display_name.keyword",
+                    "size": 10
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // composite
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "aggs": {
+        "new_key": {
+          "composite": {
+            "after": {
+              "clientip_new": "0.207.229.147",
+              "event_new": "sample_web_logs"
+            },
+            "size": 2,
+            "sources": [
+              {
+                "clientip_new": {
+                  "terms": {
+                    "field": "clientip"
+                  }
+                }
+              },
+              {
+                "event_new": {
+                  "terms": {
+                    "field": "event.dataset"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    // date_histogram
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "aggs": {
+        "by_day": {
+          "date_histogram": {
+            "field": "timestamp",
+            "calendar_interval": "day",
+            "offset": "+6h",
+            "time_zone": "Asia/Shanghai",
+            "keyed": true,
+            "format": "yyyy-MM-dd"
+          }
+        }
+      }
+    }
