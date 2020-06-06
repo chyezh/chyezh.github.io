@@ -52,7 +52,7 @@ ES提供了丰富的聚合运算，聚合运算的作用文档对象取决于运
 |scripted_mertric|通过script实现map-reduce|init_script初始化script运行环境；map_script对各分片的文档分别进行映射；combine_script将各分片结果整合后存储到states变量中；reduce_script将states计算后返回聚合结果|
 |string_stats|对keyword类型，获取非空计数 count、最长最短平均长度 max_length min_length avg_length，香农熵 entropy|计算香农熵基于各字符出现概率，使用show_distribution可以直接显示字符概率分布|
 |top_hits|可以对bucketing聚合结果实现TopN运算||
-|top_metrics|类似top_hits，没大看明白使用场景|
+|top_metrics|类似top_hits，但是一般比top_hits更快并使用更少的内存|作为子嵌套聚合时，可以参与外层聚合排序运算|
 |value_count|对于进入聚合运算的文档进行计数||
 
 ### Bucket Aggregations
@@ -64,6 +64,16 @@ ES提供了丰富的聚合运算，聚合运算的作用文档对象取决于运
 |children|针对需要聚合包含join类型的父文档，通过指定子文档的标记type来统计子文档数量||
 |composite|通过指定source字段，产生由多个bucket复合成的key，并以该key作为新的bucket|可以通过指定after获取被截断后的聚合结果|
 |date_histogram|针对时间字段，指定固定时间间隔进行分桶聚合||
+|date_range|可以指定多个前闭后开时间区间，分别对每个时间区间进行计数聚合|和range不同点在于，专门针对时间类型，添加时间表达式|
+|geo_distance|针对地理坐标类型，通过指定range和出发点按距离进行聚合||
+|sampler|用于在子嵌套聚合前过滤出高分文档，实现抽样|一般用于长尾匹配质量较低的子聚合前、子聚合结果可用的情况下，减少子聚合耗时、高分抽样结果能使子聚合产出更好的预期结果，如子聚合significant_terms|
+|diversified_sampler|作用类似于sampler，但sampler抽样时关心评分高低；可以通过指定字段，来限制该字段的最高重复数量，从而实现抽样多元化|使用场景类似sampler，通过设置max_docs_per_value来改变最高重复数|
+|filter|指定单桶进行聚合||
+|filters|指定多个桶进行聚合||
+|global|指定对整个索引进行聚合，使索引不受搜索语句影响||
+|missing|单桶，聚合字段丢失的部分||
+
+
 
 #### Example
 
@@ -251,6 +261,192 @@ ES提供了丰富的聚合运算，聚合运算的作用文档对象取决于运
             "time_zone": "Asia/Shanghai",
             "keyed": true,
             "format": "yyyy-MM-dd"
+          }
+        }
+      }
+    }
+
+    // date_range
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "aggs": {
+        "range": {
+          "date_range": {
+            "field": "timestamp",
+            "format": "dd-MM-yyyy",
+            "ranges": [
+              {
+                "from": "now-10d",
+                "to": "now-9d"
+              },
+              {
+                "from": "now-10d"
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    // sampler
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "query": {
+        "query_string": {
+          "query": "tags:warning"
+        }
+      },
+      "aggs": {
+        "sample": {
+          "sampler": {
+            "shard_size": 200
+          },
+          "aggs":{
+            "keywords": {
+              "significant_terms": {
+                "field": "tags.keyword",
+                "exclude": ["warning"]
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // diversified_sampler
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "query": {
+        "query_string": {
+          "query": "tags:warning"
+        }
+      },
+      "aggs": {
+        "sample": {
+          "diversified_sampler": {
+            "shard_size": 200,
+            "field": "ip",
+            "max_docs_per_value": 1
+          },
+          "aggs":{
+            "keywords": {
+              "significant_terms": {
+                "field": "tags.keyword",
+                "exclude": ["warning"]
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // filter
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "aggs": {
+        "response_200": {
+          "filter": {
+            "term": {
+              "response": 200
+            }
+          }
+        }
+      }
+    }
+
+    // filters
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "aggs": {
+        "messages": {
+          "filters": {
+            "filters": {
+              "Mozilla" : {
+                "match": {
+                  "message": "Mozilla"
+                }
+              },
+              "Chrome": {
+                "match": {
+                  "message": "Chrome"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // geo_distance
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "aggs" : {
+        "distance": {
+          "geo_distance": {
+            "keyed" : true,
+            "field": "geo.coordinates",
+            "origin": {
+              "lat": 52.376,
+              "lon": 4.894
+            },
+            "ranges": [
+              {
+                "from": 100,
+                "to": 300
+              },
+              {
+                "from": 10000
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    // global
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "query": {
+        "term": {
+          "tags": {
+            "value": "info"
+          }
+        }
+      },
+      "aggs": {
+        "total_count": {
+          "global": {},
+          "aggs": {
+            "val": {
+              "value_count": {
+                "field": "tags.keyword"
+              }
+            }
+          }
+        },
+        "info_count": {
+          "value_count": {
+            "field": "tags.keyword"
+          }
+        }
+      }
+    }
+
+    // missing
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "aggs": {
+        "missing_count": {
+          "missing": {
+            "field": "message.keyword"
           }
         }
       }
