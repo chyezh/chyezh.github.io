@@ -59,21 +59,28 @@ ES提供了丰富的聚合运算，聚合运算的作用文档对象取决于运
 
 |运算符|操作|备注|
 |:---:|:---:|:---:|
-|adjacency_matrix|通过给定的filters决定的多个集合，获取各个集合直接的邻接矩阵，权值为集合共有的文档个数|可以通过指定separator参数来指定集合名分隔符|
-|auto_date_histogram|通过指定分桶数量，ES自动适配时间间隔来进行聚合计数||
-|children|针对需要聚合包含join类型的父文档，通过指定子文档的标记type来统计子文档数量||
-|composite|通过指定source字段，产生由多个bucket复合成的key，并以该key作为新的bucket|可以通过指定after获取被截断后的聚合结果|
-|date_histogram|针对时间字段，指定固定时间间隔进行分桶聚合||
-|date_range|可以指定多个前闭后开时间区间，分别对每个时间区间进行计数聚合|和range不同点在于，专门针对时间类型，添加时间表达式|
-|geo_distance|针对地理坐标类型，通过指定range和出发点按距离进行聚合||
-|sampler|用于在子嵌套聚合前过滤出高分文档，实现抽样|一般用于长尾匹配质量较低的子聚合前、子聚合结果可用的情况下，减少子聚合耗时、高分抽样结果能使子聚合产出更好的预期结果，如子聚合significant_terms|
-|diversified_sampler|作用类似于sampler，但sampler抽样时关心评分高低；可以通过指定字段，来限制该字段的最高重复数量，从而实现抽样多元化|使用场景类似sampler，通过设置max_docs_per_value来改变最高重复数|
 |filter|指定单桶进行聚合||
 |filters|指定多个桶进行聚合||
 |global|指定对整个索引进行聚合，使索引不受搜索语句影响||
 |missing|单桶，聚合字段丢失的部分||
+|terms|对指定字段进行离散值分桶|一般来说总是按计数的倒序返回size个数的桶，但由于各个分片各自排序，导致最后部分数据不够精确；可以指定order来决定排序作用字段【含子聚合产生的字段】，但是注意升序排列会使由于分片引入误差的概率加大；通过设置collect_mode，可以在bfs或者dfs之间切换嵌套聚合的模式|
+|rare_terms|对指定字段的稀有值进行分桶聚合|可以解决terms在计数升序排列时，由分片引入的误差|
+|significant_terms|获取前景集相对背景集，显著关联的term的聚合结果|背景集为检索操作前的检索集合，前景集为检索操作后的结果，如果term在前景集的出现概率显著高于背景集，这个term将作为桶并进行聚合；返回值中的bg_*则为在背景集的聚合结果；由于该聚合运算消耗资源大，并且对长尾低质匹配结果不敏感，通常可以作为sampler的子聚合|
+|significant_text|作用类似于significant_terms，不过是专门针对text类型进行聚合的；|filter_duplicate_text参数可以过滤掉如人物介绍，typo等大段落复制导致污染显著聚合结果的桶，十分适合新闻、论文等领域分析。|
+|auto_date_histogram|通过指定分桶数量，ES自动适配时间间隔来进行聚合计数||
+|date_histogram|针对时间字段，指定固定时间间隔进行分桶聚合||
+|histogram|通过指定值间隔实现直方图聚合||
+|range|通过指定多个值间隔进行分桶聚合||
+|date_range|可以指定多个前闭后开时间区间，分别对每个时间区间进行计数聚合|和range不同点在于，专门针对时间类型，添加时间表达式|
+|ip_range|可以指定多个ip区间进行聚合||
+|geo_distance|针对地理坐标类型，通过指定range和出发点按距离进行聚合||
+|sampler|用于在子嵌套聚合前过滤出高分文档，实现抽样|一般用于长尾匹配质量较低的子聚合前、子聚合结果可用的情况下，减少子聚合耗时、高分抽样结果能使子聚合产出更好的预期结果，如子聚合significant_terms|
+|diversified_sampler|作用类似于sampler，但sampler抽样时关心评分高低；可以通过指定字段，来限制该字段的最高重复数量，从而实现抽样多元化|使用场景类似sampler，通过设置max_docs_per_value来改变最高重复数|
+|children|针对需要聚合包含join类型的父文档，通过指定子文档的标记type来统计子文档数量||
+|adjacency_matrix|通过给定的filters决定的多个集合，获取各个集合直接的邻接矩阵，权值为集合共有的文档个数|可以通过指定separator参数来指定集合名分隔符|
+|composite|通过指定source字段，产生由多个bucket复合成的key，并以该key作为新的bucket|可以通过指定after参数实现分页|
 
-
+- range类型可能会导致意外的聚合结果，在histogram聚合中，对range字段聚合时，文档会落到每个range值和桶的range重合的桶中；在使用边界过滤range后并进行聚合的时候，使用histogram也会出现超越过滤边界的聚合结果，原因是只有range完全落在边界外时文档才会被过滤，否则将参与聚合，导致histogram出现超越边界的桶。
 
 #### Example
 
@@ -447,6 +454,151 @@ ES提供了丰富的聚合运算，聚合运算的作用文档对象取决于运
         "missing_count": {
           "missing": {
             "field": "message.keyword"
+          }
+        }
+      }
+    }
+
+    // histogram
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "aggs": {
+        "bytes_histogram": {
+          "histogram": {
+            "field": "bytes",
+            "interval": 50,
+            "min_doc_count": 0,
+            "extended_bounds": {
+              "min": 0,
+              "max": 30000
+            },
+            "keyed": true
+          }
+        }
+      }
+    }
+
+    // ip_range
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "aggs": {
+        "ips": {
+          "ip_range": {
+            "field": "clientip",
+            "ranges": [
+              {
+                "to": "127.0.0.1"
+              },
+              {
+                "from": "10.0.0.5",
+                "to": "10.0.0.10"
+              },
+              {
+                "from": "255.0.0.0"
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    // range
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "aggs": {
+        "bytes_bucket": {
+          "range": {
+            "field": "bytes",
+            "ranges": [
+              {
+                "to": 50
+              },
+              {
+                "from": 50,
+                "to": 100
+              },
+              {
+                "from": 200
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    // terms
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "aggs": {
+        "machines": {
+          "terms": {
+            "field": "machine.os.keyword",
+            "size": 10,
+            "order": {
+              "max_bytes": "desc"
+            }
+          },
+          "aggs": {
+            "max_bytes": {
+              "max": {
+                "field": "bytes"
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // rare_terms
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 1,
+      "aggs": {
+        "machines": {
+          "rare_terms": {
+            "field": "machine.os.keyword",
+                    "max_doc_count": 1
+          }
+        }
+      }
+    }
+
+    // significant_terms
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "query": {
+        "match": {
+          "url": "windows-x86_64.zip"
+        }
+      },
+      "aggs": {
+        "significat_os": {
+          "significant_terms": {
+            "field": "machine.os.keyword"
+          }
+        }
+      }
+    }
+
+    // significant_text
+    POST /kibana_sample_data_logs/_search
+    {
+      "size": 0,
+      "query": {
+        "match": {
+          "url": "windows-x86_64.zip"
+        }
+      },
+      "aggs": {
+        "significat_message_word": {
+          "significant_text": {
+            "field": "message",
+            "filter_duplicate_text": "true"
           }
         }
       }
