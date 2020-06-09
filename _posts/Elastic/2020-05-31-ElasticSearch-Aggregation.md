@@ -1,4 +1,4 @@
-# Elasticsearch Aggreagation
+# Elasticsearch Aggregation
 
 [ref](https://www.elastic.co/guide/en/elasticsearch/reference/7.7/search-aggregations.html)
 
@@ -33,6 +33,8 @@ ES提供了丰富的聚合运算，聚合运算的作用文档对象取决于运
 
 ### Metrics Aggregations
 
+Metric Aggregation通过对输入文档的一个或者多个字段进行聚合，实现获取某些文档字段的统计指标；该类聚合不能嵌套子聚合。
+
 | 运算符 | 操作 | 备注 |
 | :------: | :----: | :----: |
 |avg| 平均数||
@@ -56,6 +58,8 @@ ES提供了丰富的聚合运算，聚合运算的作用文档对象取决于运
 |value_count|对于进入聚合运算的文档进行计数||
 
 ### Bucket Aggregations
+
+Bucket Aggregation通过创建一个或者多个分类桶，将进入聚合的文档进行分桶分类；这类聚合可以嵌套子聚合，子聚合的输入文档即为各个桶的内的文档。
 
 |运算符|操作|备注|
 |:---:|:---:|:---:|
@@ -603,3 +607,7 @@ ES提供了丰富的聚合运算，聚合运算的作用文档对象取决于运
         }
       }
     }
+
+### Pipeline Aggregation
+
+Pipeline Aggregation不对文档集合进行聚合，而是对某些聚合结果进行聚合。该类通过指定bucket_path参数来指定输入的聚合结果，除了直接参考父聚合外，该参数提供了一套特殊的语法来指定其他聚合节点(sibling)。
