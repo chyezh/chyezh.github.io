@@ -1,0 +1,357 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Memory Model And Atomic Operation - Chyezh&#x27;s Notes</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">C++</li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> C++ Concurrency In Action</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Managing-Threads.html"><strong aria-hidden="true">1.1.</strong> Managing Threads</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Shared-Data-Protection.html"><strong aria-hidden="true">1.2.</strong> Shared Data Protection</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Operation-Synchronization.html"><strong aria-hidden="true">1.3.</strong> Operation Synchronization</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Memory-Model-And-Atomic-Operation.html" class="active"><strong aria-hidden="true">1.4.</strong> Memory Model And Atomic Operation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Effective Modern C++</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part1.html"><strong aria-hidden="true">2.1.</strong> Part1</a></li><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part2.html"><strong aria-hidden="true">2.2.</strong> Part2</a></li><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part3.html"><strong aria-hidden="true">2.3.</strong> Part3</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Multi Tenant</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Multi-Tenant/Multi-Tenant-Task-Scheduling.html"><strong aria-hidden="true">3.1.</strong> Multi Tenant Task Scheduling</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Chyezh&#x27;s Notes</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="memory-model-and-atomic-operation"><a class="header" href="#memory-model-and-atomic-operation">Memory Model And Atomic Operation</a></h1>
+<p>在C++中，内存是一块或者多块连续的<em>byte</em>序列，所有<em>byte</em>在程序中都有唯一的地址。</p>
+<h2 id="byte"><a class="header" href="#byte">Byte</a></h2>
+<p><em>Byte</em>是C++程序中最小的寻址单元，被定义为可以容纳256个不同的值以及<em>basic execution character set</em>的连续<em>bit</em>。C++支持8<em>bits</em>及以上的<em>byte</em>，可以使用<em>CHAR_BIT</em>或者<em>std::numeric_limits<unsigned char>::digits</em>来查询一个<em>byte</em>有多少<em>bit</em>（<em>char</em>、<em>unsigned char</em>、<em>signed char</em>保证只使用一个<em>byte</em>进行储存。）。</p>
+<h2 id="obeject"><a class="header" href="#obeject">Obeject</a></h2>
+<p><em>Object</em>是C++的基本概念，应当和OO中的<em>object</em>区分开来。<em>object</em>是一块包含以下特性的存储区域：</p>
+<ol>
+<li>size</li>
+<li>aligment requirement</li>
+<li>storage duration</li>
+<li>lifetime</li>
+<li>type</li>
+<li>value</li>
+<li>name（optional）</li>
+</ol>
+<p>类似于引用（<em>reference</em>）、位域（<em>bit field</em>）都不是<em>object</em>。</p>
+<h3 id="object-representation-and-value-representation"><a class="header" href="#object-representation-and-value-representation">Object representation and value representation</a></h3>
+<p>对象表达和值表达是两回事，对象表达更加“底层”：</p>
+<ul>
+<li><em>object representation</em>是指以<em>object</em>所在地址的一个<em>byte</em>序列。</li>
+<li><em>object</em>的<em>value representation</em>是<em>object</em>所占区域的该类型的值。</li>
+</ul>
+<p>许多原因会导致两者的不一致，比如类型标准、内存对齐、位域，比如：</p>
+<pre><code class="language-c++">    #include &lt;cassert&gt;
+    struct S {
+        char c;  // 1 byte value
+                // 3 bytes padding
+        float f; // 4 bytes value
+        bool operator==(const S&amp; arg) const { // value-based equality
+            return c == arg.c &amp;&amp; f == arg.f;
+        }
+    };
+    assert(sizeof(S) == 8);
+    S s1 = {'a', 3.14};
+    S s2 = s1;
+    reinterpret_cast&lt;char*&gt;(&amp;s1)[2] = 'b'; // change 2nd byte
+    assert(s1 == s2); // value did not change
+</code></pre>
+<p>通过更改结构体的第二个字节从而改变了<em>object represention</em>，但是由于内存对齐，第二个字节对于类型S来说没有意义，所以<em>value representation</em>不变。</p>
+<p>同样的例子还有浮点数规范中，多个<em>bit</em>序列对应值<em>NaN</em>。</p>
+<h3 id="subobjects"><a class="header" href="#subobjects">Subobjects</a></h3>
+<p>一个<em>object</em>内部可以包含若干<em>subobject</em>，比如：</p>
+<ul>
+<li>member objects</li>
+<li>base class subobjects</li>
+<li>array elements</li>
+</ul>
+<p>如果一个<em>object</em>不是其他的<em>subobject</em>，则可以称为<em>complete object</em>。</p>
+<p><em>array elements</em>、<em>member objects</em>和<em>complete object</em>归类为<em>most derived object</em>，非位域的<em>most derived object</em>的<em>size</em>必然非零。</p>
+<h3 id="polymorphic-objects"><a class="header" href="#polymorphic-objects">Polymorphic objects</a></h3>
+<h3 id="alignment-requirement"><a class="header" href="#alignment-requirement">Alignment requirement</a></h3>
+<p>内存对齐的由来：因为CPU对内存的随机访问是一个缓慢的过程，为了减少CPU对内存的访问次数出现了内存对齐（通过空间节省时间）。</p>
+<p>比如一个32位的CPU字长为32bit、字节为8bit，其地址线就为30位，可以管理2^32字节的内存，其地址线最低两位总是为00。</p>
+<p>该CPU希望访问一个地址为2的、大小为4字节的数据（即位于2、3、4、5）。那么CPU就要对内存进行两次访问，第一次取地址0(00)的数据并取2、3的数据，第二次取地址1(00)的数据并取4、5的数据。</p>
+<p>但如果数据地址为4（即位于4、5、6、7），那么只需要进行一次对地址1(00)访。</p>
+<ul>
+<li>因此规定对齐要求为<em>alignment requirement</em>的片段必须位于地址偏移<em>offset</em>的位置，并满足<em>offset mod alignment requirement == 0</em>.</li>
+</ul>
+<p>即有：</p>
+<pre><code class="language-c++">    struct T{
+        char data1;     // size 1
+        // padding 3
+        int data2;      // size 4
+        some_type data3;    // size 2
+        // padding 2
+        int data4;      // size 4
+        char data5;     // size 1
+    };
+</code></pre>
+<p>可以得出T的大小为17，但其实T的大小为20。因为<em>struct</em>自身可以作为一个数组的成员，而数组必然连续，会破坏后续的<em>struct</em>的内存对齐决策，比如：</p>
+<pre><code class="language-c++">    T pp[2];
+</code></pre>
+<p>pp[0]的data5落在地址17的位置，而pp[1]的data2会落在21的位置，破坏了内存对齐。</p>
+<ul>
+<li>因此规定，struct的<em>size</em>必须为其成员中的最大对齐要求的整数倍。</li>
+</ul>
+<p>即有：</p>
+<pre><code class="language-c++">    struct T{
+        char data1;     // size 1
+        // padding 3
+        int data2;      // size 4
+        some_type data3;    // size 2
+        // padding 2
+        int data4;      // size 4
+        char data5;     // size 1
+        // padding 3
+    };
+</code></pre>
+<p>C++可以通过<em>alignof</em>获得一个类型的对齐要求，需要注意的是对齐要求和大小是不一样的，虽然对于内建类型一般相同。</p>
+<p>比如结构体T的大小为20，但其对齐要求为4，因为其最大成员的对其要求为4。</p>
+<p>归结为如下规律：</p>
+<ol>
+<li>内建类型 alignment requirement 和 size 一致。</li>
+<li>成员的地址相对于结构地址的偏移为该成员alignment requirement的整数倍。</li>
+<li>结构的大小应该为成员中最大的alignment requirement的整数倍，且结构的alignment requirement和成员中最大的alignment requirement相同。</li>
+<li>注意考虑多态带来的额外成员。</li>
+</ol>
+<h2 id="memory-location"><a class="header" href="#memory-location">Memory location</a></h2>
+<p><em>Memory location</em>是:</p>
+<ul>
+<li>an object of scalar type (arithmetic type, pointer type, enumeration type, or std::nullptr_t)</li>
+<li>or the largest contiguous sequence of bit fields of non-zero length</li>
+</ul>
+<p>但注意有些语言特性会引入有些额外的<em>memory location</em>，比如虚函数和引用。</p>
+<pre><code class="language-c++">    struct S {
+        char a;     // memory location #1
+        int b : 5;  // memory location #2
+        int c : 11, // memory location #2 (continued)
+              : 0,  // start new byte
+            d : 8;  // memory location #3
+        struct {
+            int ee : 8; // memory location #4
+        } e;
+    } obj; // The object 'obj' consists of 4 separate memory locations
+</code></pre>
+<h2 id="threads-and-data-races"><a class="header" href="#threads-and-data-races">Threads and data races</a></h2>
+<p>任何线程都可以访问程序中的任何<em>object</em>（包括线程自己的自动变量以及<em>threadlocal</em>变量，因为可以通过指针和引用访问）。</p>
+<p>不同的线程可能在没有同步和几口要求的情况下，同时访问（包括读取和改变）不同的<em>memory location</em>。</p>
+<p>当一个表达式的值去写一个<em>memory location</em>，而另一个表达式访问或者更改这个<em>memory location</em>，就出现冲突，这样的冲突会在除以下情况之外演化为<em>data race</em>：</p>
+<ul>
+<li>两个表达式操作在同一个线程或者同一个<em>signal handler</em>中执行</li>
+<li>两个冲突表达式为原子操作(<em>std::atomic</em>)</li>
+<li>其中一个操作比另一个操作先发生（<em>std::memory_order</em>）</li>
+</ul>
+<p>除此之外的冲突表达式都会引起<em>data race</em>，<em>data race</em>产生<em>undefined behaviour</em>。</p>
+<pre><code class="language-c++">    std::atomic&lt;int&gt; cnt;
+	auto f = [&amp;cnt] { for(int p = 0; p &lt; 100000; p++) cnt++; };
+	std::thread t1(f), t2(f), t3(f);
+	t1.join();
+	t2.join();
+	t3.join();  // OK.
+
+    int cnt;
+	auto f = [&amp;cnt] { for(int p = 0; p &lt; 100000; p++) cnt++; };
+	std::thread t1(f), t2(f), t3(f);
+	t1.join();
+	t2.join();
+	t3.join();  // undefined behaviour.
+</code></pre>
+<h2 id="memory-order"><a class="header" href="#memory-order">Memory order</a></h2>
+<p>当一个线程从一个<em>memory location</em>读取一个值时，它可能会读到初始值、当前线程写入的值、其他线程写入的值。</p>
+<p><em>std::memory_order</em>是用于描述通常非原子的内存的访问是如何围绕原子操作进行排序的。</p>
+<h1 id="atomic-operation"><a class="header" href="#atomic-operation">Atomic operation</a></h1>
+<p>原子操作是一种无法再分割的操作。如果对一个<em>object</em>的操作是<em>atomic</em>的，那所有对该<em>object</em>的操作都是<em>atomic</em>的。</p>
+<p>另一方面，非原子操作是可以被半路切入的。因为CPU对内存的访问是一个多步过程，其中还涉及到相关的缓存，因此不同线程对一个<em>object</em>的非原子操作（包含有写操作）会导致<em>data race</em>。</p>
+<h2 id="the-standard-atomic-types"><a class="header" href="#the-standard-atomic-types">The standard atomic types</a></h2>
+<p>在C++标准库中，对<em>atomic type</em>的操作不一定是真正意义上的原子操作，即不一定是<em>lock free</em>的，是在对外的表达意义上为<em>atomic</em>，有可能借助<em>mutex</em>来实现原子性。注意有些非成员函数模板用于实现非<em>std::atomic</em>特化类型的原子操作，在标准库中仅有一处用到，即<em>std::shared_ptr</em>。</p>
+<p>绝大部分的<em>atomic type</em>都提供了<em>is_lock_free</em>接口来查询。只有<em>std::atomic_flag</em>没有提供<em>is_lock_free</em>，其实是一个bool型，并且保证<em>lock free</em>。</p>
+<p><em>std::atomic</em>提供了许多相应的原子操作，包括算术、逻辑、复合运算和位运算，并且对一个原子类型的可行操作和非原子类型一致。</p>
+<p><em>std::atomic</em>的类型不具备传统意义上的拷贝和赋值语义，但是可以和内建类型进行转换实现类似的语义。通过load和store返回或者保存当前原子类型的值。</p>
+<p>所有原子类型的操作都不会返回<em>object</em>本身，而是返回一个内建类型来避免通过引用实现对原子类型的非原子操作，导致<em>data race</em>，并且原子操作都保有一个<em>std::memory_order</em>的参数。</p>
+<h2 id="operation-on-stdatomic_flag"><a class="header" href="#operation-on-stdatomic_flag">Operation on std::atomic_flag</a></h2>
+<p><em>std::atomic_flag</em>是最简单的原子类型，并且保证<em>lock free</em>，本质是一个<em>boolean flag</em>，其具有两种状态：<em>set</em>和<em>clear</em>。</p>
+<p><em>std::atomic_flag</em>应该使用<em>ATOMIC_FLAG_INIT</em>初始化，初始状态为<em>clear</em>。</p>
+<pre><code class="language-c++">    std::atomic_flag f=ATOMIC_FLAG_INIT;
+</code></pre>
+<p><em>atomic_flag</em>不可进行复制操作，只能无异常默认构造，也不提供<em>load</em>和<em>store</em>操作。一旦<em>std::atomic_flag</em>构造完成，只能对其进行下列三个操作：</p>
+<ul>
+<li>析构销毁</li>
+<li><em>clear</em>：将状态设置为<em>clear</em>，即<em>flag</em>为<em>false</em></li>
+<li><em>test_and_set</em>：将<em>flag</em>设置为<em>true</em>，并且返回设置前的<em>flag</em></li>
+</ul>
+<p>有限的操作使得<em>std::atomic_flag</em>的应用场景很狭窄，一大用途就是用于实现自旋锁<em>spin lock</em>：</p>
+<pre><code class="language-c++">    class spin_lock_mutex { 
+    public:
+        spin_lock_mutex() = default;
+        spin_lock_mutex(const spin_lock_mutex&amp;) = delete;
+
+        void lock() {
+            while(inside_atomic_flag_.test_and_set(std::memory_order_acquire));
+        }
+
+        void unlock() {
+            inside_atomic_flag_.clear(std::memory_order_release);
+        }
+
+    private:
+        std::atomic_flag inside_atomic_flag_ = ATOMIC_FLAG_INIT;
+    };
+</code></pre>
+<p>自旋锁在资源被其他线程占据时不会像互斥锁一样被挂起进入休眠，而是不断的检查内部的<em>flag</em>直到锁被释放。因此自旋锁的效率要比互斥锁高，但是会长时间占据CPU。如果资源占据时间较长，自旋锁消耗的CPU资源会比互斥锁高得多，反而降低了程序效率。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../C++/C++-Concurrency-In-Action/Operation-Synchronization.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../C++/Effective-Modern-C++/Part1.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../C++/C++-Concurrency-In-Action/Operation-Synchronization.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../C++/Effective-Modern-C++/Part1.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

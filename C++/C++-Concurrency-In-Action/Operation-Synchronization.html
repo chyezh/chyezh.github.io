@@ -1,0 +1,681 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Operation Synchronization - Chyezh&#x27;s Notes</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">C++</li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> C++ Concurrency In Action</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Managing-Threads.html"><strong aria-hidden="true">1.1.</strong> Managing Threads</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Shared-Data-Protection.html"><strong aria-hidden="true">1.2.</strong> Shared Data Protection</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Operation-Synchronization.html" class="active"><strong aria-hidden="true">1.3.</strong> Operation Synchronization</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Memory-Model-And-Atomic-Operation.html"><strong aria-hidden="true">1.4.</strong> Memory Model And Atomic Operation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Effective Modern C++</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part1.html"><strong aria-hidden="true">2.1.</strong> Part1</a></li><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part2.html"><strong aria-hidden="true">2.2.</strong> Part2</a></li><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part3.html"><strong aria-hidden="true">2.3.</strong> Part3</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Multi Tenant</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Multi-Tenant/Multi-Tenant-Task-Scheduling.html"><strong aria-hidden="true">3.1.</strong> Multi Tenant Task Scheduling</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Chyezh&#x27;s Notes</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="operation-synchronization"><a class="header" href="#operation-synchronization">Operation Synchronization</a></h1>
+<h1 id="waiting-for-events"><a class="header" href="#waiting-for-events">Waiting for events</a></h1>
+<h2 id="why-do-not-use-shared-data-to-synchronize-operation"><a class="header" href="#why-do-not-use-shared-data-to-synchronize-operation">Why do not use shared data to synchronize operation</a></h2>
+<p>并发编程中，经常会碰见多个线程之间的操作同步<em>operation synchronization</em>。实现操作同步很容易想到利用一个共享数据进行同步，即线程A会通过改变一个<em>flag</em>发出同步信号，使得线程B通过检查<em>flag</em>实现同步：</p>
+<pre><code class="language-c++">    bool flag;
+    std::mutex flag_mutex;
+
+    void wait_flag() {
+        std::unique_lock&lt;std::mutex&gt; lk(flag_mutex);
+        while(!flag) {
+            lk.unlock();
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            lk.lock();
+        }
+        dosomething();
+    }
+</code></pre>
+<p>线程B每隔100ms上一次锁并检查<em>flag</em>，如果<em>flag</em>为假，继续检查；如果<em>flag</em>为真，则执行<em>dosomething</em>。</p>
+<p>但是这种设计有几大缺陷：</p>
+<ol>
+<li>检查时间间隔难以把握，如果时间太短，导致检查频繁，大量占用资源；如果时间太长，同步反应过慢，产生延迟。</li>
+<li>设计逻辑难看</li>
+</ol>
+<h2 id="condition-variable"><a class="header" href="#condition-variable">Condition variable</a></h2>
+<p><em>std::condition_variable</em>提供了在一个线程唤醒其他线程的特性。<em>std::condition_variable</em>通过可以通过一个<em>std::mutex</em>来提供同步功能；<em>std::condition_variable_any</em>可以通过任何一个<em>mutex-like</em>对象进行同步，但需要消耗额外资源。</p>
+<pre><code class="language-c++">    std::mutex mut;
+    std::queue&lt;data_chunk&gt; data_queue;
+    std::condition_variable data_cond;
+    // thread A
+    void data_preparation_threadA() {
+        while(more_data_to_prepare()) {
+            data_chunk const data=prepare_data();
+            std::lock_guard&lt;std::mutex&gt; lk(mut);
+            data_queue.push(data);
+            data_cond.notify_one();
+        }
+    }
+    // thread B
+    void data_processing_thread() {   
+        while(true)
+        {
+            std::unique_lock&lt;std::mutex&gt; lk(mut) 
+            data_cond.wait(lk,[]{return !data_queue.empty();});
+            data_chunk data=data_queue.front();
+            data_queue.pop();
+            lk.unlock();        // unlock before processing
+            process(data);
+            if(is_last_chunk(data))
+                break;
+        }
+    }
+</code></pre>
+<p>线程A作用是写入数据并在写入数据后唤醒线程B，线程B的作用是在线程A唤醒后执行数据处理。</p>
+<p>线程A得到数据块后先申请队列的锁，上锁后将数据块<em>push</em>进入队列后，调用<em>notify_one</em>唤醒线程B，单次循环结束释放锁；</p>
+<p>线程B进入循环，先要求申请队列的锁，然后调用<em>condition_variable</em>的<em>wait</em>，<em>wait</em>有两种形式：</p>
+<pre><code class="language-c++">    void wait( std::unique_lock&lt;std::mutex&gt;&amp; lock );
+
+    template&lt; class Predicate &gt;
+    void wait( std::unique_lock&lt;std::mutex&gt;&amp; lock, Predicate pred );
+</code></pre>
+<p>其中第二中实现相当于：</p>
+<pre><code class="language-c++">    while (!pred()) {
+        wait(lock);
+    }
+</code></pre>
+<p>每当调用<em>wait</em>时，wait先检验条件<em>pred</em>，如果<em>pred</em>为真则返回；否则调用<em>wait</em>第一种形式，释放锁并且阻塞当前线程直到被线程A唤醒，被唤醒后锁定并且继续检查<em>pred</em>，如果<em>pred</em>为真则返回。因为需要进行灵活的锁定控制，因此传入参数为<em>std::unique_lock</em>。</p>
+<p>注意，在代码中调用一次<em>wait</em>时，<em>pred</em>可能会被调用任意次，不要使用一些带有边际效益的处理作为<em>pred</em>，因为存在<em>spurious wake</em>，即线程A并没有做唤醒操作，而线程B被唤醒了。</p>
+<h2 id="thread-safe-queue"><a class="header" href="#thread-safe-queue">Thread safe queue</a></h2>
+<pre><code class="language-c++">    template&lt;typename T&gt;
+    class threadsafe_queue {
+    public:
+        typename std::queue&lt;T&gt;::size_type size() const {
+            std::lock_guard&lt;std::mutex&gt; lk(data_mutex);
+            return data.size();
+        }
+
+        bool empty() const {
+            std::lock_guard&lt;std::mutex&gt; lk(data_mutex);
+            return data.empty();
+        }
+
+        void push(T new_val) {
+            std::lock_guard&lt;std::mutex&gt; lk(data_mutex);
+            data.push(new_val);
+            data_condition.notify_one();
+        }
+
+        bool try_pop(T&amp; val) {
+            std::lock_guard&lt;std::mutex&gt; lk(data_mutex);
+            if(data.empty())
+                return false;
+            val = data.front();
+            data.pop();
+            return true;
+        }
+
+        std::shared_ptr&lt;T&gt; try_pop() {
+            std::lock_guard&lt;std::mutex&gt; lk(data_mutex);
+            if(data.empty())
+                return std::shared_ptr&lt;T&gt;();
+            std::shared_ptr&lt;T&gt; ret = std::make_shared&lt;T&gt;(data.front());
+            data.pop();
+            return ret;
+        }
+
+        void wait_and_pop(T&amp; val) {
+            std::unique_lock&lt;std::mutex&gt; ulk(data_mutex);
+            data_condition.wait(ulk, [this] { return !data.empty(); });
+            val = data.front();
+            data.pop();
+        }
+
+        std::shared_ptr&lt;T&gt; wait_and_pop() {
+            std::unique_lock&lt;std::mutex&gt; ulk(data_mutex);
+            data_condition.wait(ulk, [this] { return !data.empty(); });
+            std::shared_ptr&lt;T&gt; ret(std::make_shared&lt;T&gt;(data.front()));
+            data.pop();
+            return ret;
+        }
+    private:
+        std::queue&lt;T&gt; data;
+        mutable std::mutex data_mutex;
+        std::condition_variable data_condition;
+    };
+</code></pre>
+<p>注意成员函数中存在<em>const</em>成员函数、复制构造函数和复制赋值操作符，这类操作都会涉及到<em>std::mutex</em>的上锁，但是对<em>const std::mutex</em>上锁是不可能的，所以应该使用<em>mutable</em>修饰<em>std::mutex</em>。</p>
+<h1 id="waiting-for-one-off-events"><a class="header" href="#waiting-for-one-off-events">Waiting for one-off events</a></h1>
+<p>C++标准库使用<em>std::future</em>来标示一个一次性事件：</p>
+<ul>
+<li><em>std::future</em>本身是用于提供一个链接异步操作的途径，可以通过：<em>std::async</em>|<em>std::packaged_task</em>|<em>std::promist</em>来构造</li>
+<li><em>std::future</em>可以绑定一个异步操作返回的数据块，<em>std::future</em>的持有线程可以通过<em>wait</em>|<em>get</em>|<em>valid</em>等方式进行操作，如果异步操作尚未产生返回，则该方法会产生阻塞。</li>
+</ul>
+<h2 id="stdasyncreturning-values-from-background-task"><a class="header" href="#stdasyncreturning-values-from-background-task">std::async,returning values from background task</a></h2>
+<p><em>std::async</em>通过接受<em>function object</em>产生一个<em>std::future</em>。<em>std::async</em>有一个控制选项：</p>
+<ul>
+<li>std::launch::async</li>
+<li>std::launch::deferred</li>
+<li>std::launch::async|std::launch::deferred or default.</li>
+</ul>
+<p>选项一，总是启用新线程执行<em>callable object</em>（asynchronous execution）；<br />
+选项二，在当前线程，第一次获取结果时执行<em>callable object</em>（lazy evaluation）；<br />
+选项三，依赖实现。</p>
+<p>如下代码实现并行加法：</p>
+<pre><code class="language-c++">    template&lt;typename Iterator&gt;
+    struct add_block {
+        auto operator()(const Iterator _start, const Iterator _stop) {	
+            return std::accumulate(_start, _stop, 0);
+        }
+    };
+
+    template&lt;typename Iterator&gt;
+    auto parallel_add(const Iterator _begin, const Iterator _end, typename Iterator::value_type _init) {
+        auto arraySize = std::distance(_begin, _end);
+        if(!arraySize)
+            return _init;
+        size_t maxNumHardwareThread = std::thread::hardware_concurrency();
+        size_t minAmountPerBlock = 25;
+        size_t maxNumSoftwareThread = (arraySize + minAmountPerBlock - 1) / minAmountPerBlock;
+        auto numThread = std::min(maxNumSoftwareThread == 0?1:maxNumSoftwareThread, maxNumHardwareThread);
+        auto amountPerBlock = arraySize / numThread;
+        std::vector&lt;std::future&lt;typename Iterator::value_type&gt;&gt; vecResultPerFuture;
+        vecResultPerFuture.reserve(numThread - 1);
+        auto _start = _begin;
+        auto _stop = _start;
+        for(int i = 0; i &lt; numThread - 1; i++) {
+            std::advance(_stop, amountPerBlock);
+            vecResultPerFuture.emplace_back(std::async(std::launch::async,add_block&lt;Iterator&gt;(), _start, _stop));
+            std::advance(_start, amountPerBlock);
+        }
+        std::vector&lt;typename Iterator::value_type&gt; vecResult;
+        vecResult.resize(numThread);
+        for(int i = 0; i &lt; numThread - 1;i++) {
+            vecResult[i] = vecResultPerFuture[i].get();
+        }
+        vecResult[numThread - 1] = std::accumulate(_start, _end, _init);
+        return std::accumulate(std::begin(vecResult), std::end(vecResult), 0);
+    }
+</code></pre>
+<h2 id="stdpackaged_taskassociating-a-task-with-a-future"><a class="header" href="#stdpackaged_taskassociating-a-task-with-a-future">std::packaged_task，associating a task with a future</a></h2>
+<p><em>std::packgaed_task</em>可以包装一个<em>callable object</em>来使得其可以异步调用，返回内容通过<em>std::future</em>来访问。可以用于构建线程池；以及其他任务管理。<br />
+<em>std::packaged_task</em>的模板参数是一个函数类型（注意函数类型中存在隐式转换）。<br />
+<em>std::packaged_task</em>自身也是一个<em>callable object</em>，可以进一步封装也可以直接调用。<br />
+<em>std::packaged_task</em>是<em>movable</em>和<em>swapable</em>的。</p>
+<pre><code class="language-c++">    std::mutex m;
+    std::deque&lt;std::packaged_task&lt;void()&gt; &gt; tasks;
+    bool gui_shutdown_message_received();
+    void get_and_process_gui_message();
+    void gui_thread()
+    {
+        while(!gui_shutdown_message_received())
+        {
+            get_and_process_gui_message();
+            std::packaged_task&lt;void()&gt; task;
+            {
+                std::lock_guard&lt;std::mutex&gt; lk(m);
+                if(tasks.empty())
+                continue;
+                task=std::move(tasks.front());
+                tasks.pop_front();
+            }
+            task();
+        }
+    }
+    std::thread gui_bg_thread(gui_thread);
+    template&lt;typename Func&gt;
+    std::future&lt;void&gt; post_task_for_gui_thread(Func f)
+    {
+        std::packaged_task&lt;void()&gt; task(f);
+        std::future&lt;void&gt; res=task.get_future();
+        std::lock_guard&lt;std::mutex&gt; lk(m);
+        tasks.push_back(std::move(task));
+        return res;
+    }
+</code></pre>
+<p>来自书上的例子，<em>gui_thread</em>通过一个任务队列接收任务并且执行；<em>post_task_for_gui_thrad</em>通过向一个任务队列加入任务来发布任务，并且将该任务的<em>future</em>返回给外层，注意<em>get_future</em>对于一个任务只能调用一次。</p>
+<h2 id="stdpromise-make-promises"><a class="header" href="#stdpromise-make-promises">std::promise, make promises</a></h2>
+<p><em>std::promise</em>用于设置一个异步接受的值，<em>movable</em>。</p>
+<pre><code class="language-c++">    void accumulate(std::vector&lt;int&gt;::iterator first,
+                    std::vector&lt;int&gt;::iterator last,
+                    std::promise&lt;int&gt; accumulate_promise)
+    {
+        int sum = std::accumulate(first, last, 0);
+        accumulate_promise.set_value(sum);  // Notify future
+    }
+    
+    void do_work(std::promise&lt;void&gt; barrier)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        barrier.set_value();
+    }
+    
+    int main()
+    {
+        // Demonstrate using promise&lt;int&gt; to transmit a result between threads.
+        std::vector&lt;int&gt; numbers = { 1, 2, 3, 4, 5, 6 };
+        std::promise&lt;int&gt; accumulate_promise;
+        std::future&lt;int&gt; accumulate_future = accumulate_promise.get_future();
+        std::thread work_thread(accumulate, numbers.begin(), numbers.end(), std::move(accumulate_promise));
+        accumulate_future.wait();  // wait for result
+        std::cout &lt;&lt; &quot;result=&quot; &lt;&lt; accumulate_future.get() &lt;&lt; '\n';
+        work_thread.join();  // wait for thread completion
+        std::promise&lt;void&gt; barrier;
+        std::future&lt;void&gt; barrier_future = barrier.get_future();
+        std::thread new_work_thread(do_work, std::move(barrier));
+        barrier_future.wait();
+        new_work_thread.join();
+    }
+</code></pre>
+<p>来自cppreference的例子，在当前线程使用一个<em>std::future</em>获取一个<em>std::promise</em>的未来结果，让后将<em>promise</em>移动给新线程。新线程执行完成后设置<em>promise</em>的值，当前线程可以通过<em>future</em>获得该值。</p>
+<p>*std::promise&lt;void&gt;*用于不需要任何值的情况，可以单纯的用于阻塞或者定时或者标示某些代码块已经执行完成。</p>
+<h2 id="saving-exception-for-the-future"><a class="header" href="#saving-exception-for-the-future">Saving exception for the future</a></h2>
+<p><em>std::future</em>除了返回值以外也可以返回异常，将异常抛到当前<em>std::future</em>所在线程进行处理，有以下几种情况会使得<em>std::future</em>产生异常。</p>
+<ul>
+<li><em>std::async</em>和<em>std::packaged_task</em>执行的代码块抛出异常。</li>
+<li><em>std::promise</em>设置异常。</li>
+<li><em>std::packaged_task</em>和<em>std::promise</em>进行了非法操作。</li>
+</ul>
+<p>使用get(),重新抛出异常，比如情况一:</p>
+<pre><code class="language-c++">    double sqrt_root(int i) { 
+        if(i &lt; 
+        0)
+            throw std::out_of_range(&quot;i&lt;0&quot;);
+        return sqrt(i);
+    }
+
+    void foo() {
+        std::future&lt;double&gt; f = std::async(std::lauch::async, sqrt_root, -1);
+        try {
+            f.get();
+        } catch(const std::out_of_range&amp; e){
+            std::cout &lt;&lt; &quot;out_of_range: &quot; &lt;&lt; e.what() &lt;&lt; std::endl;
+        }
+    }
+</code></pre>
+<p>情况二：</p>
+<pre><code class="language-c++">    void some(std::promise&lt;double&gt; p) {
+        try {
+            p.set_value(some_func_may_throw());
+
+        } catch(const std::exception&amp; e) {
+            p.set_exception(std::current_exception());
+        }
+    }
+
+    void foo() {
+        std::promise&lt;double&gt; p;
+        std::future&lt;double&gt; f = p.get_future();
+        std::thread t1(some, std::move(p));
+        try {
+            f.get();
+        } catch(const std::exception&amp; e) {
+            std::cout &lt;&lt; &quot;out_of_range: &quot; &lt;&lt; e.what() &lt;&lt; std::endl;
+        }
+    }
+</code></pre>
+<p>抛出<em>std::future_error</em>，情况三：</p>
+<pre><code class="language-c++">    void foo() {
+        std::future&lt;double&gt; f;
+        {
+            std::promise&lt;double&gt; p;
+            f = p.get_future();
+        }
+        try {
+            f.get();
+        } catch(cosnt std::future_error&amp; e) {
+            if(e.code() == std::future_errc::broken_promise)
+			std::cout &lt;&lt; &quot;exception: &quot; &lt;&lt; e.what() &lt;&lt; std::endl;
+        }
+    }
+</code></pre>
+<h2 id="waiting-from-multiple-threads"><a class="header" href="#waiting-from-multiple-threads">Waiting from multiple threads</a></h2>
+<p><em>std::future</em>用于在线程间（或者非线程间）一次性传递各种结果，并且对一个实例的操作没有任何同步行为。如果在多个线程对同一个<em>std::future</em>进行操作就会产生<em>data race</em>。<br />
+因此<em>std::future</em>被设计对持有数据为<em>unique ownership</em>，一次绑定只能进行一次<em>get</em>操作，不应该在多个线程引用一个<em>std::future</em>实例。</p>
+<p>为了满足多个线程获取同一个消息，<em>std::shared_future</em>被设计为<em>shared ownership</em>。<em>std::future</em>只能被<em>move</em>，数据可以被传递并且只能被<em>get</em>一次。而<em>std::shared_future</em>可以被<em>copy</em>，多个<em>future</em>可以关联同一块数据。</p>
+<p>注意为了多个线程访问一块数据不出现<em>data race</em>，应该在不同线程<em>copy</em>一个<em>std::shared_future</em>而不是引用它，因为对于一个实例的不同成员函数并没有同步，一个线程只应该保留一个<em>std::shared_future</em>。</p>
+<pre><code class="language-c++">    std::promise&lt;std::string&gt; p;
+    std::shared_future&lt;std::string&gt; sf(p.get_future());
+
+    std::promise&lt;int&gt; p;
+    std::future&lt;int&gt; f(p.get_future());
+    std::shared_future&lt;int&gt; sf(std::move(f));
+</code></pre>
+<p>使用auto来推断<em>std::shared_future</em>类型：</p>
+<pre><code class="language-c++">    std::promise&lt; std::map&lt; SomeIndexType, SomeDataType, SomeComparator,
+    SomeAllocator&gt;::iterator&gt; p;
+    auto sf=p.get_future().share()
+</code></pre>
+<h1 id="time-limit"><a class="header" href="#time-limit">Time limit</a></h1>
+<h2 id="stdchrono"><a class="header" href="#stdchrono">std::chrono</a></h2>
+<p><em>std::chrono</em>是C++11提供的时间库，其中有三个重要概念：</p>
+<ul>
+<li><em>clock</em>：表示时钟。 </li>
+<li><em>duration</em>：表示时间间隔。</li>
+<li><em>time_point</em>：表示时间点。</li>
+</ul>
+<h2 id="clocks"><a class="header" href="#clocks">clocks</a></h2>
+<p>一个时钟至少要表达下列4个信息：</p>
+<ul>
+<li><em>now</em>，现在的时间点。</li>
+<li><em>type of value</em>，表达时间的类型。</li>
+<li><em>tick period</em>，计数表达的间隔。</li>
+<li><em>is_steady</em>，是否可以看作稳定时钟。</li>
+</ul>
+<p>C++11标准库提供了3种时钟：</p>
+<ul>
+<li><em>std::chrono::system_clock</em></li>
+<li><em>std::chrono::steady_clock</em></li>
+<li><em>std::chrono::high_resolution_clock</em></li>
+</ul>
+<h3 id="stdchronosystem_clock"><a class="header" href="#stdchronosystem_clock">std::chrono::system_clock</a></h3>
+<ul>
+<li>方法<em>now</em>会返回当前操作系统时钟的时间点。</li>
+<li>时钟的起始时刻不定，一般采用<em>Unix Time</em>。</li>
+<li>是唯一可以与C标准库<em>std::time_t</em>进行转换的C++标准库时钟。</li>
+<li>一般不稳定，因为系统时钟是可以随时更改的。</li>
+</ul>
+<p>一般用于获取系统时钟，日期，不适合做测量计时。</p>
+<h3 id="stdchronosteady_clock"><a class="header" href="#stdchronosteady_clock">std::chrono::steady_clock</a></h3>
+<ul>
+<li>方法<em>now</em>会返回时钟的时间点。</li>
+<li>时钟的起始时刻不定，和系统时钟无关。</li>
+<li>总是稳定。</li>
+</ul>
+<p>一般用于测量计时。</p>
+<h3 id="stdchronohigh_resolution_clock"><a class="header" href="#stdchronohigh_resolution_clock">std::chrono::high_resolution_clock</a></h3>
+<ul>
+<li>方法<em>now</em>会返回当前操作系统时钟的时间点。</li>
+<li>提供当前系统最高精度的时钟，有可能会是<em>std::chrono::system_clock</em>和<em>std::chrono::steady_clock</em>别名。</li>
+</ul>
+<h2 id="duration"><a class="header" href="#duration">duration</a></h2>
+<p><em>std::chrono::duration</em>模板用于表示时间段：第一个模板参数为表达时间段的类型，第二个模板参数为模板<em>std::ratio&lt;&gt;<em>用于各种类型的</em>duration</em>的转换以及表达<em>tick period</em>（分数/秒）。</p>
+<p><em>std::chrono::duration</em>支持各种时间计算，以及不同时间类型的转换<em>duration_cast</em>。</p>
+<p>以及常用的特化：</p>
+<pre><code class="language-c++">    std::chrono::nanoseconds
+    std::chrono::microseconds
+    std::chrono::milliseconds
+    std::chrono::seconds
+    std::chrono::minutes
+    std::chrono::hours
+</code></pre>
+<p>比如：</p>
+<pre><code class="language-c++">    auto a_hour = hours(1);
+
+	std::cout &lt;&lt; &quot;\n&quot; &lt;&lt; a_hour.count() &lt;&lt; &quot; hour is &quot;
+		&lt;&lt; duration_cast&lt;minutes&gt;(a_hour).count() &lt;&lt; &quot; minutes\nis &quot;
+		&lt;&lt; duration_cast&lt;seconds&gt;(a_hour).count() &lt;&lt; &quot; seconds\nis &quot;
+		&lt;&lt; duration_cast&lt;milliseconds&gt;(a_hour).count() &lt;&lt; &quot; milliseconds\n&quot;;
+
+    auto some_seconds = seconds(30);
+	std::cout &lt;&lt; &quot;\n&quot; &lt;&lt; a_hour.count() &lt;&lt; &quot; hour minus &quot; &lt;&lt; some_seconds.count()
+		&lt;&lt; &quot; seconds leaves &quot; &lt;&lt; (a_hour - some_seconds).count() &lt;&lt; &quot; seconds\n&quot;;
+</code></pre>
+<h2 id="time-point"><a class="header" href="#time-point">time point</a></h2>
+<p>模板<em>std::chrono::time_point</em>用于表达时间点：第一个模板参数<em>Clock</em>用于表达时钟类型，第二个模板参数<em>Duration</em>使用<em>std::chrono::duration</em>的某个特化来表达从<em>epoch</em>开始的时间段（默认使用<em>Clock::duration</em>）。</p>
+<p><em>time_point</em>通过某个时间点<em>epoch</em>为基准加上某时间段来表达某个时间点，调用<em>time_since_epoch</em>来返回这个时间间隔。</p>
+<p><em>std::chrono::time_point</em>支持各种时间计算，以及不同时间类型的转换<em>duration_cast</em>。</p>
+<p>比如：</p>
+<pre><code class="language-c++">	using namespace std::chrono;
+
+	time_point&lt;system_clock&gt; t1;
+	time_point&lt;system_clock&gt; t2 = system_clock::now();
+
+	// show system time now and epoch
+	auto epoch_time = system_clock::to_time_t(t1);
+	auto now_time = system_clock::to_time_t(t2);
+	std::cout &lt;&lt; &quot;now &quot; &lt;&lt; std::ctime(&amp;now_time);
+	std::cout &lt;&lt; &quot;epoch &quot; &lt;&lt; std::ctime(&amp;epoch_time);
+
+	// time arithmetic
+	time_point&lt;system_clock&gt; t3 = t2 - hours(24);
+
+	// use time_since_epoch.
+	std::cout &lt;&lt; &quot;hours since epoch: &quot;
+		&lt;&lt; duration_cast&lt;std::chrono::hours&gt;(
+			t2.time_since_epoch()).count()
+		&lt;&lt; '\n';
+	std::cout &lt;&lt; &quot;yesterday, hours since epoch: &quot;
+		&lt;&lt; duration_cast&lt;std::chrono::hours&gt;(
+			t3.time_since_epoch()).count()
+		&lt;&lt; '\n';
+</code></pre>
+<h2 id="_until-and-_for"><a class="header" href="#_until-and-_for">_until and _for</a></h2>
+<p>标准线程库提供了一系列带有*_until<em>和</em>_for<em>后缀的方法。包括</em>sleep*、<em>condition_variable</em>、<em>future</em>以及前面没有提到的<em>timed_mutex</em>。</p>
+<ul>
+<li><em>_until</em>表达直到某个时间点<em>std::chrono::time_point</em>。</li>
+<li><em>_for</em>表达等待一个时间段<em>std::chrono::duration</em>。</li>
+</ul>
+<p>这类函数返回会是一个<em>bool</em>或者一个状态值，具体见库。</p>
+<h1 id="using-synchronization-of-operations-to-simplify-code"><a class="header" href="#using-synchronization-of-operations-to-simplify-code">Using synchronization of operations to simplify code</a></h1>
+<p>C++标准库提供了许多同步操作，通过这些同步操作可以简化多线程的代码并且提高可读性。以下是一些适合于多线程的编程范式。</p>
+<h2 id="functional-programing-with-future"><a class="header" href="#functional-programing-with-future">Functional programing with future</a></h2>
+<p>C++11中加入了许多函数式编程（<em>functional programing</em>）需要的特性，包括<em>lambda</em>、自动类型推断<em>auto</em>、更好用的合并<em>std::bind</em>。因为严格的函数没有副作用，只需要关心输入和输出，可以极大避免<em>race condition</em>。<br />
+<em>std::future</em>的特性，使得多线程编程中使用函数范式更加简单，可以更加简单的将单线程函数式代码改造成多线程函数式代码：</p>
+<p>比如一个快排程序：</p>
+<pre><code class="language-c++">    template&lt;typename T&gt;
+    std::list&lt;T&gt; sequential_qsort(std::list&lt;T&gt; input) {
+        if(input.empty())
+            return input;
+        std::list&lt;T&gt; result;
+        result.splice(result.begin(), input, input.begin());
+        const T&amp; pivot = *result.begin();
+        auto divide_point = std::partition(input.begin(), input.end(), [&amp;pivot](const T&amp; t) { return t &lt; pivot; });
+
+        std::list&lt;T&gt; lower_group;
+        lower_group.splice(lower_group.end(), input, input.begin(), divide_point);
+
+        auto lower(sequential_qsort(std::move(lower_group)));
+        auto higher(sequential_qsort(std::move(input)));
+
+        result.splice(result.end(), higher);
+        result.splice(result.begin(), lower);
+        return result;
+    }
+</code></pre>
+<p>函数的接口是FP形式的，但是为了避免过多的复制操作，内部操作并不是严格的函数式。为了将其改造成多线程代码，可以开辟出一个新线程负责划分后的一半数据的快排：</p>
+<pre><code class="language-c++">    template&lt;typename T&gt;
+    std::list&lt;T&gt; parallel_qsort(std::list&lt;T&gt; input) {
+        if(input.empty())
+            return input;
+        std::list&lt;T&gt; result;
+        result.splice(result.begin(), input, input.begin());
+        const T&amp; pivot = *result.begin();
+        auto divide_point = std::partition(input.begin(), input.end(), [&amp;pivot](const T&amp; t) { return t &lt; pivot; });
+
+        std::list&lt;T&gt; lower_group;
+        lower_group.splice(lower_group.end(), input, input.begin(), divide_point);
+
+        bool flag = false;
+        std::future&lt;std::list&lt;T&gt;&gt; lower_future;
+        std::list&lt;T&gt; lower;
+        if(lower_group.size() &gt; 1000) {
+            lower_future = std::async(std::launch::async,
+                                    &amp;parallel_qsort&lt;T&gt;,
+                                    std::move(lower_group));
+            flag = true;
+        }
+        else
+            lower = parallel_qsort(std::move(input));
+
+
+        auto higher(parallel_qsort(std::move(input)));
+
+        result.splice(result.end(), higher);
+        if(flag)
+            result.splice(result.begin(), lower_future.get());
+        else
+            result.splice(result.begin(), lower);
+        return result;
+    }
+</code></pre>
+<p>这并不是并发快排的最佳实现，比如<em>std::partition</em>依旧是一个单线程操作。这样每一次递归调用快排就会开辟一个新的线程负责一半数据的快排，另一半在当前线程进行快排。但显然通过递归，线程数量会快速上升，导致<em>massive oversubcription</em>。（注意<em>std::async</em>的默认模式是取决于实现的）。另一方面使用封装的<em>spawn_task</em>会比<em>std::async</em>更好：</p>
+<pre><code class="language-c++">    template&lt;typename F, typename A&gt;
+    std::future&lt;std::result_of_t&lt;F(A&amp;&amp;)&gt;&gt;
+    spawn_task(F&amp;&amp; f, A&amp;&amp; a) {
+        using result_type = std::result_of_t&lt;F(A&amp;&amp;)&gt;;
+        std::packaged_task&lt;result_type(A&amp;&amp;)&gt; task(std::move(f));
+        std::future&lt;result_type&gt; res(task.get_future());
+        std::thread t(std::move(task), std::move(a));
+        t.detach();
+        return res;
+    }
+</code></pre>
+<p><em>spawn_task</em>使用<em>std::packaged_task</em>和<em>std::thread</em>封装了一个功能和<em>std::async</em>类似的类，虽然不能自动防止<em>massive oveersubscription</em>，但是更加适合扩展（比如加入线程池）。</p>
+<h2 id="synchronizing-operations-with-message-passing"><a class="header" href="#synchronizing-operations-with-message-passing">Synchronizing operations with message passing</a></h2>
+<p>CSP（<em>Communicating Sequential Processes</em>），即线程之间没有任何<em>shared data</em>，线程之间只有通过信道交换信息。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../C++/C++-Concurrency-In-Action/Shared-Data-Protection.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../C++/C++-Concurrency-In-Action/Memory-Model-And-Atomic-Operation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../C++/C++-Concurrency-In-Action/Shared-Data-Protection.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../C++/C++-Concurrency-In-Action/Memory-Model-And-Atomic-Operation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

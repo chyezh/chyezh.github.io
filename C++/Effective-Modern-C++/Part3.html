@@ -1,0 +1,1219 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Part3 - Chyezh&#x27;s Notes</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">C++</li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> C++ Concurrency In Action</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Managing-Threads.html"><strong aria-hidden="true">1.1.</strong> Managing Threads</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Shared-Data-Protection.html"><strong aria-hidden="true">1.2.</strong> Shared Data Protection</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Operation-Synchronization.html"><strong aria-hidden="true">1.3.</strong> Operation Synchronization</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Memory-Model-And-Atomic-Operation.html"><strong aria-hidden="true">1.4.</strong> Memory Model And Atomic Operation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Effective Modern C++</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part1.html"><strong aria-hidden="true">2.1.</strong> Part1</a></li><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part2.html"><strong aria-hidden="true">2.2.</strong> Part2</a></li><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part3.html" class="active"><strong aria-hidden="true">2.3.</strong> Part3</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Multi Tenant</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Multi-Tenant/Multi-Tenant-Task-Scheduling.html"><strong aria-hidden="true">3.1.</strong> Multi Tenant Task Scheduling</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Chyezh&#x27;s Notes</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="item23-understand-stdmove-and-stdforward"><a class="header" href="#item23-understand-stdmove-and-stdforward">Item23: Understand <em>std::move</em> and <em>std::forward</em></a></h1>
+<p>C++11的一大特性就是引入了右值引用(<em>rvalue reference</em>)，移动语义(Move Semantics)与完美转发(Perfect Forwarding)就是由右值引用联结起来的：</p>
+<ul>
+<li>移动语义(<em>move semantics</em>)：让编译器进行“移动”而不是“拷贝”操作来减少运行成本；同时也可以实现move-only类型。</li>
+<li>完美转发(<em>perfect forwarding</em>)：使得函数模板能够“完美”的转发参数给内层函数。</li>
+</ul>
+<p>但是注意移动语义并不移动、完美转发也并不完美、&quot;type&amp;&amp;&quot;也不代表右值。</p>
+<h2 id="stdmove-and-stdforward"><a class="header" href="#stdmove-and-stdforward"><em>std::move</em> and <em>std::forward</em></a></h2>
+<p>C++11提供了<em>std::move</em>和<em>std::forward</em>，用于指示<em>move semantics</em>和<em>perfect forwarding</em>。<br />
+但是<em>std::move</em>不移动任何东西、<em>std::forward</em>也不转发任何东西，甚至在运行时刻不做任何事情，不产生额外的代码。<em>std::move</em>和<em>std::forward</em>只是一个用于强制转换的函数模板。</p>
+<ul>
+<li><em>std::move</em>无条件地将参数转换为右值</li>
+<li><em>std::forward</em>只在特殊情况下，进行强制转换</li>
+</ul>
+<h2 id="how-stdmove-works"><a class="header" href="#how-stdmove-works">How <em>std::move</em> Works</a></h2>
+<p><em>std::move</em>的C++11实现：</p>
+<pre><code>template&lt;typename T&gt;
+stuct remove_reference {
+    using type = T;
+};
+
+template&lt;typename T&gt;
+stuct remove_reference&lt;T&amp;&gt; {
+    using type = T;
+};
+
+template&lt;typename T&gt;
+stuct remove_reference&lt;T&amp;&amp;&gt; {
+    using type = T;
+};
+
+template&lt;typename T&gt;
+typename remove_reference&lt;T&gt;::type&amp;&amp; move(T&amp;&amp; param) {
+    using Type = typename remove_reference&lt;T&gt;::type&amp;&amp;;
+    return static_cast&lt;Type&gt;(param);
+}
+</code></pre>
+<p>从实现可以看出，不论传入参数是右值还是左值(注意万能引用)，<em>std::move</em>通过<em>remove_reference</em>移除引用，然后强制转换得到右值引用作为返回值返回；重要的一点在于当右值引用作为函数值返回时，返回值是一个右值。<br />
+C++14可以有更简便的实现：</p>
+<pre><code>template&lt;typename T&gt;
+decltype(auto) move(T&amp;&amp; param) {
+    using Type = remove_reference_t&lt;T&gt;&amp;&amp;;
+    return static_cast&lt;Type&gt;(param);
+}
+</code></pre>
+<p><em>std::move</em>其实是指示当前变量希望被进行<em>move</em>操作。<br />
+这是一个支持从<em>std::string</em>构造的类，传入参数采用值传递，见Item41。</p>
+<pre><code>class Annotation {
+public:
+    explicit Annotation(std::string text): val(text);
+    ...
+private:
+    std::string val;
+}
+</code></pre>
+<p>当然传入参数应当是不变的：</p>
+<pre><code>class Annotation {
+public:
+    explicit Annotation(const std::string text): val(text) {};
+    ...
+private:
+    std::string val;
+}
+</code></pre>
+<p>然后我们希望能够支持从string中move而不是copy字符串:</p>
+<pre><code>class Annotation {
+public:
+    explicit Annotation(const std::string text): val(std::move(text) {};
+    ...
+private:
+    std::string val;
+}
+</code></pre>
+<p>这看起来没有问题，通过<em>std::move</em>强制转化为右值，调用<em>std::string</em>的移动构造函数，但其实不然：</p>
+<p>问题的关键就在于text是一个const变量：</p>
+<pre><code>class string {
+public:
+    ...
+    string(const string&amp; rhs);
+    string(string&amp;&amp; rhs);
+    ...
+}
+</code></pre>
+<p>从<em>std::string</em>的构造函数可以看出，移动构造函数不能接收*const std::string&amp;&amp;*的右值，反而复制构造函数能够接受这样的右值，所以最终进行的是copy而不是move。从该例子可以看出：</p>
+<ul>
+<li>如果希望使用<em>move operation</em>，就不要将变量声明为const。const的<em>move</em>最终匹配上的是<em>copy</em>。</li>
+<li><em>std::move</em>只是进行了强制转换，指示该对象适合进行<em>move</em>，并不代表最终的操作是<em>move</em>。</li>
+</ul>
+<h2 id="how-stdforward-works"><a class="header" href="#how-stdforward-works">How <em>std::forward</em> Works</a></h2>
+<p><em>std::move</em>是无条件的强制转换，而<em>std::forward</em>进行的是有条件的强制转换：</p>
+<pre><code>template&lt;typename T&gt;
+constexpr T&amp;&amp; forward(typename remove_reference&lt;T&gt;::type&amp; param) {
+    // forward an lvalue as either an lvalue or an rvalue
+    return static_cast&lt;T&amp;&amp;&gt;(param);
+}
+
+tempalte&lt;typename T&gt;
+constexpr T&amp;&amp; forward(typename remove_reference&lt;T&gt;::type&amp;&amp; param) {
+    // forward an rvalue as an rvalue
+    static_assert(!is_lvalue_reference&lt;T&gt;::value, &quot;bad forward call&quot;);
+    return static_cast&lt;T&amp;&amp;&gt;(param);
+}
+</code></pre>
+<p>关于参数的完美转发，即有如下函数：</p>
+<pre><code>template&lt;class T&gt;
+void wrapper(T&amp;&amp; arg) 
+{
+    // arg is always lvalue
+    foo(std::forward&lt;T&gt;(arg)); // Forward as lvalue or as rvalue, depending on T
+}
+</code></pre>
+<p>参数arg的类型可以称作<em>forwarding reference</em>，这是<em>std::forward</em>实现完美转发的前提。
+通过一层调用后arg对于内层函数总是一个左值，所以参数的完美转发使用前一个<em>std::forward</em>定义，但是模板参数T包含了原传入参数的信息实现完美转发：</p>
+<ul>
+<li>当传入参数为rvalue，T总是为非引用类型，返回的将会是T&amp;&amp;，是一个rvalue。</li>
+<li>当传入参数为lvalue，T总是为左值引用类型(包含const等限定)，返回的将会是T&amp;，是一个lvalue。</li>
+</ul>
+<p>如下代码：</p>
+<pre><code>void process(const Widget&amp; lval);   // copy
+void process(Widget&amp;&amp; rval);        // move
+
+template&lt;typename T&gt;
+void UseProcess(T&amp;&amp; param) {
+    process(std::forward&lt;T&gt;(param));
+}
+
+Widget w;
+UseProcess(w);          // use copy version.
+UseProcess(std::move(w));   // use move version.
+</code></pre>
+<h2 id="things-to-remember"><a class="header" href="#things-to-remember">Things to Remember</a></h2>
+<ul>
+<li><em>std::move</em>只是将对象无条件强制转换为右值，并没有<em>move</em>。</li>
+<li><em>std::forward</em>只是有条件的强制转换对象，并没有<em>forward</em>。</li>
+<li><em>std::move</em>和<em>std::forward</em>在运行期没有作用，只是对编译的一种指示。</li>
+</ul>
+<h1 id="item24-distinguish-universal-references-from-rvalue-references"><a class="header" href="#item24-distinguish-universal-references-from-rvalue-references">Item24: Distinguish Universal References From Rvalue References</a></h1>
+<p>在C++中，&quot;&amp;&amp;&quot;是具有迷惑性的：</p>
+<pre><code>void f(Widget&amp;&amp; param);
+Widget&amp;&amp; var1 = Widget();
+template&lt;typename T&gt;
+void f(std::vector&lt;T&gt;&amp;&amp; param);
+
+auto&amp;&amp; var2 = var1;
+template&lt;typename T&gt;
+void f(T&amp;&amp; param);      
+</code></pre>
+<p>前3个声明，&quot;&amp;&amp;&quot;指代的是右值引用，而后两个并不是，它指代的是左值或者是右值，即万能引用(<em>universal reference</em> or <em>forwarding reference</em>)。它不仅可以绑定rvalue，也可以绑定lvalue；不仅可以绑定const，也可以绑定non-const；不仅可以绑定volatile，也可以绑定non-volatile。</p>
+<h2 id="universal-reference-and-template-deduce"><a class="header" href="#universal-reference-and-template-deduce"><em>Universal Reference</em> and Template Deduce</a></h2>
+<p><em>Universal Reference</em>主要出现在两种情况，都属于类型推断：<br />
+作为函数模板参数时：</p>
+<pre><code>template&lt;typename T&gt;
+void f(T&amp;&amp; param);
+</code></pre>
+<p>作为auto推断时:</p>
+<pre><code>auto&amp;&amp; var2 = var1;
+</code></pre>
+<p><em>universal reference</em>的推断结果由initializer决定：当initializer是一个左值时，<em>universal reference</em>就是左值引用；当initializer是右值时，<em>universal reference</em>就是右值引用。</p>
+<pre><code>Widget w;
+f(w);       // lvalue passed to f; param's type is Widget&amp;.
+f(std::move(w));    // rvalue passed to f; param's type is Widget&amp;&amp;.
+</code></pre>
+<p>万能引用一定是与类型推断相关的，但是存在类型推断并不一定满足万能应用，引用的声明形式也是很重要的：</p>
+<pre><code>template&lt;typename T&gt;
+void f(std::vector&lt;T&gt;&amp;&amp; param);     // rvalue reference.
+
+std::vector&lt;int&gt; v;
+f(v);        // error! cannot bind lvalue to rvalue reference.
+</code></pre>
+<p>该声明不满足T&amp;&amp;的形式，同时还有：</p>
+<pre><code>template&lt;typename T&gt;
+void f(const T&amp;&amp; param);        // rvalue reference.
+</code></pre>
+<p>万能引用适配const和non-const的情况，上述参数声明也不是万能引用。</p>
+<pre><code>template&lt;class T, class Allocator = allocator&lt;T&gt;&gt;
+class vector {
+    ...
+    void push_back(T&amp;&amp; x);
+
+    template&lt;class... Args&gt;
+    void emplace_back(Args&amp;&amp;... args);
+}
+</code></pre>
+<p>该形式，push_back看上去满足万能引用的形式，但是没有用到类型推断。当定义一个vector：</p>
+<pre><code>std::vector&lt;Widget&gt; v;
+</code></pre>
+<p>类型推断出T为Widget，而push_back对应就有了实现:</p>
+<pre><code>void push_bakc(Widget&amp;&amp; x);     // rvalue reference.
+</code></pre>
+<p>再emplace_back，仍然需要类型推断：</p>
+<pre><code>template&lt;class... Args&gt;
+void emplace_back(Args&amp;&amp;... args);      // universal reference.
+</code></pre>
+<p>所以一个满足参数万能引用的函数模板有如下形式：</p>
+<pre><code>template&lt;typename T&gt;
+void foo(T&amp;&amp; x);        // x is a universal reference.
+</code></pre>
+<h2 id="universal-reference-and-auto-deduce"><a class="header" href="#universal-reference-and-auto-deduce"><em>Universal Reference</em> and Auto Deduce</a></h2>
+<p>auto类型推断也可以实现<em>universal reference</em>。因为auto的推断结果和模板的推断基本上一样，所以auto的<em>universal reference</em>有如下形式：</p>
+<pre><code>auto&amp;&amp; ref = exp;
+</code></pre>
+<p>auto的万能引用不如模板的普遍，但是十分实用，特别是在C++14引入了lambda表达式的auto参数：</p>
+<pre><code>auto FuncInvocation = 
+    [](auto&amp;&amp; func, auto&amp;&amp;... params) {
+        ...
+        // Invoke func on params.
+        std::forward&lt;decltype(func)&gt;(func)(std::forward&lt;decltype(params)&gt;(params)...);
+        ...
+    }
+</code></pre>
+<p>func是<em>universal reference</em>，params是<em>universal reference</em>的一个包；在函数内进行完美转发。</p>
+<p>万能引用的背后其实是引用折叠(<em>reference collapsing</em>)机制在起作用，Item28。通过区分<em>rvalue reference</em>和<em>universal reference</em>使得代码更加具有抽象意义，减少定义模糊。</p>
+<h2 id="things-to-remember-1"><a class="header" href="#things-to-remember-1">Things to Remember</a></h2>
+<ul>
+<li><em>universal reference</em>有两种表达形式，分别在模板推断和auto推断中。</li>
+<li>类型推断是<em>universal reference</em>的前提，不存在类型推断<em>type&amp;&amp;<em>就是</em>rvalue reference</em>。</li>
+<li>当<em>universal reference</em>绑定左值时，结果为左值引用；当<em>universal reference</em>绑定右值时，结果为右值引用。</li>
+</ul>
+<h1 id="item25-use-stdmove-on-rvalue-references-stdforward-on-universal-references"><a class="header" href="#item25-use-stdmove-on-rvalue-references-stdforward-on-universal-references">Item25: Use <em>std::move</em> on rvalue References, <em>std::forward</em> on Universal References</a></h1>
+<p><em>rvalue references</em>总是和可以<em>move</em>的对象绑定在一起：</p>
+<pre><code>class Widget {
+public:
+    Widget(Widget&amp;&amp; rhs);   // move constructor. rhs definitely  
+                            //refers to an object eligible to moveing.
+    ...
+};
+</code></pre>
+<p>所以总是可以对rhs引用的对象进行移动，所以移动构造函数就应该进行这样的实现，对可移动的数据成员进行移动：</p>
+<pre><code>class Widget {
+public:
+    Widget(Widget&amp;&amp; rhs) : 
+        name(std::move(rhs.name)), pImpl(std::move(rhs.pImpl)){}
+    ...
+private:
+    std::string name
+    std::shared_ptr&lt;Impl&gt; pImpl;
+};
+</code></pre>
+<p><em>universal references</em>(<em>forwarding references</em>)指代其绑定的对象有可能可以进行<em>move</em>：</p>
+<pre><code>class Widget {
+public:
+    template&lt;typename T&gt;
+    void setName(T&amp;&amp; newName) {     // newName might be moving-able.
+        name = std::forward&lt;T&gt;(newName);
+    }
+};
+</code></pre>
+<h2 id="why-do-so"><a class="header" href="#why-do-so">Why do so</a></h2>
+<p>对<em>rvalue reference</em>使用<em>std::forward</em>是可以的，因为<em>std::forward</em>可以实现<em>std::move</em>，但是这样的代码可读性差，易出错；对<em>universal reference</em>使用<em>std::mvoe</em>也是可以的，但是后果很严重，因为有可能篡改一些<em>lvalue</em>。</p>
+<p>比如以下代码，可以通过编译：</p>
+<pre><code>class Widget {
+public:
+    template&lt;typename T&gt;
+    void setName(T&amp;&amp; newName) {
+        name = std::move(newName);
+    }
+};
+
+std::string getWidgetName();
+Widget w;
+auto n = getWidgetName();       // n is lvalue.
+w.setName(n);                   // Move n to w.name.
+                                // Now n is unknown.
+</code></pre>
+<p>也有认为可以通过重载函数替代模板和万能引用来实现：</p>
+<pre><code>class Widget {
+public:
+    void setName(const std::string&amp; newName) {
+        name = newName;                 // copy version.
+    }
+    void setName(std::string&amp;&amp; newName) {
+        name = std::move(newName);      // move version.
+    }
+};
+</code></pre>
+<p>这样的代码好像可以替代模板与万能引用，但其实有许多缺点：<br />
+使用两个函数替代一个函数带来更多的维护成本；同时原版本的实现更加有效率：<br />
+假设有如下代码：</p>
+<pre><code>w.setName(&quot;some string&quot;);
+</code></pre>
+<p>&quot;some string&quot;是一个字符串字面值，前一个版本可以生成函数：</p>
+<pre><code>void setName(char&amp; newName[12]) {
+    name = newName;
+}
+</code></pre>
+<p>这个函数可以直接将字符串传给name的赋值操作符，而后一个版本需要先构造newName，然后将newName传给移动赋值操作符，这就比原版本多出了需要更多的操作，更低的效率。但是致命的还不在这两条原因。</p>
+<p>如果函数的参数数量增加，甚至用上了可变参数，重载的方法将无法使用，因为为了覆盖所有情况需要重载2^n个函数，所以只能使用<em>universal reference</em>的方法实现。</p>
+<h2 id="when-use-reference-more-than-one-times"><a class="header" href="#when-use-reference-more-than-one-times">When Use reference More Than One Times</a></h2>
+<p>有时传入的<em>rvalue reference</em>或者<em>universal reference</em>可能需要多次使用，<em>std::move</em>和<em>std::forward</em>应该只用在最后一次调用：</p>
+<pre><code>template&lt;typename T&gt;
+void setSignText(T&amp;&amp; text) {
+    sign.setText(text);
+    auto now = std::chrono::system_clock::now();
+    signHistory.add(now, std::forward&lt;T&gt;(text));
+}
+</code></pre>
+<p>原因很简单，在最后一次使用之前我们需要保证引用中的内容不能被移走。<em>std::move</em>在某些情况下，应该被<em>std::move_if_noexcept</em>替代。</p>
+<h2 id="return-value-and-rvo"><a class="header" href="#return-value-and-rvo">Return Value and <em>RVO</em></a></h2>
+<p>如果函数是以值返回，如果想要返回的对象是绑定在<em>rvalue reference</em>或者<em>universal reference</em>，应该使用<em>std::move</em>和<em>std::forward</em>包装返回的引用：</p>
+<pre><code>Matrix operator(Matrix&amp;&amp; lhs, const Matrix&amp; rhs) {
+    lhs += rhs;
+    return std::move(lhs);      // move lhs into return value.
+}
+</code></pre>
+<p>通过这样，如果Matrix是可移动的，可以把参数右值lhs移动到返回的临时对象中去，对比不用的<em>std::move</em>：</p>
+<pre><code>Matrix operator(Matrix&amp;&amp; lhs, const Matrix&amp; rhs) {
+    lhs += rhs;
+    return lhs;     // copy lhs to return value.
+}
+</code></pre>
+<p>如果不用<em>std::move</em>，那么进行的就是copy，而lhs是一个建议进行移动的对象，增加了拷贝成本。</p>
+<p>如果Matrix不支持移动，那么使用<em>std::move</em>的版本也能够成功匹配上复制操作，如果未来Matrix支持了移动操作，那么该函数的代码也不需要重新修改，增加了代码的可维护性。</p>
+<p>同样的，对于<em>universal reference</em>：</p>
+<pre><code>template&lt;typename T&gt;
+Fraction reduceAndCopy(T&amp;&amp; frac) {
+    frac.reduce();
+    return std::forward&lt;T&gt;(frac);   // move rvalue into return  
+                                    // value. copy lvalue into return value.
+}
+</code></pre>
+<p>注意以上条件限于<em>reference</em>，而不是<em>local variable</em>，而且是按值返回：</p>
+<pre><code>Widget makeWidget {
+    ...
+    Widget w;
+    return w;       // RVO.
+}
+
+Widget makeWidget {
+    ...
+    Widget w;
+    return std::move(w);        // move.
+}
+</code></pre>
+<p>对于<em>local variable</em>，不要在return中使用<em>std::move</em>和<em>std::forward</em>，因为这阻止了编译器的优化(<em>Return Value Optimization</em>).</p>
+<p>RVO：编译器在用于返回的局部变量类型与返回类型一致的情况下可以省略<em>return value</em>的copy：这个局部变量包括return语句中创建的临时对象。有时RVO特指对临时对象的返回，而NRVO指代对<em>named value</em>的返回。</p>
+<p>如果使用<em>std::move</em>阻止了RVO，反而多了移动操作，因为std::move(w)其实是一个指向<em>local variable</em>的引用，不满足<em>RVO</em>的条件。</p>
+<p>但同时RVO是一项标准建议的优化，并不是标准(尽管大多数编译器都支持这门优化)。当没有RVO的时候，编译器会被要求使用<em>move</em>而不是<em>copy</em>进行返回，所以在return中使用<em>std::move</em>是徒劳无功的。</p>
+<p>同样的理由可以用于返回<em>by-value parameter</em>的情形，因为parameter是不会进行RVO的，但是编译器会主动使用<em>move</em>而不是<em>copy</em>返回这个值，所以没有必要使用<em>std::move</em>：</p>
+<pre><code>Widget makeWidget(Widget w) {
+    ...
+    return w;       // by-value parameter of same type of return.
+}
+</code></pre>
+<p>编译器会自动进行如下的实现:</p>
+<pre><code>Widget makeWidget(Widget w) {
+    ...
+    return std::move(w);        // treat w as rvalue.
+}
+</code></pre>
+<p>对于返回<em>local variable</em>使用<em>std::move</em>，并不能优化代码，反而禁止了编译器的优化。只有某些情况下对<em>skocal variable</em>使用<em>std::move</em>才有意义(比如传入某些函数，而你已经不再需要这个变量了)。所以不要对return的变量使用<em>std::move</em>。</p>
+<h2 id="things-to-remember-2"><a class="header" href="#things-to-remember-2">Things to Remember</a></h2>
+<ul>
+<li>在最后一次使用引用的时候，对<em>rvalue reference</em>使用<em>std::move</em>,对<em>universal reference</em>使用<em>std::forward</em>。</li>
+<li>对于返回<em>rvalue reference</em>和<em>universal reference</em>，执行第一条规则。</li>
+<li>对于返回局部变量或者按值传递参数，不要使用<em>std::move</em>或者<em>std::forward</em>，这禁止了RVO。</li>
+</ul>
+<h1 id="item26-avoid-overloading-on-universal-references"><a class="header" href="#item26-avoid-overloading-on-universal-references">Item26: Avoid Overloading on Universal References</a></h1>
+<h2 id="use-perfect-forwarding-template"><a class="header" href="#use-perfect-forwarding-template">Use <em>perfect forwarding template</em></a></h2>
+<p><em>perfect forwarding template</em>具有超广的适应性和良好的性能，见如下实现：</p>
+<pre><code>class NameLog {
+public:
+    ...
+    void logAndAdd(const std::string&amp; name) {
+        auto now = std::chrono::system_clock::now();
+        log(now, &quot;logAndAdd&quot;);
+        names.emplace(name);
+    }
+private:
+    std::multiset&lt;std::string&gt; names;
+};
+</code></pre>
+<p>函数logAndAdd的参数为<em>const std::string&amp;</em>，可以绑定以下对象：</p>
+<pre><code>std::string myname(&quot;Darla&quot;);
+
+NameLog l;
+
+l.logAndAdd(myname);          // pass lvalue std::string.
+l.logAndAdd(std::string(&quot;David&quot;));      // pass rvalue std::string.
+l.logAndAdd(&quot;shanshan&quot;);                // pass string literal.
+</code></pre>
+<p>第一个传值将myname(lvalue)绑定给name，最后在函数内部作为emplace的函数参数，调用<em>std::string</em>的复制构造函数，基本没有可优化的余地；第二个传值将一个rvalue绑定给name，最后在函数内部作为emplace的函数参数，调用<em>std::string</em>的复制构造函数，这里显然可以调用<em>std::string</em>的移动构造函数来节省时间；第三个传值多了一个临时对象的创建，见Item25。使用<em>perfect forwarding template</em>，可以完美优化传值：</p>
+<pre><code>template&lt;typename T&gt;
+void logAndAdd(T&amp;&amp; name) {
+    auto now = std::chrono::system_clock::now();
+    log(now, &quot;logAndAdd&quot;);
+    names.emplace(std::forward&lt;T&gt;(name));
+}
+</code></pre>
+<p>第一个传值不变；第二个传值可以使用移动构造函数，第三个传值可以调用<em>std::string</em>的以字符串为参数的构造函数，避免临时对象的构造，完美提升代码效率。</p>
+<h2 id="do-not-overloading-perfect-forwarding-template"><a class="header" href="#do-not-overloading-perfect-forwarding-template">Do Not overloading <em>perfect forwarding template</em></a></h2>
+<p>为<em>perfect forwarding template</em>重载函数是十分危险的，比如为logAndAdd重载一个以index为参数的函数：</p>
+<pre><code>void logAndAdd(int idx) {
+    auto now = std::chrono::system_clock::now();
+    log(now, &quot;logAndAdd&quot;);
+    names.emplace(nameFromIdx(idx));
+}
+
+l.logAndAdd(22);        // call the non-template version.
+
+l.logAndAdd(22U);       // call the template version. error.
+</code></pre>
+<p>可以看到只有完美匹配上非模板的版本，才能正确的实现意图。所以重载<em>perfect forwarding template</em>函数是非常危险的，因为这个模板很容易实现一些非计划的重载，</p>
+<p>由于构造函数经常是重载函数，使用<em>perfect forwarding constructor</em>也是非常危险的：</p>
+<pre><code>class Person {
+public:
+    template&lt;typename T&gt;
+    explicit Person(T&amp;&amp; n)
+        : name(std::forward&lt;T&gt;(n));
+    explicit Person(int idx)
+        : name(nameFromIdx(idx));
+    Person(const Person&amp; rhs);
+    Person(Person&amp;&amp; rhs);
+private:
+    std::string name;
+};
+</code></pre>
+<p>因为<em>perfect forwarding template</em>会和其他构造函数产生竞争。</p>
+<pre><code>Person p(&quot;Nancy&quot;);
+
+auto cloneOfP(p);       // create new Person from p, template consturctor.
+</code></pre>
+<p>因为<em>perfect forwarding template</em>生成了比复制构造函数匹配优先级更高的函数:</p>
+<pre><code>explicit Person(Person&amp; n)
+    : name(std::forward&lt;Person&amp;&gt;(n));       // have high priority.
+</code></pre>
+<p>只有这个调用是使用复制构造函数：</p>
+<pre><code>const Person cp(&quot;const Nancy&quot;);
+
+auto cloneOfP(cp)       // use copy ctor.
+</code></pre>
+<p>同理，继承类的拷贝和移动构造函数不使用基类的拷贝和移动构造函数，而是使用基类的<em>perfect forwarding constructor</em>,因为传入的参数并不是完美契合基类的拷贝和移动构造函数。</p>
+<pre><code>class SpecialPerson : public Person {
+public:
+    SpecialPerson(const SpecialPerson&amp; rhs)
+        : Person(rhs) {
+        ...
+    }
+
+    SpecialPerson(SpecialPerson&amp;&amp; rhs)
+        : Person(std::move(rhs)) {
+        ...
+    }
+};
+</code></pre>
+<p>所以有可能的化，避免重载一切<em>perfect forwarding template</em>，这不是一个良好的设计，容易带来出人意料的后果。但如果不可避免的要重载，解决方案见Item27。</p>
+<h2 id="things-to-remember-3"><a class="header" href="#things-to-remember-3">Things to Remember</a></h2>
+<ul>
+<li>重载<em>perfect forwarding template</em>会使得<em>perfect forwarding template</em>在某些出人意料的情况下被调用。</li>
+<li><em>perfect forwarding constructor</em>不是一个良好的设计，会与其他的构造函数产生不可预料的竞争与替代，这种情况在继承类调用基类构造函数时也会发生。</li>
+</ul>
+<h1 id="item27-familiarize-yourself-with-alternatives-to-overloading-on-universal-reference"><a class="header" href="#item27-familiarize-yourself-with-alternatives-to-overloading-on-universal-reference">Item27: Familiarize Yourself With Alternatives to Overloading on Universal Reference</a></h1>
+<p>Item26阐明了同时使用<em>perfect forwarding template</em>和<em>overloading function</em>是很危险的。所以当碰见这种情况的时候一般有以下几种方法：</p>
+<ul>
+<li><em>Abandon overloading</em>：放弃重载，使用不同的函数名分别实现<em>perfect forwarding template</em>和其他函数的功能。</li>
+<li><em>Pass by const T&amp;</em>：放弃<em>perfect forwarding template</em>，使用*const T&amp;*传参，缺点是不够高效，性能明显有损耗。</li>
+<li><em>Pass by value</em>：放弃<em>perfect forwarding template</em>，使用按值传参，见Item41。</li>
+</ul>
+<p>那当不可避免的同时使用<em>perfect forwarding template</em>和<em>overloading function</em>的时候，应该如何实现？</p>
+<h2 id="using-tag-dispatch"><a class="header" href="#using-tag-dispatch">Using <em>Tag Dispatch</em></a></h2>
+<p>接着Item26的例子：<br />
+第一种方法，为函数加上标签。函数的外层封装依旧不变，因为这是面向用户代码的，那么目标就是通过函数内部自动甄别传入参数的类型，来调用相应的重载，那么实现如下：</p>
+<pre><code>class NameLog {
+public:
+    ...
+template&lt;typename T&gt;
+void logAndAdd(T&amp;&amp; name) {
+    logAndAddImpl(std::forward&lt;T&gt;(name), std::is_integaral&lt;std::remove_reference_t&lt;T&gt;&gt;());
+}
+private:
+    std::multiset&lt;std::string&gt; names;
+};
+</code></pre>
+<p><em>std::is_integral</em>是一个<em>type trait</em>，可以无视<em>cv-qualifier</em>来判断一个类型是否为整数，使用<em>std::remove_reference</em>来移除引用，最后调用<em>call</em>操作符产生一个<em>tag</em>，传个内层函数：</p>
+<pre><code>template&lt;typename T&gt;
+void logAndAddImpl(T&amp;&amp; name, std::true_type) {
+    auto now = std::chrono::system_clock::now();
+    log(now, &quot;logAndAdd&quot;);
+    names.emplace(nameFromIdx(idx));
+}
+
+template&lt;typename T&gt;
+void logAndAddImpl(T&amp;&amp; name, std::false_type) {
+    auto now = std::chrono::system_clock::now();
+    log(now, &quot;logAndAdd&quot;);
+    names.emplace(std::forward&lt;T&gt;(name));
+}
+</code></pre>
+<p><em>std::false</em>和<em>std::true_type</em>就是所谓的<em>tag</em>，可以帮助决定最终调用哪一个函数，注意没有为<em>tag</em>声明参数名：因为<em>tag</em>只是用于提示编译器最后调用哪个函数，在运行期间不起任何作用，最后有可能可以被编译器优化取代，这正是我们所期待的，这项设计被称为<em>tag dispatch</em>。</p>
+<h2 id="constraining-template-that-take-universal-references"><a class="header" href="#constraining-template-that-take-universal-references">Constraining template that take <em>universal references</em></a></h2>
+<p>注意使用<em>tag dispatch</em>的基石是使用单个函数(非重载)作为用户端的API，但对于特殊函数，这是无法实现的，比如构造函数。Item26提到<em>perfect forwarding template</em>是十分贪婪的，经常能够完美匹配传入参数，而在匹配竞争中受到不合理的调用。这个时候，我们就希望限定<em>perfect forwarding template</em>在某些情况下起作用，而不是总是能够被匹配上。</p>
+<pre><code>std::enable_if&lt;condition&gt;::type
+</code></pre>
+<p>这项技术的关键就是<em>SFINAE</em>。在标准库中给出了<em>std::enable_if</em>，它在条件正确的情况下，会有类型成员<em>value</em>，而在条件错误的情况下，没有这个成员。</p>
+<pre><code>class Person {
+public:
+    template&lt;typename T, 
+             typename = std::enable_if_t&lt;!std::is_same_v&lt;Person, std::decay_t&lt;T&gt;&gt;&gt;&gt;
+    explicit Person(T&amp;&amp; n)
+        : name(std::forward&lt;T&gt;(n)) {}
+    explicit Person(int idx)
+        : name(nameFromIdx(idx)) {}
+private:
+    std::string name;
+};
+</code></pre>
+<p><em>std::enable_if_t</em>可以得到<em>std::enable_if</em>的类型成员<em>value</em>；<em>std::is_same_v</em>可以得到一个bool值反应两个模板参数是否同类型；<em>std::decay_t</em>可以得到类型T退化后的类型(删除<em>cv-qualifier</em>和引用，对数组和函数退化为指针)。当传入一个希望使用copy或者move构造函数的参数，<em>perfect forwarding template</em>参与匹配，但是<em>std::enable_if</em>没有类型成员value，匹配失败但是不报错(<em>SFINAE</em>)，最后这个匹配被踢出匹配队列，拷贝构造函数或者移动构造函数当选。</p>
+<p>但是可以发现仍然不能解决继承带来的匹配竞争，因为基类和继承类在<em>std::is_same_v</em>中得到的是false:</p>
+<pre><code>class Person {
+public:
+    template&lt;typename T, 
+             typename = std::enable_if_t&lt;!std::is_base_of_v&lt;Person, std::decay_t&lt;T&gt;&gt;&gt;&gt;
+    explicit Person(T&amp;&amp; n)
+        : name(std::forward&lt;T&gt;(n)) {}
+    explicit Person(int idx)
+        : name(nameFromIdx(idx)) {}
+private:
+    std::string name;
+};   
+</code></pre>
+<p><em>std::is_base_of_v</em>可以判断后一个类型是否为前一个类型的继承类，如果是用户定义类型同类型也被判断为true(内置类型为false)。最后在加上整数判断:</p>
+<pre><code>class Person {
+public:
+    template&lt;typename T, 
+             typename = std::enable_if_t&lt;!std::is_base_of_v&lt;Person, std::decay_t&lt;T&gt;&gt; &amp;&amp;
+             !std::is_integral_v&lt;std::remove_reference_t&lt;T&gt;&gt; &gt;&gt;
+    explicit Person(T&amp;&amp; n)
+        : name(std::forward&lt;T&gt;(n)) {}
+    explicit Person(int idx)
+        : name(nameFromIdx(idx)) {}
+private:
+    std::string name;
+};       
+</code></pre>
+<h2 id="trade-offs"><a class="header" href="#trade-offs">Trade-offs</a></h2>
+<p>所有方法中，采用<em>perfect forwarding template</em>的方法应该比其他方法更加高效，理由在Item26中说过。但是<em>perfect forwarding template</em>也有劣势。其一有些参数无法进行完美转发，见Item30。其二就是C++虐心的错误消息了：</p>
+<pre><code>Person p(u&quot;Konrad Zuse&quot;);   // const char16_t
+</code></pre>
+<p>u&quot;Konrad Zuse&quot;是不匹配string的构造函数的，这样会抛出错误消息。但是这个错误是在多层转发之后才能发现的，会导致错误信息可读性极差。</p>
+<p>在这个例子中，我们知道参数是用于初始化<em>std::string</em>的，所以可以使用<em>static_assert</em>进行检查:</p>
+<pre><code>class Person {
+public:
+    template&lt;typename T, 
+             typename = std::enable_if_t&lt;!std::is_base_of_v&lt;Person, std::decay_t&lt;T&gt;&gt; &amp;&amp;
+             !std::is_integral_v&lt;std::remove_reference_t&lt;T&gt;&gt; &gt;&gt;
+    explicit Person(T&amp;&amp; n)
+        : name(std::forward&lt;T&gt;(n)) {
+            static_assert(
+                std::is_constructible_v&lt;std::string T&gt;,
+                &quot;Parameter n cannot be used to construct a std::string&quot;
+            );
+        }
+    explicit Person(int idx)
+        : name(nameFromIdx(idx)) {}
+private:
+    std::string name;
+};
+</code></pre>
+<p><em>std::is_constructible</em>是用于检测initializer的类型是否可以用于构造另一个类型的。这能给我们一个特殊的错误提示，但是可惜的是<em>static_assert</em>的出现位置晚于构造，因为构造函数先构造对象后执行函数体。</p>
+<h2 id="things-to-remember-4"><a class="header" href="#things-to-remember-4">Things to Remember</a></h2>
+<ul>
+<li>解决<em>perfect forwarding template</em>和<em>overloading</em>的矛盾，可以有以下解决办法：放弃重载、用按常右值引用传参、用按值传参、使用<em>tag dispatch</em>。</li>
+<li>可以使用<em>SFINAE</em>限制<em>perfect forwarding template</em>的应用场景。</li>
+<li><em>perfect forwarding template</em>具有更高的效率，但是易错难用。</li>
+</ul>
+<h1 id="item28-understand-reference-collapsing"><a class="header" href="#item28-understand-reference-collapsing">Item28: Understand <em>Reference Collapsing</em></a></h1>
+<p><em>universal reference</em>当接收左值时，表现为左值引用，接收右值时，表现为右值引用。其背后的内在机制是<em>reference collapsing</em>，即引用折叠。</p>
+<pre><code>template&lt;typename T&gt;
+void func(T&amp;&amp; param);
+</code></pre>
+<p>当param是一个左值时，T为左值引用；当param是一个右值时，T为非引用类型:</p>
+<pre><code>Widget widgetFactory();
+Widget w;
+func(w);                    // T deduced to be Widget&amp;.
+func(widgetFactory());      // T deduced to be Widget.
+</code></pre>
+<h2 id="reference-collapsing"><a class="header" href="#reference-collapsing"><em>Reference Collapsing</em></a></h2>
+<p>注意在C++中，定义实实在在的&quot;引用的引用&quot;是非法的：</p>
+<pre><code>int x;
+auto&amp; &amp; rx = x;     // error.
+</code></pre>
+<p>但是在函数模板中，会发生<em>reference collapsing</em>引用折叠：</p>
+<pre><code>template&lt;typename T&gt;
+void func(T&amp;&amp; param);
+
+func(w);        // T is Widget&amp;, T&amp;&amp; is Widget&amp; &amp;&amp;?
+</code></pre>
+<p>引用折叠的机制很简单，两个引用只要其中一个为左值引用，则折叠为左值引用；若两个引用均为右值引用，则折叠为右值引用：</p>
+<pre><code>func(w);        // T is Widget&amp;, T&amp;&amp; is Widget&amp;(&amp; &amp;&amp; collapse to &amp;).
+</code></pre>
+<p>再看看<em>std::forward</em>如何工作：</p>
+<pre><code>Widget fparam;
+
+template&lt;typename T&gt;
+void f(T&amp;&amp; fparam) {
+    someFunc(std::forward&lt;T&gt;(fparam));
+}
+
+template&lt;typename T&gt;
+T&amp;&amp; std::forward(remove_reference_t&lt;T&gt;&amp; param) {
+    return static_cast&lt;T&amp;&amp;&gt;(param);
+}
+</code></pre>
+<p>当<em>fparam</em>是一个左值时，T为Widget&amp;，生成<em>std::forward&lt;Widget&amp;&gt;</em>:</p>
+<pre><code>Widget&amp; &amp;&amp; std::forward(Widget&amp; param) {
+    return static_cast&lt;Widget&amp; &amp;&amp;&gt;(param);
+}
+</code></pre>
+<p><em>reference collapsing</em>：</p>
+<pre><code>Widget&amp; std::forward(Widget&amp; param) {
+    return static_cast&lt;Widget&amp;&gt;(param);
+}
+</code></pre>
+<p>函数返回一个左值引用，是一个左值(rvalue)。
+当<em>fparam</em>是一个右值时，T为Widget，生成<em>std::forward<Widget></em>:</p>
+<pre><code>Widget&amp;&amp; std::forward(Widget&amp; param) {
+    return static_cast&lt;Widget&amp;&amp;&gt;(param);
+}
+</code></pre>
+<p>函数返回一个右值引用，是一个右值(消亡值xvalue)。</p>
+<p><em>reference collapsing</em>发生在4种语法环境中：其一就是上面的模板实例化；其二是<em>auto</em>生成类型时。因为auto的类型推断和template基本相同，所以<em>reference collapsing</em>也类似：</p>
+<pre><code>auto&amp;&amp; w1 = w;  // auto is Widget&amp;, auto&amp;&amp; is Widget&amp;, reference collapsing happen.
+auto&amp;&amp; w2 = widgetFactory();    // auto is Widget, auto&amp;&amp; is Widget&amp;&amp;, no reference collapsing.
+</code></pre>
+<p><em>universal reference</em>只是一个概念上的抽象，绕开繁杂的类型推断和引用折叠，所以<em>universal reference</em>不是新的引用，只是由以下两点原因作用而成的：</p>
+<ul>
+<li>因为类型推断区分了<em>lvalue</em>和<em>rvalue</em>，前者推断为T&amp;；后者推断为T。</li>
+<li><em>reference collapsing</em>发生。</li>
+</ul>
+<p>另外还有两种发生<em>reference collapsing</em>的场景：其三，使用<em>typedefs</em>和<em>alias declarations</em>；</p>
+<pre><code>template&lt;typename T&gt;
+class Widget {
+public:
+    typedef T&amp;&amp; RvalueRefToT;
+    ...
+}
+
+Widget&lt;int&amp;&gt; w;
+
+typedef int&amp; &amp;&amp; RvalueRefToT;   // reference collapsing happen.
+
+typedef int&amp; RvalueRefToT;
+</code></pre>
+<p>其四，使用<em>decltype</em>：当涉及<em>decltype</em>的类型分析时，出现指向引用的引用，发生<em>reference collapsing</em>。</p>
+<h2 id="things-to-remember-5"><a class="header" href="#things-to-remember-5">Things to Remember</a></h2>
+<ul>
+<li><em>reference collapsing</em>在四种场景中发生：模板实例化，<em>auto</em>类型生成，<em>typedefs</em>和<em>alias declarations</em>，<em>decltype</em></li>
+<li><em>reference collapsing</em>发生时，其中一个引用是左值引用，则为左值引用；任意一个引用为右值引用，则为右值引用。</li>
+<li><em>universal reference</em>的条件：类型推断区分了<em>lvalue</em>和<em>rvalue</em>，前者推断为T&amp;；后者推断为T；<em>reference collapsing</em>。</li>
+</ul>
+<h1 id="item29-assume-that-move-operations-are-not-present-not-cheap-and-not-used"><a class="header" href="#item29-assume-that-move-operations-are-not-present-not-cheap-and-not-used">Item29: Assume That Move Operations Are Not Present, Not Cheap, And Not Used</a></h1>
+<p><em>move semantics</em>是C++11的一块重要的拼图，它带来了更高效的拷贝操作，更准确的拷贝语义。但是<em>move semantics</em>并不像想象中的那么高效、普遍。</p>
+<ul>
+<li>许多类型不支持移动操作</li>
+<li>许多类型的移动操作并不如想象中的高效</li>
+</ul>
+<p>首先许多类型是不支持<em>move semantics</em>的。C++标准库在C++11进行了一次彻底的翻新，许多类型都加入了更加高效的移动操作，但也有许多类型并没有。<br />
+所有C++11的标准模板库中的容器都支持移动操作，但是并不是所有容器的移动操作都是高效的：可能因为这类容器根本无法支持高效的移动操作；也可能因为容器元素无法配合容器实现高效的移动。</p>
+<p>比如<em>std::array</em>，其实是一个带有STL接口的原生数组。其他STL容器的元素大都是储存在堆上的，而<em>std::array</em>是存储在栈上的。所以<em>std::vector</em>的移动，本质上只需要改变标记元素位置用的若干个指针就可以，复杂度O(1)。而<em>std::array</em>的移动，需要依次调用每一个元素的移动，复杂度O(n):</p>
+<pre><code>std::vector&lt;Widget&gt; vw1;
+...
+auto vw2 = std::move(vw1);  // move vw1 into vw2. runs in constant time. only ptrs in vw1 and vw2 are modified.
+
+std::array&lt;Widget, 10000&gt; aw1;
+...
+
+auto aw2 = std::move(aw1);  // move aw1 into aw2. runs in linear time. All elements in aw1 are move into aw2.
+</code></pre>
+<p>再看Widget的拷贝操作，如果Widget的移动比拷贝高效，那么上述容器的移动依旧是比拷贝要高效的，所以std::array确实需要支持移动语义。</p>
+<p>再看另一个例子<em>std::string</em>。<em>std::string</em>支持短字符串优化<em>small string optimization</em>(SSO)。如果<em>std::string</em>中的字符串足够小，那么字符串的存储将不会分配在堆上，而是分配在一块内置buffer上。所以对于小字符串的移动并不比拷贝高效。</p>
+<p>即使有些类支持高效的移动操作，最后依旧可能被耗时的拷贝操作所替代。见Item14.有些容器操作要求强异常安全保证，只有当移动操作声明不抛出异常的情况下，才会使用<em>move</em>代替<em>copy</em>。</p>
+<p>以下应用场景，<em>move semantics</em>不会有利于程序的效率:</p>
+<ul>
+<li>No move operations：类型不支持move。</li>
+<li>Move not faster：move并不比copy快。</li>
+<li>Move not usable：场景要求move操作不会抛出异常，然而move并没有声明<em>noexcept</em>。</li>
+<li>Source object is lvalue：除了个别例外，只有右值可以用作移动的来源。</li>
+</ul>
+<h2 id="things-to-remember-6"><a class="header" href="#things-to-remember-6">Things to Remember</a></h2>
+<ul>
+<li>总是假定<em>move operations</em>不存在、不效率、不可用。</li>
+<li>在确认可以使用<em>move semantics</em>的情况下，无视上一条。</li>
+</ul>
+<h1 id="item30-familiarize-yourself-with-perfect-forwarding-failure-cases"><a class="header" href="#item30-familiarize-yourself-with-perfect-forwarding-failure-cases">Item30: Familiarize Yourself With <em>perfect forwarding</em> Failure Cases.</a></h1>
+<p>完美转发意味着不仅仅转发对象，而且转发对象的值类型(左值还是右值？)，对象的cv-限定(const or volatile)。而<em>universal reference</em>的类型推断包含了对象的该类信息，帮助我们转发这些信息。</p>
+<pre><code>template&lt;typename T&gt;
+void fwd(T&amp;&amp; param) {
+    f(std::forward&lt;T&gt;(param));      // forward it to f.
+}
+
+template&lt;typename... Args&gt;
+void fwd(T&amp;&amp; param...) {
+    f(std::forward&lt;T&gt;(param)...);   // forward package to f.
+}
+</code></pre>
+<p>但是完美转发并不总是成功转发的。比如fwd传入参数不符合f的要求就会导致转发的失败。还有一些参数碍于某些语言特性，不能够通过完美转发：</p>
+<ul>
+<li>模板无法推断当前类型</li>
+<li>编译器推断类型不符合内层函数的参数要求</li>
+</ul>
+<h2 id="braced-initializer"><a class="header" href="#braced-initializer"><em>Braced Initializer</em></a></h2>
+<p>比如f有如下形式：</p>
+<pre><code>void f(const std::vector&lt;int&gt;&amp; v);
+</code></pre>
+<p>对f传入<em>braced initializer</em>是能够通过编译的：</p>
+<pre><code>f({1, 2, 3});       // fine.
+</code></pre>
+<p>但是如果进行完美转发，结果是失败</p>
+<pre><code>fwd({1, 2, 3});     // failure.
+</code></pre>
+<p>前者，<em>braced initializer</em>能够对参数vector<int>进行初始化。但是后者先要通过模板的类型推断，但是模板是无法对<em>braced initialzer</em>进行推断的(见Item2)。</p>
+<p>使用<em>braced initializer</em>就属于编译器无法推断模板类型。</p>
+<p>Item2中提到，auto可以对<em>braced initializer</em>进行推断，所以以下代码可以将<em>braced initializer</em>推断为<em>std::initialzer_list</em>通过编译。</p>
+<pre><code>auto il = {1, 2, 3};
+fwd(il);        // fine.
+</code></pre>
+<h2 id="0-or-null-as-null-pointer"><a class="header" href="#0-or-null-as-null-pointer">0 or NULL as null Pointer</a></h2>
+<p>Item8解释了0和宏NULL和空指针的关系。对于模板而言，类型推断总是把0和NULL推断为整型(通常为int)。所以使用0和NULL也是无法完美转发的，属于第二种错误：</p>
+<pre><code>void f(void* p);
+fwd(0);             // failure.
+fwd(NULL);          // failure.
+fwd(nullptr);       // fine.
+</code></pre>
+<h2 id="declaration-only-integral-static-const-and-constexpr-data-member"><a class="header" href="#declaration-only-integral-static-const-and-constexpr-data-member">Declaration-only Integral <em>static const</em> and <em>constexpr</em> Data Member</a></h2>
+<p>一般来说，不需要定义<em>static const</em>或者<em>static constepxr</em>的值，只需要声明就行。因为编译器会进行<em>const propagation</em>，从而不需要为这类变量开拓空间：</p>
+<pre><code>class Widget {
+public:
+    static const std::size_t MinVals = 28;  // declare, not define.
+}
+</code></pre>
+<p>对于调用该变量的函数，编译器会使用常量直接去补充参数：</p>
+<pre><code>void f(std::size_t val);
+
+f(Widget::MinVals);     // fine.
+</code></pre>
+<p>但是对于完美转发就不行了，因为没有定义该变量，所以一切有关于对该变量的地址操作都是非法的。而完美转发模板对该参数的推断会是一个引用。</p>
+<pre><code>fwd(Widget::MinVals);   // T is const size_t&amp;. error should not link.
+</code></pre>
+<p>所以该操作是无法通过链接的。</p>
+<p>但是这是对于标准而言，而许多编译器都会通过上述代码，但是这毕竟是不符合标准的，为了上述代码的可移植性，应当加入对该变量的定义:</p>
+<pre><code>constexpr std::size_t Widget::MinVals;      // in cpp.
+</code></pre>
+<p>注意定义不应该重复初始化，初始化应该只存在于一个地方。</p>
+<h2 id="overload-function-names-and-template-names"><a class="header" href="#overload-function-names-and-template-names">Overload Function Names and Template Names</a></h2>
+<p>假如有以下接收函数指针为参数的函数：</p>
+<pre><code>void f(int(*pf)(int));
+</code></pre>
+<p>当然可以忽略指针：</p>
+<pre><code>void f(int(pf)(int));
+</code></pre>
+<p>有以下两个过程函数:</p>
+<pre><code>int processVal(int val);        // ver.1
+int processVal(int val, int priority);  // ver.2
+</code></pre>
+<p>调用f:</p>
+<pre><code>f(processVal);      // fine. use ver.1.
+
+fwd(processVal);    // error! which processVal？
+</code></pre>
+<p>要注意到完美转发模板终究只是一个模板，它不会顾及自己内部，只会先进行参数推断，再生成实例，才有内部实现。</p>
+<p>解决这个问题，可以先将重载函数绑定给一个固定函数类型的指针上或者进行强制转化，再进行传参：</p>
+<pre><code>int(*pf)(int) = processVal;
+fwd(pf);
+
+fwd(static_cast&lt;int(*)(int)&gt;(processVal));
+</code></pre>
+<h2 id="bitfields"><a class="header" href="#bitfields"><em>Bitfields</em></a></h2>
+<p>比如有以下位域定义：</p>
+<pre><code>struct IPv4Header {
+    std::uint32_t   version:4,
+                    IHL:4,
+                    DSCP:6,
+                    ECN:2,
+                    totalLength:16;
+}；
+
+void f(std::size_t sz);
+
+IPv4Header h;
+
+f(h.totalLength);       // fine. implicit conversion happen
+fwd(h.totalLength);     // error.
+</code></pre>
+<p>这个问题类似于<em>braced initializer</em>，模板无法对位域进行类型推断，同时没有任何引用和指针可以指向位域。所以解决方案就是将位域拷贝出来并做强制转换：</p>
+<pre><code>auto length = static_cast&lt;std::uint16_t&gt;(h.totalLength);
+fwd(length);
+</code></pre>
+<h2 id="things-to-remember-7"><a class="header" href="#things-to-remember-7">Things to Remember</a></h2>
+<ul>
+<li>完美转发通常在两种场景下失败：无法推断类型和“错误”推断类型。</li>
+<li>常见的失败有：<em>braced initializer</em>、<em>0 or NULL as null pointer</em>、<em>declaration-only const static data member</em>、<em>template and overloaded funciton names</em>、<em>bitfields</em># Item31: Avoid Default Capture Mode</li>
+</ul>
+<p><em>lambda</em>表达式并没有给C++带来什么新的东西，但是极大的简化了工作，快速生成临时对象(比如<em>trivial predicates</em>)，对于STL的使用意义重大。关于<em>lambda</em>主要有以下几点概念:</p>
+<ul>
+<li><em>lambda expression</em>：单纯的<em>lambda</em>表达式。</li>
+<li><em>closure</em>：由<em>lambda</em>生成的运行时对象，包含有由捕捉模式规定的数据块。</li>
+<li><em>closure class</em>：<em>closure</em>对应的类，由编译器自动生成。</li>
+</ul>
+<h2 id="capture-mode"><a class="header" href="#capture-mode">Capture Mode</a></h2>
+<ul>
+<li>identifier：拷贝捕获</li>
+<li>identifier...	：拷贝捕获包</li>
+<li>identifier initializer  (C++14)：初始化拷贝捕获</li>
+<li>&amp;identifier：引用捕获</li>
+<li>&amp;identifier...：引用捕获包</li>
+<li>&amp;identifier initializer	(C++14)：初始化引用捕获</li>
+<li>this：引用捕获母对象</li>
+<li>*this	(C++17)：拷贝捕获母对象</li>
+</ul>
+<p>如果默认引用捕获，则特化捕获不能再是引用；如果默认捕获是拷贝，则特化捕获必须是引用或者*this，每个捕获只能出现一次。</p>
+<h2 id="avoid-default-reference-capture"><a class="header" href="#avoid-default-reference-capture">Avoid Default Reference Capture</a></h2>
+<p>C++11为<em>lambda</em>提供了两种捕捉模式：by-value和by-reference。默认的<em>by-reference</em>有可能导致悬空引用。这是因为一旦引用对象的生命比<em>lambda</em>要短，就会导致<em>lambda</em>内部的引用悬空：</p>
+<pre><code>using FilterContainer = std::vector&lt;std::function&lt;bool(int)&gt;&gt;;      // a container class for callable object.
+
+FilterContainer filters     // container.
+filters.emplace_back(
+    [](int value){ return value % 5 == 0; }
+);
+</code></pre>
+<p>如果<em>lambda</em>中的常数使用一个捕获数，捕获模式采用默认引用捕获：</p>
+<pre><code>void addDivsorFilter() {
+    auto calc1 = computeVal1();
+    auto calc2 = computeVal2();
+
+    auto divisor = computeDivisor(calc1, calc2);
+
+    filters.emplace_back(
+        [&amp;](int value){ return value % divisor == 0; }      // divisor may be dangle!
+    );
+}
+</code></pre>
+<p>默认采用引用捕获的一大缺点就是上述bug难以发现，因为没有明确divisor是一个引用：</p>
+<pre><code>filters.emplace_back(
+    [&amp;divisor](int value){ return value % divisor == 0; }      // divisor may be dangle!
+);  
+</code></pre>
+<p>虽然这样的代码依旧是错误的，但是至少对divisor是一个引用有足够的提示。当然如果<em>lambda</em>执行时间得当如下述代码依旧是安全的：</p>
+<pre><code>template&lt;typename C&gt;
+void workWithContainer(const C&amp; container) {
+    auto calc1 = computeVal1();
+    auto calc2 = computeVal2();
+    auto divisor = computeDivisor(calc1, calc2);
+    if(std::all_of(
+        std::begin(container), std::end(container), [&amp;](const typename C::value_type&amp; value){ return value % divisor == 0; })
+    ) {
+        ...
+    }
+}
+</code></pre>
+<p>但如果<em>lambda</em>表达式如果希望被复用，经过copy到其他环境下使用，就会发生错误。
+同时C++14支持了lambda的参数推断，所以参数列表可以简化：</p>
+<pre><code>if(std::all_of(
+    std::begin(container), std::end(container), [&amp;](const auto&amp; value){ return value % divisor == 0; })
+)
+</code></pre>
+<h2 id="avoid-default-value-capture"><a class="header" href="#avoid-default-value-capture">Avoid Default Value Capture</a></h2>
+<p>对之前的<em>lambda</em>的容器类使用默认值捕获，就避免了引用悬空的问题：</p>
+<pre><code>filters.emplace_back(
+    [=](int value){ return value % divisor == 0; }      // divisor may be dangle!
+);  
+</code></pre>
+<p>但是默认值捕获，可能会导致指针悬空：</p>
+<pre><code>filters.emplace_back(
+    [=](int value){ return value % *pdivisor == 0; }      // pdivisor may be dangle!
+);
+</code></pre>
+<p>当然不要使用裸指针，使用智能指针可以避免这个问题，但是我们不总是能够避免使用裸指针，最突出的情况就是this指针。假设有如下情况：</p>
+<pre><code>class Widget {
+public:
+    ...
+    void addFilter() const;
+
+private:
+    int divisor;
+};
+
+void Widget::addFilter() const {
+    filters.emplace_back(
+        [=](int value){ return value % divisor == 0; }      // pass compile, but not safe. 
+    );
+}
+</code></pre>
+<p>我们无法捕获类的数据成员，只能捕获local object，所以以下代码是会报错的：</p>
+<pre><code>filters.emplace_back(
+    [divisor](int value){ return value % divisor == 0; }      // cannot capture divisor. divisor is a member.
+);
+</code></pre>
+<p>由于this是一个局部变量，使用默认捕获相当于捕获了引用捕获了this，编译器会使用this-&gt;divisor替代divisor：</p>
+<pre><code>filters.emplace_back(
+    [this](int value){ return value % divisor == 0; }      // not safe.
+);
+</code></pre>
+<p>那么如果对象Widget已经销毁，捕获的this悬空，再次调用容器中的<em>lambda</em>将会不安全。这种错误十分危险：</p>
+<pre><code>void doSomeWork() {
+    auto pw = std::make_unique&lt;Widget&gt;();
+    pw-&gt;addFilter();
+    ...                 // destory Widget; now filters holds dangling pointer.
+}
+</code></pre>
+<p>该问题的解决方案就是进行拷贝：</p>
+<pre><code>void Widget::addFilter() const {
+    auto divisorCopy = divisor;
+    filters.emplace_back(
+        [divisorCopy](int value){ return value % divisorCopy == 0; }     // copy the divisor.
+    );
+}
+</code></pre>
+<p>C++17提供了拷贝捕获整个对象，这里不赘述。使用默认捕获十分危险，因为很容易导致一些难以发现的错误。</p>
+<h2 id="use-init-capture-and-take-notice-of-static"><a class="header" href="#use-init-capture-and-take-notice-of-static">Use Init Capture and Take Notice of Static</a></h2>
+<p>C++14提供了初始化捕获：</p>
+<pre><code>void Widget::addFilter() const {
+    filters.emplace_back(
+        [divisorCopy = divisor](int value){ return value % divisorCopy == 0; }     // copy the divisor.
+    );
+}
+</code></pre>
+<p><em>lambda</em>只能捕获automatic storage duration的变量，即，static变量lambda不会捕获：</p>
+<pre><code>template&lt;typename C&gt;
+void workWithContainer(const C&amp; container) {
+    static auto calc1 = computeVal1();
+    static auto calc2 = computeVal2();
+    static auto divisor = computeDivisor(calc1, calc2);
+    if(std::all_of(
+        std::begin(container), std::end(container), 
+        [=](const auto&amp; value){ return value % divisor == 0; })
+        // capture nothing.
+    ) {
+        ...
+    }
+    divisor++;
+}
+</code></pre>
+<h2 id="things-to-remember-8"><a class="header" href="#things-to-remember-8">Things to Remember</a></h2>
+<ul>
+<li>默认引用捕获可能导致悬空引用。</li>
+<li>默认拷贝捕获可能导致悬空指针(特别是this)，而且错误的指示<em>lambda</em>完全<em>self-contained</em>。</li>
+</ul>
+<h1 id="item32-use-init-capture-to-move-objects-into-closures"><a class="header" href="#item32-use-init-capture-to-move-objects-into-closures">Item32: Use Init Capture to Move Objects Into Closures</a></h1>
+<p>C++11的<em>lambda</em>中无法移动一个对象进入<em>closure</em>，C++14中提供了一个新的机制，使得移动对象进入闭包变为可能，即<em>init capture</em>。<em>init capture</em>可以表达除了默认捕捉以外的所有形式的捕捉。</p>
+<h2 id="init-capture"><a class="header" href="#init-capture"><em>Init Capture</em></a></h2>
+<p><em>init capture</em>具有两个部分：一是闭包中的变量名，二是初始化闭包中变量的表达式。</p>
+<pre><code>class Widget {
+public:
+    ...
+    bool isValidated() const;
+    bool isProcessed() const;
+    bool isArchived() const;
+    ...
+private:
+    ...
+};
+
+auto pw = std::make_unique&lt;Widget&gt;();
+
+auto func = [pw = std::move(pw)]{
+    return pw-&gt;isValidated() &amp;&amp; pw-&gt;isArchived();
+}
+</code></pre>
+<p>通过初始化捕捉就可以把变量移动到闭包中去。通过初始化捕捉还可以实现表达式的捕捉：</p>
+<pre><code>auto func = [pw = std::make_unique&lt;Widget&gt;()]{
+    return pw-&gt;isValidated() &amp;&amp; pw-&gt;isArchived();
+}
+</code></pre>
+<p>原本<em>lambda</em>是无法捕捉一个表达式的，通过初始化捕捉可以捕捉一个表达式的值，又称初始化捕捉为<em>generalized lambda capture</em>。</p>
+<h2 id="how-to-achieve-move-capture-in-c11"><a class="header" href="#how-to-achieve-move-capture-in-c11">How to Achieve move-capture in C++11</a></h2>
+<p><em>lambda</em>并不是一个全新的功能，<em>lambda</em>能做的任何事，使用<em>callable class</em>都可以实现:</p>
+<pre><code>class IsValandArch {
+public:
+    using DataType = std::unique_ptr&lt;Widget&gt;;
+    explicit IsValAndArch(DataType&amp;&amp; ptr):
+        pw(std::move(ptr)){}
+    bool operator()() const {
+        return pw-&gt;isValidated() &amp;&amp; pw-&gt;isArchived();
+    }
+private:
+    DataType pw;
+};
+
+auto func = IsValAndArch(std::make_unique&lt;Widget&gt;());
+</code></pre>
+<p>同时还可以利用<em>std::bind</em>和<em>lambda</em>的参数：</p>
+<pre><code>std::vector&lt;double&gt; data;
+
+auto func = [data = std::move(data)]{...};      // C++14 style.
+
+auto func = std::bind(
+    [](const std::vector&lt;double&gt;&amp; data){...}, 
+    std::move(data))                            // C++11 style.
+</code></pre>
+<p>称第二种对象为<em>bind object</em>，注意到bind使用<em>const reference</em>做类型声明。这是因为在C++14的形式中，data是拷贝捕获，而<em>lambda</em>默认const，所以捕获参数不能被修改，在C++11的版本中，变量data模拟了被捕获变量，也应该是const的。</p>
+<pre><code>auto func = [data = std::move(data)]() mutable {...};
+
+auto func = std::bind(
+    [](std::vector&lt;double&gt;&amp; data) mutable {...}, 
+    std::move(data))
+</code></pre>
+<p>以上两个<em>mutable lambda</em>是类似实现。待捕捉对象先通过<em>bind</em>,<em>bind object</em>中包含<em>lambda</em>的一个<em>closure</em>。所以闭包的生命周期和<em>bind object</em>一样。</p>
+<h2 id="things-to-remember-9"><a class="header" href="#things-to-remember-9">Things to Remember</a></h2>
+<ul>
+<li>使用C++14中的<em>init cpature</em>移动捕捉对象或者捕获表达式。</li>
+<li>C++11可以通过<em>callable class</em>或者<em>std::bind</em>实现。</li>
+</ul>
+<h1 id="item33-use-decltype-on-auto-parameters-to-forward-them"><a class="header" href="#item33-use-decltype-on-auto-parameters-to-forward-them">Item33: Use <em>decltype</em> on <em>auto&amp;&amp;</em> Parameters to Forward Them</a></h1>
+<p>C++14带来了<em>generic lambda</em>：</p>
+<pre><code>auto f = [](auto x){ return normalize(x); };
+</code></pre>
+<p>其闭包相当于：</p>
+<pre><code>class SomeCompilerGeneratedClassName {
+public:
+    template&lt;typename T&gt;
+    auto operator()(T x) const {
+        return normalize(x);
+    }
+}
+</code></pre>
+<p><em>lambda</em>起到的作用相当于将参数x转发给内部函数normalize，如果需要完美转发，结构应该如下：</p>
+<pre><code>auto f = [](auto&amp;&amp; x){ return normalize(std::forward&lt;?&gt;(x)); };
+</code></pre>
+<p>问题转化为如何填入<em>std::forward</em>的模板参数。因为auto和模板的类型推断基本一致，所以x的类型就包含了传入参数的<em>value category</em>。通过Item3可知道，使用<em>decltype</em>帮助推断传入的x的<em>value category</em>。</p>
+<p>如果x绑定一个左值，那么x就是decltype(x)就会产生左值引用类型；如果x绑定一个右值，decltype(x)就会产生一个右值引用类型，这与模板直接传入值类型不同，hui发生<em>reference collapsing</em>,再看<em>std::forward</em>。</p>
+<pre><code>template&lt;typename T&gt;
+T&amp;&amp; forward(std::remove_reference_t&lt;T&gt;&amp; param) {
+    return static_cast&lt;T&amp;&amp;&gt;(param);
+}
+</code></pre>
+<p>如果传入右值，使用decltype(x)作为<em>std::forward</em>的模板参数，那么T = Widget&amp;&amp;，并发生<em>reference collapsing</em>，和直接传入值类型(T = Widget)一样：</p>
+<pre><code>Widget&amp;&amp; forward(Widget&amp; param) {
+    return static_cast&lt;Widget&amp;&amp;&gt;(param);
+}
+</code></pre>
+<p>这样通过decltype(x)作为<em>std::forward</em>的模板参数也可以实现完美转发：</p>
+<pre><code>auto f = [](auto&amp;&amp; x){ 
+    return normalize(std::forward&lt;decltype(x)&gt;(x));
+};
+</code></pre>
+<p>对于传入参数包：</p>
+<pre><code>auto f = [](auto&amp;&amp;... xs){ 
+    return normalize(std::forward&lt;decltype(xs)&gt;(xs)...); 
+};    
+</code></pre>
+<h2 id="things-to-remember-10"><a class="header" href="#things-to-remember-10">Things to Remember</a></h2>
+<ul>
+<li>使用auto&amp;&amp;(<em>universal reference</em>)和<em>decltype</em>实现<em>lambda</em>的完美转发。</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../C++/Effective-Modern-C++/Part2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../Multi-Tenant/Multi-Tenant-Task-Scheduling.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../C++/Effective-Modern-C++/Part2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../Multi-Tenant/Multi-Tenant-Task-Scheduling.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

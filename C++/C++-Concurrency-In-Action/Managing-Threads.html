@@ -1,0 +1,405 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Managing Threads - Chyezh&#x27;s Notes</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">C++</li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> C++ Concurrency In Action</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Managing-Threads.html" class="active"><strong aria-hidden="true">1.1.</strong> Managing Threads</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Shared-Data-Protection.html"><strong aria-hidden="true">1.2.</strong> Shared Data Protection</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Operation-Synchronization.html"><strong aria-hidden="true">1.3.</strong> Operation Synchronization</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Memory-Model-And-Atomic-Operation.html"><strong aria-hidden="true">1.4.</strong> Memory Model And Atomic Operation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Effective Modern C++</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part1.html"><strong aria-hidden="true">2.1.</strong> Part1</a></li><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part2.html"><strong aria-hidden="true">2.2.</strong> Part2</a></li><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part3.html"><strong aria-hidden="true">2.3.</strong> Part3</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Multi Tenant</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Multi-Tenant/Multi-Tenant-Task-Scheduling.html"><strong aria-hidden="true">3.1.</strong> Multi Tenant Task Scheduling</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Chyezh&#x27;s Notes</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="managing-threads"><a class="header" href="#managing-threads">Managing Threads</a></h1>
+<h2 id="stdthread"><a class="header" href="#stdthread"><em>std::thread</em></a></h2>
+<p>C++线程通过类<em>std::thread</em>来实现。有以下特点：</p>
+<ul>
+<li><em>std::thread</em>通过获得一个<em>callable object</em>（作为线程入口）构造。</li>
+<li>当<em>std::thread</em>构造完成时，新线程开始运作。</li>
+<li>当<em>std::thread</em>被销毁之前，必须手动保证其相关线程是<em>join</em>还是<em>detach</em>，否则触发<em>std::terminate</em>。</li>
+<li>在决定<em>join or detach</em>之前，线程可能已经工作完毕。</li>
+<li>如果一个线程是<em>detach</em>的，即使<em>std::thread</em>被销毁，线程也可以继续工作，但必须要保证线程所用的内存数据可用。</li>
+</ul>
+<h2 id="ensure-that-the-data-accessed-by-the-thread-is-valid"><a class="header" href="#ensure-that-the-data-accessed-by-the-thread-is-valid"><em>ensure that the data accessed by the thread is valid</em></a></h2>
+<p>在整个线程的工作中，线程访问的数据必须是合法的，这一点和初始线程（以<em>main</em>为入口）一样。但这一点在多线程中更加复杂。</p>
+<pre><code class="language-c++">struct func{
+    int&amp; i;
+    func(int&amp; i_):i(i_){}
+    void operator()(){
+        for(unsigned j=0;j&lt;1000000;++j){
+            do_something(i);
+        }
+    }
+};
+void oops() {
+    int some_local_state=0;
+    func my_func(some_local_state);
+    std::thread my_thread(my_func);
+    my_thread.detach();
+}
+</code></pre>
+<p>如上错误代码，<em>my_func</em>是一个<em>callable object</em>，其引用成员<em>i</em>绑定了一个局部变量<em>some_local_state</em>。然后<em>my_thread</em>使用<em>my_func</em>构造了一个新的线程并且<em>detach</em>。新线程中的引用<em>i</em>依旧指向局部变量<em>some_local_state</em>，如果<em>oops</em>先于新线程结束，并且销毁了局部变量，则新线程出现未定义行为。
+最简单的办法就是避免<em>callable object</em>拷贝这些变量而不是和外部共享这些变量。在建立新线程时必须要注意<em>callable object</em>是否包含有<em>shared data</em>。</p>
+<h2 id="join-or-detach"><a class="header" href="#join-or-detach"><em>join or detach</em></a></h2>
+<p><em>join</em>就是等待线程完全结束，当线程结束时，线程相关的数据都会被销毁，对象<em>std::thread</em>和线程不再存在关系，即单个线程只能<em>join</em>一次，方法<em>joinable</em>会返回<em>false</em>。</p>
+<p>当<em>std::thread</em>被销毁之前，必须对其<em>joinable</em>进行检查，不论其是由于正常还是异常遭到销毁：</p>
+<pre><code class="language-c++">struct func;        // callable obj.
+
+void f(){
+    int local_state = 0;
+    func my_func(local_state);
+    std::thread t(my_func);
+    try{
+        do_something();
+    }
+    catch(...){
+        t.join();
+        throw;
+    }
+    t.join();
+}
+</code></pre>
+<p>或者使用RAII风格的<em>guard</em>，避免了与异常打交道：</p>
+<pre><code class="language-c++">class thread_guard{
+public:
+    thread_guard(std::thread&amp; _t):t(_t) {};
+    thread_guard(const thread_guard&amp;) = delete;
+    thread_guard&amp; opetator=(const thread_guard&amp;) = delete;
+    ~thread_guard(){
+        if(t.joinable()){
+            t.join();
+        }
+    }
+private:
+    std::thread&amp; t;
+};
+
+struct func;        // callable obj.
+
+void f(){
+    int local_state = 0;
+    func my_func(local_state);
+    std::thread t(my_func);
+    thread_guard g(t);
+    do_something();
+}
+</code></pre>
+<p><em>detach</em>就是使得线程与对象<em>std::thread</em>脱离关系，脱离之后将无法再在初线程中通过<em>std::thread</em>管理该线程，对象<em>std::thread</em>的方法<em>joinable</em>将会返回<em>false</em>。通过<em>detach</em>可以实现后台进程，后台进程依赖<em>C++ Runtime</em>脱离初线程自行运作。</p>
+<h2 id="passing-arguments-to-a-thread-function"><a class="header" href="#passing-arguments-to-a-thread-function">Passing arguments to a thread function</a></h2>
+<p><em>std::thread</em>的构造函数可以通过额外可变参数的方式来传递参数给其关联的线程函数：</p>
+<pre><code class="language-c++">void foo(int i, const string&amp; s);
+
+std::thread t(foo, 1, &quot;123&quot;);
+</code></pre>
+<p>但是值得注意的是，不管线程函数的参数列表如何表达，传入的额外参数总是“拷贝”的形式传给线程函数。以上代码看上去相当于调用了：</p>
+<pre><code class="language-c++">foo(1, &quot;123&quot;);
+</code></pre>
+<p>但是实际上，通过<em>std::thread</em>的构造函数先按“拷贝”的方式将“123”的指针（类型为const char*）传入内部。见如下代码：</p>
+<pre><code class="language-c++">void f(int i,std::string const&amp; s);
+void oops(int some_param){
+    char buffer[1024];
+    sprintf(buffer, &quot;%i&quot;,some_param);
+    std::thread t(f,3,buffer);
+    t.detach();
+}
+</code></pre>
+<p><em>std::thread</em>对象<em>t</em>的构造将参数<em>buffer</em>（类型为 char*）拷贝传入线程内部。线程函数<em>f</em>将会调用该指针副本构造函数参数<em>std::string</em>。但是构造<em>std::string</em>的时候指针副本所指向的buffer不一定还存在，初线程可能已经跳出<em>oops</em>并且销毁了栈数组<em>buffer</em>。线程将出现未定义行为。防止这类未定义行为的解决方案即在<em>buffer</em>尚未销毁前，构造<em>string</em>：</p>
+<pre><code class="language-c++">void f(int i,std::string const&amp; s);
+void oops(int some_param){
+    char buffer[1024];
+    sprintf(buffer, &quot;%i&quot;,some_param);
+    std::thread t(f,3,std::string(buffer));
+    t.detach();
+} 
+</code></pre>
+<p>同样存在希望新线程能够改变初线程的状态，这时期望传入引用：</p>
+<pre><code class="language-c++">void update_data_for_widget(widget_id w,widget_data&amp; data);
+void oops_again(widget_id w){
+    widget_data data;
+    std::thread t(update_data_for_widget,w,data);
+    display_status();
+    t.join();
+    process_widget_data(data);
+}
+</code></pre>
+<p>由于<em>std::thread</em>的构造函数复制了<em>widget_data</em>对象data，函数<em>update_data_for_widget</em>更新的是<em>widget_data</em>对象的副本。<em>std::thread</em>的应用情景很像<em>std::bind</em>，解决方案就是使用<em>std::ref</em>：</p>
+<pre><code class="language-c++">std::thread t(update_data_for_widget,w,std::ref(data));
+</code></pre>
+<p>这样以来<em>std::thread</em>的构造函数将会将<em>data</em>的引用而不是副本传入内部线程。</p>
+<p><em>std::thread</em>对于线程函数的处理机制和<em>std::bind</em>是一样的，比如将成员函数作为线程函数：</p>
+<pre><code class="language-c++">class X {
+public:
+    void func();
+};
+
+X x;
+thread t(&amp;X::pp,&amp;x);
+</code></pre>
+<p>另一个应用场景是当传入参数只可以<em>move</em>，而不可以<em>copy</em>的情况，比如<em>std::unique_ptr</em>:</p>
+<pre><code class="language-c++">void func(std::unique_ptr&lt;X&gt; pX);
+
+std::unique_ptr&lt;X&gt; pX = make_unique&lt;X&gt;();
+std::thread(func, std::move(pX));
+</code></pre>
+<p>这样pX所有的对象将会通过<em>move</em>的方式传入线程存储，再传给线程函数。值得注意的是，<em>std::thread</em>也是一种<em>move-only</em>类型，因为其管理一定资源，因此一个线程只能与一个<em>std::thread</em>关联。</p>
+<h2 id="transferring-ownership-of-a-thread"><a class="header" href="#transferring-ownership-of-a-thread">Transferring ownership of a thread</a></h2>
+<p><em>std::thread</em>对象是<em>moveable</em>的，当希望在两个对象之间传递对于线程的管理权限，比如函数内部生成了一个线程，但希望在函数结束后能够继续管理这个线程，就需要将线程的管理权传递给外层的<em>std::thread</em>。</p>
+<p>转移线程所有权的操作通过<em>std::thread</em>的移动构造函数和移动复制操作符实现，但一个<em>std::thread</em>实例只能维护一个线程，否则将会终止程序：</p>
+<pre><code class="language-c++">std::thread g(){
+    void some_other_function(int);
+    std::thread t(some_other_function,42);
+    return t;
+}
+
+void f(std::thread t);
+
+void some_func();
+f(std::thread(some_func));
+std::thread t(some_func);
+f(std::move(t));
+</code></pre>
+<p>由于<em>std::thread</em>可以<em>move</em>，<em>thread_guard</em>也可以完全持有<em>std::thread</em>，而不用引用来管理<em>thread</em>：</p>
+<pre><code class="language-c++">class scoped_thread{
+public:
+    scoped_thread(std::thread _t) :t(std::move(_t){
+        if(!t.joinable())
+            throw std::logic_error(&quot;no associated thread!&quot;);
+    }
+    scoped_thread(const scoped_thread&amp;) = delete;
+    scoped_thread&amp; operator=(const scoped_thread&amp;) = delete;
+    ~scoped_thread(){
+        if(t.joinable)
+            t.join();
+    }
+private:
+    std::thread t;
+}
+</code></pre>
+<p>可以使用容器管理线程：</p>
+<pre><code class="language-c++">void func(i);
+
+void f(){
+    std::vector&lt;std::thread&gt; threads;
+    for(int i = 0; i &lt; 10; ++i) {
+        threads.emplace_back(func,i);   // direct construct thread.
+        // threads.push_back(std::thread(func,i)); // move temp thread object to vector.
+    }
+    for(auto&amp;&amp; t : threads) {
+        if(t.joinable())
+            t.join();
+    }
+}
+</code></pre>
+<h2 id="choosing-the-number-of-threads-at-runtime"><a class="header" href="#choosing-the-number-of-threads-at-runtime">Choosing the number of threads at runtime</a></h2>
+<p><em>hardware_concurrency</em>可以获取当前硬件可以进行的并行处理线程数量。如下实现一个并行加法：</p>
+<pre><code class="language-c++">template &lt;typename Iterator&gt;
+struct parallel_accumulate_block {
+    void operator()(const Iterator&amp; _begin, const Iterator&amp; _end, typename Iterator::value_type&amp; _result) {
+        _result = std::accumulate(_begin, _end, static_cast&lt;typename Iterator::value_type&gt;(0));
+    }
+};
+
+template &lt;typename Iterator&gt;
+typename Iterator::value_type parallel_accumulate(const Iterator&amp; _begin,
+                                                const Iterator&amp; _end,
+                                                typename Iterator::value_type _init) {
+    auto arraySize = std::distance(_begin, _end);
+    if(!arraySize)
+        return _init;
+    const unsigned int MinPerThread = 25;
+    auto maxThread = (arraySize + MinPerThread - 1) / MinPerThread;
+    auto numHardwareThread = std::thread::hardware_concurrency();
+    auto numThread = std::min(numHardwareThread != 0?numHardwareThread:1, maxThread);
+    auto blockSize = arraySize / numThread;
+
+    std::vector&lt;std::thread&gt; threads;
+    std::vector&lt;typename Iterator::value_type&gt; results;
+    threads.reserve(numThread - 1);
+    results.resize(numThread);
+
+    auto iterBlockBegin = _begin;
+    auto iterBlockEnd = iterBlockBegin;
+    for(unsigned int i = 0; i &lt; numThread - 1; i++) {
+        std::advance(iterBlockEnd, blockSize);
+        threads.emplace_back(parallel_accumulate_block&lt;Iterator&gt;(), iterBlockBegin, iterBlockEnd, std::ref(results[i]));
+        std::advance(iterBlockBegin, blockSize);
+    }
+    
+    parallel_accumulate_block&lt;Iterator&gt;()(iterBlockBegin, _end, results[numThread - 1]);
+    std::for_each(threads.begin(), threads.end(), std::mem_fn(&amp;std::thread::join));
+    return std::accumulate(cbegin(results), cend(results), static_cast&lt;typename Iterator::value_type&gt;(_init));
+}
+</code></pre>
+<p>值得注意的是，上述并行加法的实现对传入数据和迭代器具有一定要求：</p>
+<ul>
+<li>传入的数据类型的加法计算要求必须是没有特定结合性要求的。</li>
+<li><em>std::accumulate</em>要求的迭代器是<em>InputIterator</em>，而<em>parallel_accumulate</em>要求是<em>ForwardIterator</em>。</li>
+</ul>
+<h2 id="identifying-threads"><a class="header" href="#identifying-threads">Identifying threads</a></h2>
+<p><em>std::thread</em>通过<em>std::thread::id</em>来标识一个线程，<em>std::thread::id</em>通过默认构造指代一个无关联线程的<em>std::thread</em>，并且提供比较操作符，因此可以用于关联容器的键值、排序、比较等操作。</p>
+<pre><code class="language-c++">std::thread::id masterThreadId;
+void func() {
+    if(std::this_thread::get_id == masterThreadId) {
+        do_something();
+    }
+    do_otherthing();
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="next" href="../../C++/C++-Concurrency-In-Action/Shared-Data-Protection.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="next" href="../../C++/C++-Concurrency-In-Action/Shared-Data-Protection.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

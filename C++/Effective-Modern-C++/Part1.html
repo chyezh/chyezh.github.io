@@ -1,0 +1,1271 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Part1 - Chyezh&#x27;s Notes</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">C++</li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> C++ Concurrency In Action</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Managing-Threads.html"><strong aria-hidden="true">1.1.</strong> Managing Threads</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Shared-Data-Protection.html"><strong aria-hidden="true">1.2.</strong> Shared Data Protection</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Operation-Synchronization.html"><strong aria-hidden="true">1.3.</strong> Operation Synchronization</a></li><li class="chapter-item expanded "><a href="../../C++/C++-Concurrency-In-Action/Memory-Model-And-Atomic-Operation.html"><strong aria-hidden="true">1.4.</strong> Memory Model And Atomic Operation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Effective Modern C++</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part1.html" class="active"><strong aria-hidden="true">2.1.</strong> Part1</a></li><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part2.html"><strong aria-hidden="true">2.2.</strong> Part2</a></li><li class="chapter-item expanded "><a href="../../C++/Effective-Modern-C++/Part3.html"><strong aria-hidden="true">2.3.</strong> Part3</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Multi Tenant</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Multi-Tenant/Multi-Tenant-Task-Scheduling.html"><strong aria-hidden="true">3.1.</strong> Multi Tenant Task Scheduling</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Chyezh&#x27;s Notes</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="item1-understand-template-type-dedution"><a class="header" href="#item1-understand-template-type-dedution">Item1: Understand Template Type Dedution</a></h1>
+<p>函数模板的形式如下:</p>
+<pre><code class="language-c++">    tmeplate&lt;typename T&gt;
+    void foo(ParamType param);
+</code></pre>
+<p>函数调用的形式如下:</p>
+<pre><code class="language-c++">    foo(expr);  //call foo with expresstion;
+</code></pre>
+<p>在编译期间，编译器会推断T和ParamType。ParParamType通常会包含一些修饰符，比如const、&amp;等，如下：</p>
+<pre><code>template&lt;typename&gt;
+void foo(const T&amp; param);
+</code></pre>
+<p>T的类型推断是由expr和ParamType共同决定的。如下根据ParamTpye分成三种情况：</p>
+<ul>
+<li>ParamType是一个指针和引用（非万能引用）。</li>
+<li>ParamType是一个万能引用。</li>
+<li>ParamType不是引用和指针。</li>
+</ul>
+<h2 id="case1-paramtype-is-a-reference-or-pointerbut-not-a-universal-reference"><a class="header" href="#case1-paramtype-is-a-reference-or-pointerbut-not-a-universal-reference">case1: ParamType is a Reference or Pointer,but not a Universal Reference</a></h2>
+<p>在这种情况下,类型推断步骤如下：</p>
+<ul>
+<li>如果expr是一个引用，则忽略引用部分。</li>
+<li>依赖ParamType模式匹配expr的类型，得到T。</li>
+</ul>
+<p>比如：</p>
+<pre><code>template&lt;typename T&gt;
+void foo(T&amp; param);
+
+int x = 27;
+const int cx = x;
+const int&amp; crx = x;
+
+foo(x);     //T is int, ParamType is int&amp;.
+foo(cx);    //T is const int, ParamType is const int&amp;.
+foo(crx);   //T is const int, ParamType is const int&amp;. reference-ness is ignored.
+</code></pre>
+<p>这种情况下，为了保证const变量的安全，const将成为T的一部分。如果param包含const修饰，如下：</p>
+<pre><code>template&lt;typename T&gt;
+void foo(const T&amp; param);
+
+foo(x);     //T is int, ParamType is const int&amp;.
+foo(cx);    //T is int, ParamType is const int&amp;.
+foo(crx);   //T is int, ParamType is const int&amp;. reference-ness is ignored.
+</code></pre>
+<p>param为指针的表现与引用类似，如下：</p>
+<pre><code>template&lt;typename T&gt;
+void foo(T* param);
+const int* cpx = &amp;x;
+
+foo(&amp;x);    //T is int, ParamType is int*.
+foo(&amp;cx);   //T is const int, ParamType is const int*.
+foo(cpx);   //T is const int, ParamType is const int*.
+</code></pre>
+<h2 id="case2-paramtype-is-a-universal-reference"><a class="header" href="#case2-paramtype-is-a-universal-reference">case2: ParamType is a Universal Reference</a></h2>
+<p>在这种情况下，推断原则如下：</p>
+<ul>
+<li>如果expr是一个左值，T和ParamType都被推断为左值引用。
+（1.只有这种情况，T才有可能被推断为引用；2.ParamType被推断为左值引用而非右值引用。）</li>
+<li>如果expr是一个右值，直接适用通用情况。</li>
+</ul>
+<p>比如：</p>
+<pre><code>template&lt;typename T&gt;
+void foo(T&amp;&amp; param);    //ParamType is a Universal Reference.
+
+foo(x);     //T is int&amp;, ParamType is int&amp;.
+foo(cx);    //T is const int&amp;, ParamType is const int&amp;.
+foo(crx);   //T is const int&amp;, ParamType is const int&amp;.
+foo(27);    //27 is int and rvalue, T is int, ParamType is int&amp;&amp;.
+</code></pre>
+<p>当ParamType是万能引用时，expr左值和右值表现并不一样。</p>
+<h2 id="case3-parparamtype-is-neither-a-pointer-nor-a-reference"><a class="header" href="#case3-parparamtype-is-neither-a-pointer-nor-a-reference">case3： ParParamType is Neither a Pointer nor a Reference</a></h2>
+<p>按值传递,这意味着param将是传入的一个copy。原则如下：</p>
+<ul>
+<li>如果expr是一个引用，则忽略引用。</li>
+<li>如果忽略引用后，有const和volatile修饰，则亦忽略。</li>
+</ul>
+<p>如下：</p>
+<pre><code>template&lt;typename T&gt;
+void foo(T param);      //param is passing by value.
+
+foo(x);     //T is a int, ParamType is a int.    
+foo(cx);    //T is a int, ParamType is a int. const-ness is ignored.
+foo(crx);   //T is a int, ParamType is a int. reference-ness and const-ness is ignored.
+</code></pre>
+<p>const被忽略的原因在于：param是一个copy，被copy对象不可变不代表其复制不可变。
+这是按值传递和引用或指针传递不同的地方。
+考虑以下情况：</p>
+<pre><code>const char* const ptr = ... //ptr is a const pointer pointing to const.
+foo(ptr);   //T is a const char*, ParamType is a const char*. 
+            //top-level is ignored. but low-level should not be ignored.
+</code></pre>
+<p>由于按值传递的对象是指针。所以修饰指针本身的const（top-level）可以被忽略，
+但是修饰指针所指向的obj的const不可以被忽略。</p>
+<h2 id="array-argments"><a class="header" href="#array-argments">Array Argments</a></h2>
+<p>值得注意数组和指针是不一样的，即时它们经常可以互相转换。
+数组经常退化为指针（指向第一元素）：</p>
+<pre><code>const char name[] = &quot;abcd&quot;;     //name's type is const char[13].
+const char *ptr = name;         //array decays to pointer.
+</code></pre>
+<p>考虑数组作为expr的情况：</p>
+<pre><code>template&lt;typename T&gt;
+void foo(T param);      //by-value.
+
+foo(name);  //T is const char*, param is const char*.
+            //array decays to pointer.
+
+template&lt;typename T&gt;
+void foo(T&amp; param);      //by-reference.
+
+foo(name);  //T is const char[5], ParamType is const char(&amp;)[5].
+
+template&lt;typename T&gt;
+void foo(T* param);      //by-pointer.
+
+foo(name);  //T is const char, ParamType is const char*.
+</code></pre>
+<p>通过该特性，就可以实现以下模板：</p>
+<pre><code>//aquire the size of an array at compile time.
+template&lt;typename T, size_t N&gt;
+constexpr size_t ArraySize(T (&amp;)[N]) noexcept {
+    return N;
+}
+</code></pre>
+<h2 id="function-argments"><a class="header" href="#function-argments">Function Argments</a></h2>
+<p>函数也可以退还成函数指针。模板类型推断时的函数与数组表现类似。
+如下：</p>
+<pre><code>void func(int,double);   //type is void(int,double).
+
+template&lt;typename T&gt;
+void foo(T param);       //by-value.
+
+foo(func);  //T is void(*)(int,double), ParamType is void(*)(int,double).
+
+template&lt;typename T&gt;
+void foo(T param);      //by-reference.
+
+foo(func);  //T is void(int,double), ParamType is void(&amp;)(int,double).
+
+template&lt;typename T&gt;
+void foo(T* param);      //by-pointer.
+
+foo(func);  //T is void(int,double),ParamType is void(*)(int,double).
+</code></pre>
+<h2 id="things-to-remember"><a class="header" href="#things-to-remember">Things to Remember</a></h2>
+<ul>
+<li>在模板类型推断中，argument的reference-ness被忽略。</li>
+<li>对于universal reference parameter，lvalue arguments是具有特殊机制的。</li>
+<li>对于by-value parameter，const和volatile是被忽略的。</li>
+<li>对于array和funciton的arguments，除了reference parameter以外均退化为指针。</li>
+</ul>
+<h1 id="item2-understand-auto-type-dedution"><a class="header" href="#item2-understand-auto-type-dedution">Item2: Understand Auto Type Dedution</a></h1>
+<p>Auto的类型推断与item1的模板类型推断基本一致。在auto推断中，auto相当于
+模板中的T，整个类型修饰符相当于PramaType，初始化的值相当于expr。(有一点不同)</p>
+<p>如下：</p>
+<pre><code>auto x = 27;
+
+template&lt;typename T&gt;
+void funcx(T param);
+
+funcx(27);      //T is int, so auto is int. ParamType is int.
+
+const auto cx = x;
+
+template&lt;typename T&gt;
+void funccx(const T param);
+
+funccx(x);      //T is int, so auto is int. ParamType is const int.
+
+
+const auto&amp; crx = x;
+
+template&lt;typename T&gt;
+void funccrx(const T&amp; param);
+
+funccrx(x);     //T is int, so auto is int. ParamType is const int&amp;.
+</code></pre>
+<h2 id="type-specifiers-have-effect-on-type-deduction"><a class="header" href="#type-specifiers-have-effect-on-type-deduction">Type Specifiers have effect on Type Deduction</a></h2>
+<p>正如模板类型推断中的以PramaType分类讨论，auto类型推断可以将type specifier分成3类讨论，即：</p>
+<ul>
+<li>类型修饰符是引用或者指针（不包含万能引用）</li>
+<li>类型修饰符是万能引用</li>
+<li>类型修饰符不是指针和引用</li>
+</ul>
+<p>比如：</p>
+<pre><code>auto x = 27；            //27 is int, x is int.
+const auto cx = x;     //x is int, cx is const int. 
+const auto&amp; crx = x;    //x is int, crx is const int&amp;.
+
+auto&amp;&amp; urx = x;         //x is int(lvalue), urx is int&amp;.
+auto&amp;&amp; urx = cx;        //cx is const int(lvalue), urx is const int&amp;.
+auto&amp;&amp; urx = 27;        //27 is rvalue, urx is int&amp;&amp;.
+</code></pre>
+<h2 id="initializer-is-an-array-or-a-function"><a class="header" href="#initializer-is-an-array-or-a-function">Initializer is an Array or a function</a></h2>
+<p>指针和数组作为初始化auto类型推断和模板类型推断一致。</p>
+<pre><code>const char name[] = &quot;123456&quot;;   //name is const char[7].
+
+auto arr1 = name;       //by-value, arr1 is const char*.
+auto&amp; arr2 = name;      //by-lreference, arr2 is const char(&amp;)[7].
+
+void func(int,double);          //func is void(int,double).
+
+auto func1 = func;      //by-value, func1 is void(*)(int,double).
+auto&amp; func2 = func;     //by-lreference, func2 is void(&amp;)(int,double).
+</code></pre>
+<h2 id="braced-initializer-and-parenthesis-initializer"><a class="header" href="#braced-initializer-and-parenthesis-initializer">Braced-Initializer and Parenthesis-Initializer</a></h2>
+<p>barced-initializer_list是auto和template类型推断的唯一不同之处。template是不能直接推断出initializer-list的。
+考虑以下定义：</p>
+<pre><code>auto x1 = 27;           //type is int, value is 27.
+auto x2(27);            //ditto.
+auto x3 = { 27, 42 };   //type is initializer_list&lt;int&gt;, value is {27}.
+auto x4{ 27 };          //type is int, value is 27.
+auto x5{ 27, 42 };      //error, need =.
+auto x6{ 1, 2, 3.0 };   //error, cannot deduce T for initializer_list.
+</code></pre>
+<p>注意直接初始化和赋值初始化对于{}initializer的区别。</p>
+<pre><code>template&lt;typename T&gt;
+void foo(T param);
+
+foo({ 1, 2, 3 });       //error, connot deduce type for T.
+</code></pre>
+<p>想要实现对T的template推断，可以如下声明：</p>
+<pre><code>template&lt;typename T&gt;
+void foo(std::initializer_list&lt;T&gt; inilist);
+
+f({1, 2, 3});           //valid, T is int, ParamType is initializer_list&lt;int&gt;.
+</code></pre>
+<p>同时值得注意的是，C++14允许函数返回值与lambda表达式参数通过使用auto进行类型推断，但是这种情景下的类型推断是模板类型推断，
+而不是auto类型推断，比如：</p>
+<pre><code>auto createList() {
+    return { 1, 2, 3 };     //error: cannot deduce return type for { 1, 2, 3 }.
+}
+
+std::vector&lt;int&gt; v;
+auto resetV = [&amp;v](const auto&amp; newvalue) {
+    v = newvalue;           //C++ 14;
+}
+resetV({ 1, 2, 3 });        //error! cannot deduce parameter type for { 1, 2, 3 }.
+</code></pre>
+<h2 id="things-to-remember-1"><a class="header" href="#things-to-remember-1">Things to Remember</a></h2>
+<ul>
+<li>auto类型推断和template类型推断几乎一致，只是auto可以将braced-initializer推断为initializer_list，而template不接受这种推断。</li>
+<li>auto在函数返回值和lambda表达式参数使用时，代表的是template推断，而不是auto。</li>
+</ul>
+<h1 id="item3-understand-decltype"><a class="header" href="#item3-understand-decltype">Item3: Understand <em>decltype</em></a></h1>
+<p>decltype获取一个表达式，返回一个表达式的类型。
+大多数情况其结果如常规想象，但是偶尔也会出一些令人意想不到的结果。</p>
+<h2 id="typical-case"><a class="header" href="#typical-case">Typical Case</a></h2>
+<p>这些情况下，decltype给出表达式确实的类型。</p>
+<pre><code>const int i =0;             //decltype(i) is const int.
+bool f(const widget&amp; w);    //decltype(f) is bool(const widget&amp;).
+sturct Point {              //decltype(Point::x) is int.
+    int x, y;
+};
+widget w;                   //decltype(w) is widget.
+
+if(f(w))...                 //decltype(f(w)) is bool.
+
+template&lt;typename T&gt;
+class vector {
+    public:
+    T&amp; operator[](std::size_t index);
+};
+
+vector&lt;int&gt; v;              //decltype(v) is vector&lt;int&gt;.
+
+if(v[0] == 0)...            //decltype(v[0]) is int&amp;.
+</code></pre>
+<p>在这些情况下，decltype乖乖的推导出expr的类型，不进行任何添油加醋。</p>
+<h2 id="trailing-return-type-with-decltype"><a class="header" href="#trailing-return-type-with-decltype">Trailing Return Type with Decltype</a></h2>
+<p>在C++11中，函数返回值可以采用trailing的方式，而且可以使用decltype.</p>
+<p>比如：</p>
+<pre><code>template&lt;typename Container, typename Index&gt;
+auto access(Container&amp; c, Index i) -&gt;decltype(c[i]) {   
+    ...
+    return c[i];        //access c[i].
+}
+
+vetcor&lt;int&gt; veci{ 1, 2, 3, 4 };
+access(veci,2) = 5;     //change the veci[2].
+</code></pre>
+<p>由于我们不知道容器Container以及索引Index的准确类型及其内容物类型，
+我们直接拼写出返回的内容物的类型，需要通过类型推断。
+一种方法是通过Container的内置类型成员(typename)，另一种就是利用decltype.
+由于c与i的声明位置，所以需要使用trailing的方式。</p>
+<p>这种情况下，auto是仅有占位功能，真正进行推断的是decltye，
+decltype分辨出c[i]的类型是T&amp;，所以可以通过access读写c[i]。</p>
+<h2 id="auto-return-type-deduction"><a class="header" href="#auto-return-type-deduction">Auto Return Type Deduction</a></h2>
+<p>再看item2中提到的, 自C++14起，
+允许为多语句lambda以及函数进行自动返回值推断。如下：</p>
+<pre><code>template&lt;typename Container, typename Index&gt;
+auto access(Container&amp; c, Index i) {   
+    ...
+    return c[i];        //omit the referenceness.
+}
+
+vetcor&lt;int&gt; veci{ 1, 2, 3, 4 };
+access(veci,2) = 5;     //error, expression is a rvalue.
+</code></pre>
+<p>这种情况下，执行的template的类型推断，所以access返回的是T类型变量，是一个右值。</p>
+<p>值得注意，所以为了实现access的原本功能，decltype trailing return type就不能忽略。</p>
+<h2 id="use-decltypeauto"><a class="header" href="#use-decltypeauto">Use decltype(auto)</a></h2>
+<p>同时在C++14中，提供了更加优雅的使用decltype的方式，
+使得decltype类型推断被使用，如下：</p>
+<pre><code>template&lt;typename Container, typename Index&gt;
+decltype(auto) access(Container&amp; c, Index i) {   
+    ...
+    return c[i];        //use the decltype rules.
+}
+
+vetcor&lt;int&gt; veci{ 1, 2, 3, 4 };
+access(veci,2) = 5;     //change the veci[2].
+</code></pre>
+<p>decltype(auto)不仅能用在函数返回推断上，也可以用在通常声明上，使得类型推断自行使用
+decltype的规则。</p>
+<pre><code>widget w;
+const widget&amp; crw = w;
+auto w2 = crw;              //auto type deduction, w2 is widget.
+decltype(auto) w3 = crw     //decltype type deduction, w3 is const widget&amp;.
+</code></pre>
+<h2 id="decltypes-behaviour"><a class="header" href="#decltypes-behaviour">Decltype's Behaviour</a></h2>
+<p>观察如下代码：</p>
+<pre><code>int x = 0;      //decltype(x) is int.
+int y = 0;      //decltype((x)) is int&amp;.
+
+decltype(true?x:0) i;   //true?x:0 is rvalue-expression, i is int. 
+decltype(true?x:y) i;   //true?x:y is lvalue-expression, i is int&amp;.
+</code></pre>
+<p>产生了意想不到的结果。
+因为decltype对name和expression的效果是不一样的。
+当decltype作用于name时，产生的类型是T。
+当decltype作用于lvalue-expression时，产生的是T&amp;。</p>
+<p>Trailing Return Type不容易出现类型的误写，
+但decltype(auto)容易出现，如下：</p>
+<pre><code>decltype(auto) foo() {
+    int x = 0;
+    return x;           //decltype（x） is int, so foo returns int.
+}
+
+decltype(auto) foo() {
+    int x = 0;
+    return (x);         //decltype((x)) is int&amp;, so foo returns int&amp;.
+}
+</code></pre>
+<h2 id="things-to-remember-2"><a class="header" href="#things-to-remember-2">Things to Remember</a></h2>
+<ul>
+<li>decltype大多数情况产生类型与表达式相应的类型，不会有任何修正。</li>
+<li>对于lvalue-expression，decltype会产生T&amp;.</li>
+<li>C++14支持decltype(auto)，表达使用decltype原则进行类型推断。</li>
+</ul>
+<h1 id="item4-konw-how-to-view-deduced-type"><a class="header" href="#item4-konw-how-to-view-deduced-type">Item4: Konw How to View Deduced Type</a></h1>
+<p>程序开发过程中，总共有3个阶段，会对推断类型感兴趣。</p>
+<ul>
+<li>during edit your code.</li>
+<li>during compilation.</li>
+<li>at runtime.</li>
+</ul>
+<h2 id="during-edit-your-code"><a class="header" href="#during-edit-your-code">During Edit Your Code</a></h2>
+<p>通常IDE能够直接告诉你当前类型推断是什么，但是这往往针对类型比较简单的情况下。
+IDE能够显式这类信息是，其内部的compiler正在运行。如果这个compiler对当前情
+况进行足够的语法解析。那么IDE就难以给出这类信息。
+简单类型推断往往是快速准确的，但是涉及到比较复杂的推断，这种方式往往难以给出
+有效的信息。</p>
+<h2 id="during-compilation"><a class="header" href="#during-compilation">During Compilation</a></h2>
+<p>在编译过程中，可以通过故意制造编译错误，查看错误报告来获得推断结果。</p>
+<p>如下：</p>
+<pre><code>template&lt;typename T&gt;
+class TD;               //TD means &quot;Type Display&quot;.
+</code></pre>
+<p>这是一个未定义的模板，对该模板的实例化会导致编译时错误。</p>
+<p>比如：</p>
+<pre><code>int x;
+const int* y = &amp;x;
+TD&lt;decltype(x)&gt; xType;
+TD&lt;decltype(y)&gt; yType;
+</code></pre>
+<p>编译器报告编译错误：</p>
+<blockquote>
+<p>error C2079: 'xType' uses undefined class 'TD<int>'</p>
+</blockquote>
+<blockquote>
+<p>error C2079: 'yType' uses undefined class 'TD&lt;const int *&gt;'</p>
+</blockquote>
+<h2 id="at-runtime"><a class="header" href="#at-runtime">At Runtime</a></h2>
+<p>typeid与type_info支持程序识别自身的变量类型。
+如下:</p>
+<pre><code>std::cout&lt;&lt; typeid(x).name() &lt;&lt; std::endl;
+std::cout&lt;&lt; typeid(y).name() &lt;&lt; std::endl;
+</code></pre>
+<p>于VS环境下可以获得：<br />
+&gt;int</p>
+<blockquote>
+<p>int const *</p>
+</blockquote>
+<p>但是事情并没有这么简单，考虑以下例子：</p>
+<pre><code>template&lt;typename T&gt;                //function to show T and param.
+void f(const T&amp; param);
+
+std::vector&lt;Widget&gt; createVec();    //factory function.
+
+const auto vw = createVec();        
+
+if(!vw.empty()){
+    f(&amp;vw[0]);
+}
+</code></pre>
+<p>然后我们通过f来获得上面类型推断的结果：</p>
+<pre><code>template&lt;typename T&gt;
+void f(const T&amp; param){
+    std::coud &lt;&lt; &quot;T = &quot; &lt;&lt; typeid(T).name() &lt;&lt; '\n';
+    std::cout &lt;&lt; &quot;param = &quot; &lt;&lt; typeid(param).name() &lt;&lt; '\n';
+}
+</code></pre>
+<p>在VS中得到的结果如下：
+&gt;T = class Widget const *</p>
+<blockquote>
+<p>param = class Widget const *</p>
+</blockquote>
+<p>很显然T和param推断出的类型应该是不一样的，因为param是const T&amp;。
+所以type_info::name并不可靠，
+这是因为标准要求type_info::name对模板函数传入均使用by—value的方式。</p>
+<p>按照Item1，vw[0]的类型是一个const Widget&amp;，
+&amp;vw[0]的类型便是const Widget *,
+按值传递类型推断出T和ParamType均为const Widget *。</p>
+<blockquote>
+<p>此外还可以使用boost库</p>
+</blockquote>
+<h2 id="things-to-remember-3"><a class="header" href="#things-to-remember-3">Things to Remember</a></h2>
+<ul>
+<li>Deduced Types可以通过IDE，编译错误，以及type_info和Boost TypeIndex library查看.</li>
+<li>结果可能并不是那么有效或者精确的，所以Item1的内容是至关重要的。</li>
+</ul>
+<h1 id="item5-prefer-auto-to-explicit-type-declartions"><a class="header" href="#item5-prefer-auto-to-explicit-type-declartions">Item5: Prefer auto to Explicit Type Declartions</a></h1>
+<p>auto不仅能够减少拼写，同时也可以防止手写类型带来的性能和正确性问题。
+有时，auto带来的类型推断契合于当前算法，但从程序的角度来说，却是错的。
+所以引导auto得到想要的类型是十分关键的。</p>
+<h2 id="auto-make-code-more-robust"><a class="header" href="#auto-make-code-more-robust">auto Make Code More Robust</a></h2>
+<p>比如：</p>
+<pre><code>int x；  // do not initialize x.
+</code></pre>
+<p>这行代码为初始化x，所以x可能是未定义的，也有可能是值初始化的，具体看环境。</p>
+<pre><code>template&lt;typename It&gt;
+void dwim(It b, It e) {
+    for(;b != e; ++b) {
+        typename std::iterator_traits&lt;It&gt;::value_type
+        currValue = *b;         // Dereferce b and assgin it to currValue;
+        ...
+    }
+}
+</code></pre>
+<p>这段代码用到了traits，仅仅是声明一个变量便要用到traits等模板编程技巧，易错而且复杂。
+再看使用auto的实现版本：</p>
+<pre><code>auto x；  // Wrong！ do not initialize x.
+
+template&lt;typename It&gt;
+void dwim(It b, It e) {
+    for(;b != e; ++b) {
+        auto currValue = *b;         // Dereferce b and assgin it to currValue;
+        ...
+    }
+}
+</code></pre>
+<p>auto类型推断是从initializer开始的，所以auto修饰变量必须初始化，避免了局部变量未初始化带来
+的未定义行为。</p>
+<p>auto类型推断大大减少了各类typename的声明。</p>
+<p>同时auto还能推断出那些只有编译器才能表达的类型，比如lambda，见下：</p>
+<pre><code>auto derefUPLess =                              // Compare *p1 and *p2
+    [](const std::unique_ptr&lt;Widget&gt;&amp; p1,
+       const std::unique_ptr&lt;Widget&gt;&amp; p2)
+       { return *p1 &lt; *p2; };
+</code></pre>
+<p>在C++14中，Lambda的参数也可以用auto表示（注意本质是模板）</p>
+<pre><code>auto derefUPLess =                              // Compare *p1 and *p2
+    [](auto&amp; p1, auto&amp; p2)
+       { return *p1 &lt; *p2; };
+</code></pre>
+<h2 id="whats-a-stdfunction-object"><a class="header" href="#whats-a-stdfunction-object">What's a std::function Object</a></h2>
+<p>std::function是C++11泛化化函数指针的产物。函数指针只能指向同型函数，但是
+std::function可以代表任何callable对象。</p>
+<pre><code>bool(const std::unique_ptr&lt;Widget&gt;&amp; p1,     // Signature for comparison function.
+     const std::unique_ptr&lt;Widget&gt;&amp; p2)
+
+std::function&lt;(const std::unique_ptr&lt;Widget&gt;&amp; p1,
+       const std::unique_ptr&lt;Widget&gt;&amp; p2)&gt; func     // Create func.
+</code></pre>
+<p>lambda表达式是一个callable对象，所以也可以通过std::function refer to。</p>
+<pre><code>std::function&lt;(const std::unique_ptr&lt;Widget&gt;&amp; p1,
+       const std::unique_ptr&lt;Widget&gt;&amp; p2)&gt; 
+    derefUPLess = [](const std::unique_ptr&lt;Widget&gt;&amp; p1,
+       const std::unique_ptr&lt;Widget&gt;&amp; p2)
+       { return *p1 &lt; *p2; };
+</code></pre>
+<p>所以std::function是可以替代auto的。</p>
+<p>但是可见，拼写复杂度auto远低于std::funtion。更重要的是，
+auto储存lambda表达式的闭包所需的空间与闭包大小相同，
+然而std::function相当于实例模板产生了一个function对象，其中一个固定空间的变量储存有闭包，
+当这个空间不足以包含这个闭包，function的构造函数在heap上为闭包申请空间。
+所以std::function往往比auto占用更多的内存。
+同时由于函数调用等等原因，std::function总比auto要慢，还有可能造成内存耗尽的异常。
+测试如下：</p>
+<pre><code>clock_t beg, ed;
+beg = clock();
+for (int i = 0; i &lt; 100000; ++i) {
+    auto f = [](vector&lt;int&gt; v1, vector&lt;int&gt; v2) {return v1.size() &gt; v2.size(); };
+}
+ed = clock();
+cout &lt;&lt; &quot;do not use auto:&quot; &lt;&lt; ed - beg &lt;&lt; endl;
+beg = clock();
+for (int i = 0; i &lt; 100000; ++i) {
+    std::function&lt;bool(vector&lt;int&gt; v1, vector&lt;int&gt; v2)&gt; f =
+        [](vector&lt;int&gt; v1, vector&lt;int&gt; v2) {return v1.size() &gt; v2.size(); };
+}
+ed = clock();
+cout &lt;&lt; &quot;use auto:&quot; &lt;&lt; ed - beg &lt;&lt; endl;
+</code></pre>
+<blockquote>
+<p>do not use auto:1</p>
+</blockquote>
+<blockquote>
+<p>use auto:112</p>
+</blockquote>
+<h2 id="auto-prevents-type-shortcuts"><a class="header" href="#auto-prevents-type-shortcuts">auto Prevents &quot;type shortcuts&quot;</a></h2>
+<pre><code>std::vector&lt;int&gt; v;
+unsigned sz = v.size();
+</code></pre>
+<p>v.size()的返回值应该是std::vector<int>::size_type, 
+在32位系统中，size_type和unsigned长度一致，均为32位。
+但在64位系统中，则不，size_type为64位。
+所以这行代码不具有移植性。
+auto则没有任何问题。</p>
+<pre><code>std::unordered_map&lt;std::string, int&gt; m;
+
+for(const std::pair&lt;std::string,int&gt;&amp; p : m) {
+    ...
+}
+</code></pre>
+<p>这部分代码也有错误，因为std::unordered_map的key部分是const的，
+所以遍历类型应该是std::pair&lt;const std::string,int&gt;。
+所以上述代码相当于通过拷贝每个pair产生一个std::pair<a href="std::string,int">std::string,int</a>的临时对象，
+然后p指向该对象。测试如下：</p>
+<pre><code>std::unordered_map&lt;std::string, int&gt; m{ make_pair(&quot;123&quot;,1) };
+clock_t beg, ed;
+beg = clock();
+for (int i = 0; i &lt; 100000; ++i) {
+    for (const std::pair&lt;std::string, int&gt;&amp; p : m);     // Copy element.
+}
+ed = clock();
+cout &lt;&lt; &quot;do not use auto:&quot; &lt;&lt; ed - beg &lt;&lt; endl;
+beg = clock();
+for (int i = 0; i &lt; 100000; ++i) {
+    for (auto&amp; p : m);
+}
+ed = clock();
+cout &lt;&lt; &quot;use auto:&quot; &lt;&lt; ed - beg &lt;&lt; endl;
+</code></pre>
+<blockquote>
+<p>do not use auto:464</p>
+</blockquote>
+<blockquote>
+<p>use auto:143</p>
+</blockquote>
+<p>这不仅仅带来的是性能上的提升，更多的是程序的合理性与正确性。
+对p取地址：前者带来的是对临时对象，后者是对m中元素。
+临时对象将会过程结束后销毁，带来指针操作上的隐患。</p>
+<p>显式的拼写类型经常会带来类型转换和类型不匹配，带来性能和可靠性上的损耗。</p>
+<p>同时auto也降低了重构成本，比如一个函数的返回值为int，而后改成long，
+显式声明需要修改所有位置，而auto自动更新。</p>
+<p>很显然auto也并不完美，auto类型推断依赖于initializer，
+initializer expression可能并不是我们想要的类型。
+同时auto也带来了可读性上的问题。</p>
+<h2 id="things-to-remember-4"><a class="header" href="#things-to-remember-4">Things to Remember</a></h2>
+<ul>
+<li>auto使得变量必须初始化，免疫了类型不匹配带来的转换，进一步防止转换带来的可靠性和性能的问题，
+方便于重构代码，减小拼写成本。</li>
+<li>auto的使用也容易陷入一些陷阱，见Item2和Item6。</li>
+</ul>
+<h1 id="item6-use-the-explicitly-type-initializer-idiom-when-auto-deduce-undesired-types"><a class="header" href="#item6-use-the-explicitly-type-initializer-idiom-when-auto-deduce-undesired-types">Item6: Use the Explicitly Type Initializer Idiom When auto Deduce Undesired Types</a></h1>
+<h2 id="proxy-class"><a class="header" href="#proxy-class">Proxy class</a></h2>
+<p>auto具有许多优点，但是某些情况下，auto会产生一个非期望的结果。如下：</p>
+<pre><code>vector&lt;bool&gt; features(const Widget&amp; w);     // A function return a vector&lt;bool&gt;.
+</code></pre>
+<p>bool的vector是一个特化类型，其中bool的存储是bit级别的。比如bit5指代了Widget优先级。</p>
+<pre><code>Widget w;
+...
+bool highPriority = features(w)[5];        // Get the Priority of w.
+...
+process(w,highPriority);            // Do something with w.
+</code></pre>
+<p>这段代码没有任何问题。但如果使用auto去声明highPriority。</p>
+<pre><code>auto highPriority = features(w)[5];        // Is auto giving the right type.
+
+process(w,highPriority);            // Undefined behaviour.
+</code></pre>
+<p>该代码的运行结果是不确定的。</p>
+<p>因为vector<bool>是vector的一个特化类型。出于储存空间的考虑，bool只是概念性的存在于vector容器中，
+operator[]返回的并不是bool reference to element，而是vector<bool>::reference。这是一个嵌套在vector<bool>中的类。</p>
+<blockquote>
+<p>The std::vector<bool> specialization defines std::vector<bool>::reference as a publicly-accessible nested class.</p>
+</blockquote>
+<p>bool在vector<bool>中的存在方式是一个个的bit位。所以operator[]返回的是一个行为类似于bool的对象，该对象于bool之间存在隐式转换。
+所以</p>
+<pre><code>bool highPriority = features(w)[5];
+auto highPriority = features(w)[5]; 
+</code></pre>
+<p>前者触发了隐式转换，而后者并没有。后者的值取决于std::vector<bool>::reference的实现。</p>
+<p>比如reference中包含了一个指示bit位置的指针。由于features返回了一个vector<bool>的对象，该对象是临时的调用了operator[]，最终highPriority被初始化为reference。然而待语句结束后，vector<bool>的临时对象已经消失，highPriority中的指针悬空，造成了未定义行为(比如而后发生了bool的隐式转换)。</p>
+<pre><code>process(w,highPriority);            // Undefined behaviour. highPriority implicit 
+                                       convert to bool with dangling pointer.
+</code></pre>
+<p>proxy class: 代理类，是为了模仿和补强某些类型存在的。比如std::vector<bool>::reference对于bool和智能指针对于raw指针。
+有些代理类是暴露给用户的，比如智能指针，有些是隐藏的，比如std::vector<bool>::reference。</p>
+<p>某些C++库中，使用一种expression templates的技术。见下表达式:</p>
+<pre><code>Matrix sum = m1 + m2 + m3 + m4;
+</code></pre>
+<p>可以直接实现运算符重载operator+返回一个Matrix对象，这样一来每个operator+都会产生一个临时变量，</p>
+<p>但是使用expression templates技术可以提高效率。operator+不再返回一个Matrix对象，而是返回一个proxy class比如Sum&lt;Matrix，Matrix&gt;，这是一个可以隐式转换为Matrix对象的类，同时还允许Sum从表达式初始化，means：</p>
+<pre><code>Sum&lt;Sum&lt;Sum&lt;Matrix，Matrix&gt;，Matrix&gt;，Matrix&gt;
+</code></pre>
+<p>这样一来，减少了临时变量的拷贝和生成，这项使用显然是对用户隐藏的。</p>
+<p>auto与invisable proxy class的相性不好，因为大多数invisible proxy class都是设计为短寿命的。</p>
+<p>所以应该避免以下情况:</p>
+<pre><code>auto tmp = expression of invisable proxy class type;
+</code></pre>
+<h2 id="how-to-recognize-the-proxy-class-type"><a class="header" href="#how-to-recognize-the-proxy-class-type">How to Recognize the Proxy Class Type</a></h2>
+<p>一是通过文档，二是通过源码。熟悉类的设计，可以大幅降低这方面的错误。</p>
+<ul>
+<li>explicitly typed initializer idiom</li>
+</ul>
+<p>auto并不是无法用在proxy class上的，如下：</p>
+<pre><code>auto highPriority = static_cast&lt;bool&gt;(features(w)[5]);
+</code></pre>
+<p>feature(w)[5]返回了一个std::vector<bool>::operator[],然后应用强制转换成bool。
+由于是在同一个语句中进行的，所以不会出现上述所言的悬空指针的情况，便不会出现undefined behaviour。
+最后auto进行类型推断即可。</p>
+<p>同时显式类型初始化语句也可以用于强调转换，使得某些隐式转换不被忽略。比如：</p>
+<pre><code>double calcEpsilon();       // Return tolerance value.
+auto ep = static_cast&lt;float&gt;(calcEpsilon());
+</code></pre>
+<h2 id="things-to-remember-5"><a class="header" href="#things-to-remember-5">Things to Remember</a></h2>
+<ul>
+<li>&quot;invisable&quot; proxy class types 可以造成auto类型推断出“某种意义上不对”的类型。</li>
+<li>explicitly typed initializer idiom可以防止上述错误的发生。</li>
+</ul>
+<h1 id="item7-distinguish-between--and--when-creating-objects"><a class="header" href="#item7-distinguish-between--and--when-creating-objects">Item7: Distinguish Between () and {} when creating objects</a></h1>
+<p>在modern C++中，初始化从语法上分类在大致有以下三种：parentheses、equals、braces。</p>
+<pre><code>int x(0);       // Initializer is an int parentheses.
+int y = 0;      // Initializer follows '='.
+int z{ 0 };     // Initializer is in braces.
+</code></pre>
+<p>还可以见到：</p>
+<pre><code>int z = { 0 }；      // Initializer uses '=' and braces.
+</code></pre>
+<p>这种情况在C++中和只用braces是一样的。</p>
+<h2 id="initialization-is-not-assignment"><a class="header" href="#initialization-is-not-assignment">Initialization is not Assignment</a></h2>
+<p>首先必须意识到，initialization并不是assignment。对于built-in类型，没有什么问题；但对于定义型的类型
+区别赋值和初始化在于调用的函数的不同。</p>
+<pre><code>Widget w1;          // Call default constructor.
+Widget w2 = w1;     // Not an assignment; calls copy constructor.
+w1 = w2;            // Assignment, calls copy assignment(operator=).
+</code></pre>
+<h2 id="uniform-initialization"><a class="header" href="#uniform-initialization">Uniform Initialization</a></h2>
+<p>在C++98时期，没有语法支持一些初始化，比如STL容器内一系列值的初始化。
+C++11为了解决这类问题，引入了一个uniform initialization，至少在概念上可以运用于所有初始化场景的初始化语法。在概念上可以称为&quot;uniform initialization&quot;,在句法上可以称为&quot;braced initialization&quot;。
+比如：</p>
+<pre><code>std::vector&lt;int&gt; v{ 1, 2, 3 };      // Initialize the vector with a particular set                                       // of value.
+</code></pre>
+<p>Braced-initialization还可以用于类成员非static对象的默认初始化。</p>
+<pre><code>class ex {
+    ...
+private:
+    int x{ 0 };     // Fine, braced-initialization.
+    int y = 0;      // Fine, copy-initialization.
+    int z(0);       // Wrong!
+};
+</code></pre>
+<p>另一方面，不可复制对象(uncopyable)也可以用braced-initialization。</p>
+<pre><code>std::atomic&lt;int&gt; ai1{ 0 };      // Fine.
+std::atomic&lt;int&gt; ai2(0);        // Fine.
+std::atomic&lt;int&gt; ai3 = 0;       // Wrong! Connot copy-initialization.
+</code></pre>
+<p>从上面的例子可以看出braced-initialization在所有情况的初始化下都是适用的。</p>
+<p>值得注意一点：braced-initialization是不允许进行隐式缩窄转换(implicit narrowing convertion)。
+(但是在clang中可以啊。。。)</p>
+<pre><code>double x, y;
+int sum1{ x + y};       // Error! Requiring a narrowing convertion. 
+int sum2(x + y);        // Fine.
+int sum3 = x + y;       // Fine.
+</code></pre>
+<p>还有一点有价值的内容是关于默认构造函数的。</p>
+<pre><code>Widget w1(10);          // Calls the constructor with one argument 10.
+Widget w2();            // Declare a function that return type is Widget, Do not                             // Calls the default constructor.
+Widget w3{};            // Calls the default constructor.
+</code></pre>
+<p>可以看出braced-initialization防止了一些语法习惯带来的意外。</p>
+<h2 id="some-superising-behaviour-about-braced-initialization"><a class="header" href="#some-superising-behaviour-about-braced-initialization">Some Superising Behaviour About Braced-initialization</a></h2>
+<p>由于braced-initialization和std::initialize_list之间纠缠的关系，braced-initialization会出现一些出乎意料的情况。比如Item2中所言的auto问题（在C++17中有更改）。还有就是涉及到构造函数的调用问题：</p>
+<pre><code>class Widget{
+public:
+    Widget(int i, bool b);
+    Widget(int i, double b);
+    ...
+};
+
+Widget w1(10, true);        // Calls first ctor.
+Widget w2{10, true};        // Calls first ctor.
+Widget w3(10, 5.0);         // Calls second ctor.
+Widget w4{10, 5.0};         // Calls secong ctor.
+</code></pre>
+<p>如果说构造函数中没有涉及到任何initializer_list的parameter，那么{}和()的对于ctor的调用行为是一致的。
+但是如果涉及了initializer_list的parameter，情况就不一样了：</p>
+<pre><code>class Widget{
+public:
+    Widget(int i, bool b);
+    Widget(int i, double b);
+    Widget(std::initializer_list&lt;long double&gt; il);  // Initializer_list parameter.
+    ...
+};
+
+Widget w1(10, true);        // Calls first ctor.
+Widget w2{10, true};        // Calls third ctor. 
+                            // 10 and true will convert to long double.
+Widget w3(10, 5.0);         // Calls second ctor.
+Widget w4{10, 5.0};         // Calls third ctor. 
+                            10 and 5.0 will convert to long double.
+</code></pre>
+<p>在这种情况下，w2和w4会优先调用新的构造函数，即使该构造函数显然没有其他函数更加匹配传入参数的形式。
+甚至拷贝和移动构造函数也会被Initializer_list-parameter-ctor劫持。</p>
+<p>？？？此处貌似和程序验证不符合，未查明原因(MSVC和clang均不符合)</p>
+<pre><code>class Widget{
+public:
+    Widget(int i, bool b);
+    Widget(int i, double b);
+    Widget(std::initializer_list&lt;long double&gt; il);  // Initializer_list parameter.
+    operator float() const;         // Convert to float.
+    ...
+};
+
+Widget w5(w4);              // Calls copy-ctor.
+Widget w6{ w4 };              // Calls Initializer_list-parameter-ctor.
+                            // w4 converts to float through operator float()
+                            // then converts to long double.
+Widget w7(std::move(w4));       // Calls move-ctor.
+Widget w8{ std::move(w4) };     // Calls Initializer_list-parameter-ctor.
+                                // w4 converts to float through operator float()
+                                // then converts to long double.
+</code></pre>
+<h2 id="initializer_list-and-constructor"><a class="header" href="#initializer_list-and-constructor">Initializer_list and Constructor.</a></h2>
+<p>当一个non-aggregate class类型braced-initialization，重载方案选择遵守以下两条规则：</p>
+<ul>
+<li>如果有initializer-list ctor，则候选函数只有initializer-list ctor，并且{}列表至少有一个元素
+则整个参数列表作为initializer_list传入ctor。</li>
+<li>如果没有initializer-list ctor匹配(包含转换)，其他所有构造函数都可以成为候选函数，参数列表分开传入ctor。</li>
+</ul>
+<p>如果{}为空并且类有默认构造函数，则跳过前一条原则。
+如果是copy-list-initialization，如果选拔出的ctor是explicit的，则ill-formed。</p>
+<pre><code>class Widget{
+public:
+    Widget(int i, bool b);
+    Widget(int i, double b);
+    Widget(std::initializer_list&lt;bool&gt; il);  // Initializer_list parameter.
+    ...
+};
+
+Widget w{ 1, 5.0 };         // error! Requires narrowing conversion.
+</code></pre>
+<p>如上即使这里拥有完美配对的Widget(int i, double b)，但是该构造函数不在候选之中，
+反而是使用了initializer_list ctor，同时缩窄转换带来错误。</p>
+<p>如果初始化列表中的元素与initializer_list的元素不存在转换，则符合原则二：</p>
+<pre><code>class Widget{
+public:
+    Widget(int i, bool b);
+    Widget(int i, double b);
+    Widget(std::initializer_list&lt;string&gt; il);  // Initializer_list parameter.
+    ...
+};
+
+Widget w{ 1, 5.0 };         // Fine. Use non-initializer_list constructor.
+</code></pre>
+<p>由于1和5.0无法隐式转换为string，所以候选才加入了前两个构造函数。</p>
+<p>接着如果是空的初始化列表并且有默认构造函数，则跳过原则一：</p>
+<pre><code>class Widget{
+public:
+    Widget()；           // Default constructor.
+    Widget(std::initializer_list&lt;string&gt; il);  // Initializer_list parameter.
+    ...
+};
+
+Widget w1;          // Call the default ctor.
+Widget w2{};        // Call the default ctor.
+Widget w3();        // Define a function that return Widget.
+Widget w4({});      // Call the initializer_list one.
+Widget w5{{}};      // ditto.
+</code></pre>
+<p>在设计类的构造函数时应该尽量避免和vector类似的情况：</p>
+<pre><code>std::vector&lt;int&gt; v1{ 10, 20 };  // Initialize v1 with two elements in the list.
+
+std::vector&lt;int&gt; v2(10, 20);    // Initialize v2 with ten elements (20).
+</code></pre>
+<p>设计类时应当尽量使用户不论使用{}还是()都获得一样的结果。比如，原本类中不含有initializer_list ctor，但是后来添加了，如果像vector一样的设计，会导致原本用户的代码调用不同的构造函数。这与普通的重载不一样，因为initializer_list ctor总是trump其他构造函数，导致更大的问题。</p>
+<h2 id="choose-braces-or-parentheses"><a class="header" href="#choose-braces-or-parentheses">Choose Braces or Parentheses</a></h2>
+<p>作为类用户，选择Braces和Parentheses有两种方法，以其中一个为主，不到万不得已时使用另一个，并且持之以恒。
+两种方法各有所长。</p>
+<p>作为模板类设计，这个选择便十分关键了，见下：</p>
+<pre><code>template&lt;typename T, typename... Ts&gt;
+void doSome(Ts&amp;&amp;... params) {
+    create local object from params.
+}
+</code></pre>
+<p>可以有以下两种实现：</p>
+<pre><code>T localobj(std::forward(params)...);        // Using paren.
+T localobj{ std::forward(params)... };      // Using brace.
+</code></pre>
+<p>对于vector就会产生不同的效果：</p>
+<pre><code>doSome&lt;std::vector&lt;int&gt;&gt;(10, 20);
+</code></pre>
+<p>前者生成10个元素，初始化为20；后者生成2个元素，初始化为10、20。
+这个问题，在标准库设计中也存在，std::make_shared和std::make_unique。</p>
+<h2 id="things-to-remember-6"><a class="header" href="#things-to-remember-6">Things to Remember</a></h2>
+<ul>
+<li>braced-initialization可以应用到更广泛的情景，避免缩窄转换(clang好像并不会)，避免某个混淆语句。</li>
+<li>注意构造函数重载中，initializer_list constructor的特殊。</li>
+<li>std::vector&lt; numeric type&gt;构造在选用{}和()的不同。</li>
+<li>关注模板中使用{}和()进行实现的不同。</li>
+</ul>
+<h1 id="item8-prefer-nullptr-to-0-and-null"><a class="header" href="#item8-prefer-nullptr-to-0-and-null">Item8: Prefer <em>nullptr</em> to 0 and <em>NULL</em></a></h1>
+<p>在C++中，字面值0是一个int，在contxet中，0有可能被解释为null pointer。
+但是这是后置位的情形，0依旧是一个int而不是null pointer。</p>
+<p>NLL这个宏依赖于实现，有可能是int(0),也有可能是long(0)，NULL对于指针也具有一样的问题。</p>
+<p>在C++98中，对于指针和整数的参数重载具有存在陷阱：</p>
+<pre><code>void f(int);
+void f(bool);
+void f(void*);
+
+f(0);       // Call f(int).
+
+f(NULL);    // Depend on implementation, might not complie. but  
+            // never calls f(void*).
+</code></pre>
+<p>因为NULL的实现可以是0，也可以是0L，而0L转换给void*，int，bool是平等的，导致歧义，造成报错。</p>
+<p>另一方面，nullptr的好处在于其不具有整数值，它能够转换为指向任意类型的null pointer。使用nullptr，就能避免上述的重载问题。</p>
+<pre><code>f(nullptr)  // Call f(void*).
+</code></pre>
+<p>同时使用nullptr，也可以增强代码可读性。</p>
+<pre><code>auto result = find(/*arg*/);
+
+if(result != 0)...
+
+if(result != nullptr)...
+</code></pre>
+<p>很显然下面的代码表面了result是一个指针。</p>
+<p>当模板进入代码时，nullptr的作用更加明显：</p>
+<pre><code>int f1(std::shared_ptr&lt;Widget&gt; spw);
+double f2(std::unique_ptr&lt;Widget&gt; upw);
+bool f3(Widget* pw);
+
+std::mutex f1m, f2m, f3m;
+
+using MuxGuard = std::lock_guard&lt;std::mutex&gt;;
+...
+{
+    MuxGuard g(f1m);
+    auto result = f1(0);
+}
+...
+{
+    MuxGuard g(f2m);
+    auto result = f2(NULL);
+}
+...
+{
+    MuxGuard g(f3m);
+    auto result = f3(nullptr);
+}
+</code></pre>
+<p>以上代码具有高度的重复性，可以将其模板化：</p>
+<pre><code>template&lt;typename FuncType, typename MuxType, typename PtrType&gt;
+decltype(auto) lockAndCall(FuncType func,
+                            MuxType mutex,
+                            PtrType ptr) {
+    using MuxGuard = std::lock_guard&lt;MuxType&gt;;
+    MuxGuard g(mutex);
+    return func(ptr);
+}
+
+auto result1 = lockAndCall(f1, f1m, 0);         // error!
+auto result1 = lockAndCall(f2, f2m, NULL);      // error!
+auto result1 = lockAndCall(f3, f3m, nullptr);   // fine!
+</code></pre>
+<p>在第一个模板函数中，PrtType被推断为int，这就导致在模板内部func要接收一个int，
+对于f1来说，相当于用一个int去初始化shared_ptr&lt;Widget&gt;，这是错误的(因为0可以指代指针，但是int是不可以的)，对于第二个也是类似的情况。</p>
+<p>而nullptr是没有这方面的问题的。传入nullptr时，PrtType被推断为std::nullptr_t。而nullptr_t是可以转化为Widget*和shared_ptr&lt;Widget&gt;的。</p>
+<h2 id="things-to-remember-7"><a class="header" href="#things-to-remember-7">Things to Remember</a></h2>
+<ul>
+<li>使用nullptr代替NULL和0。</li>
+<li>避免重载整数和指针类型。</li>
+</ul>
+<h1 id="item9-prefer-alias-declarations-to-typedefs"><a class="header" href="#item9-prefer-alias-declarations-to-typedefs">Item9: Prefer Alias Declarations to typedefs</a></h1>
+<p>别名是C++减少长类型名拼写的有效手段。<br />
+在C++98中：</p>
+<pre><code>typedef std::unique_str&lt;std::unordered_map&lt;std::string, std::string&gt;&gt; UPtrMapSS;
+</code></pre>
+<p>而在C++11中：</p>
+<pre><code>using UPtrMapSS = std::unique_str&lt;std::unordered_map&lt;std::string, std::string&gt;&gt;；
+</code></pre>
+<p>以上两例，无法看出typedef和using的区别与差距，也看不出using的优势。<br />
+但是当我们想为某些类型，比如函数指针、数组等起别名时，语义的表达性就不一样了：</p>
+<pre><code>typedef void (*fp)(int, const std::string&amp;);     // typedef.
+
+using fp = void(*)(int, const std::string&amp;);     // alias declaraiton.
+</code></pre>
+<p>显然using对于fp的表达更加直观，但这仍然不是alias declaration优于typedef的绝对理由。</p>
+<h2 id="about-template-alias"><a class="header" href="#about-template-alias">About Template Alias</a></h2>
+<p>using可以用于template(alias templates)，而typedef不可以。<br />
+传统的将别名用于模板的做法是为typedef加上一层struct的封装：</p>
+<pre><code>template&lt;typename T&gt;
+typedef std::list&lt;T, MyAlloc&lt;T&gt;&gt; MyAllocList;   // error! canot typedef.
+
+template&lt;typename T&gt;
+struct MyAllocList {
+    typedef std::list&lt;T, MyAlloc&lt;T&gt;&gt; type;      // Add struct outside. 
+}
+
+MyAllocList&lt;Widget&gt;::type lw;           // Client code.
+
+template&lt;typename T&gt;
+using MyAllocList = std::list&lt;T, MyAlloc&lt;T&gt;&gt; ;   // Fine.
+
+MyAllocList&lt;Widget&gt; lw;                 // Client code.
+</code></pre>
+<p>using与typedef在用户代码上的差距就表现出来了。除此之外，还有一个using优于typedef的方面
+，当我们在template中使用'typedef型'的模板别名时，::type是dependent type，编译器无法知道这是不是一个类型，就必须加typename来指示该名为类型成员：</p>
+<pre><code>template&lt;typename T&gt;
+class Widget {
+private:
+    typename MyAllocList&lt;T&gt;::type list;
+}
+</code></pre>
+<p>而using不需要外部封装，就没有这方面的问题：</p>
+<pre><code>template&lt;typename T&gt;
+class Widget {
+private:
+    MyAllocList&lt;T&gt; list;
+}
+</code></pre>
+<p>MyAllocList是一个类型别名，所以MyAllocList<T>必须是一个类型，而不是变量，所以MyAllocList<T>是non-dependent type，所以typename是可以忽略的。<br />
+再看以下代码：</p>
+<pre><code>class Wine { ... };
+
+template&lt;&gt;                      // A specialization of MyAllocList.
+class MyAllocList&lt;Wine&gt; {       // when T is wine.
+private:
+    enum class WineType
+    { White, Red, Rose };       // Here type is data member, not type member.
+    WineType type;
+    ...
+}
+</code></pre>
+<p>可以看到这里type是一个数据成员，而不是类型成员。如果Widget对T = Wine生成一个实例。那么::type
+在Widget模板中就是一个数据名。这就是为何需要typename的原因。</p>
+<p>C++11中提供了一系列类型处理的功能模板(base on TMP),&lt;type_traits&gt;</p>
+<pre><code>std::remove_const&lt;T&gt;::type              // Yields T from const T.
+std::remove_reference&lt;T&gt;::type          // Yields T from T&amp;.
+std::add_lvalue_reference&lt;T&gt;::type      // Yields T&amp; from T.
+</code></pre>
+<p>这些模板的实现都是依赖于内嵌typedef的。</p>
+<p>C++14给了更好的实现，依赖于using:</p>
+<pre><code>std::remove_const_t&lt;T&gt;              // Yields T from const T.
+std::remove_reference_t&lt;T&gt;          // Yields T from T&amp;.
+std::add_lvalue_reference_t&lt;T&gt;      // Yields T&amp; from T.
+
+template&lt;typename T&gt;
+using remove_const_t = typename remove_const&lt;T&gt;::type;
+
+template&lt;typename T&gt;
+using remove_reference_t = typename remove_reference&lt;T&gt;::type;
+
+template&lt;typename T&gt;
+using add_lvalue_reference_t = typename add_lvalue_reference&lt;T&gt;::type;
+</code></pre>
+<h2 id="things-to-remember-8"><a class="header" href="#things-to-remember-8">Things to Remember</a></h2>
+<ul>
+<li>typedefs不支持模板化，但是using支持。</li>
+<li>alais template避免了嵌套和::type的后缀，注意typename对于dependent type的作用。</li>
+<li>C++14提供了traits的更好的实现。</li>
+</ul>
+<h1 id="item10-prefer-scoped-enums-to-unscoped-enums"><a class="header" href="#item10-prefer-scoped-enums-to-unscoped-enums">Item10: Prefer Scoped Enums to Unscoped Enums</a></h1>
+<h2 id="scoped-and-avoid-converting"><a class="header" href="#scoped-and-avoid-converting">Scoped and Avoid Converting</a></h2>
+<p>在一般的原则下，一个block{}代表了一个scope。但是enum是例外的，enum中的变量的作用域在enum所在的域中。</p>
+<pre><code>enum Color { black, white, red };       // black, white..has the same scope as Color.
+
+auto white = false;                     // error! white already declared in Color.
+</code></pre>
+<p>C++11中，提供了更加符合常理的enum：scoped-enum。</p>
+<pre><code>enum class Color{ black, white, red };  // black, white...are scoped in Color.
+
+auto white = false;                     // Fine. 
+
+Color cc = white;                       // error, white is bool.
+
+Color cc = Color::white;                // Fine.
+
+auto cc = Color::white;                 // cc is Color.
+</code></pre>
+<p>通过scoped-enum来防止枚举变量的泄露。</p>
+<p>同时enum具有和整型之间的隐式转换，而enum class则没有。</p>
+<pre><code>enum Color { black, white, red };
+std::vector&lt;std::size_t&gt; primeFactors(std::size_t x);
+
+Color cc =red;
+
+if(cc &lt; 14.5) {
+    auto factors = primeFactors(cc);        // Implicitly convert happen.
+}
+
+enum class Color { black, white, red };
+
+Color cc = Color::red;
+
+if(cc &lt; 14.5) {                             // error! cannot convert.
+    auto factors = primeFactors(cc);        // error! cannot convert.
+}
+
+if(static_cast&lt;double&gt;(cc) &lt; 14.5) {        // Fine.
+    auto factors = primeFactors(static_cast&lt;std::size_t&gt;(cc));  // Fine.    
+}
+</code></pre>
+<h2 id="forward-enum-declaration"><a class="header" href="#forward-enum-declaration">Forward enum Declaration.</a></h2>
+<p>注意enum是一个编译期确定的量，scoped-enum的另一个优越性就是可以进行前置声明。</p>
+<pre><code>enum Color;         // error！ cannot forward-declaration.
+
+enum class Color;   // Fine.
+</code></pre>
+<p>这是不完全的，因为enum在C++11中也可以通过一些额外动作使得其可以进行前置声明。前置声明的好处在于可以减少编译。比如存在以下头文件：</p>
+<pre><code>// file locstring.h
+#include &lt;string&gt;
+enum localized_string_id
+{
+/* very long list of ids */
+};
+
+std::istream&amp; operator&gt;&gt;(std::istream&amp; is, localized_string_id&amp; id);
+std::string get_localized_string(localized_string_id id);
+</code></pre>
+<p>可以看到下方的两个函数是依赖于enum的。如果localized_string_id中的变量是频繁改变的。那所有包含了该头文件的组件都要重新编译，这要付出很高的成本。</p>
+<p>如果使用前置声明，就可以直接在头文件中保留前置声明部分，并且为每一个编译单元实现各自的enum（注意enum是编译期确定的），一些不依赖于新加入的enumerator的单元就可以不用再次进行编译了。</p>
+<h2 id="underlying-type"><a class="header" href="#underlying-type">Underlying-Type</a></h2>
+<p>之所以在C++98中没有前置声明，是因为enum实现类似于一个打包宏定义。</p>
+<pre><code>enum Color { black, white, red};
+
+#define black 0;
+#define white 1;
+#define red 2;
+</code></pre>
+<p>所以enum其实是有一个底层实现的intergal type的，可以是int，char...具体依赖于编译器自己实现的。</p>
+<p>unscoped-enum是不确定的，但是scoped-enum是确定的，默认为int，但是在c++11后，enum也可以进行强类型的声明。</p>
+<pre><code>enum class status;      // Underlying type is int.
+
+enum status;            // Unknown.
+
+enum class status :uint8_t;     // Underlying type is uint8_t.
+
+enum status :uint8_t;           // Underlying type is uint8_t.
+</code></pre>
+<h2 id="where-unscoped-enum-is-better-than-scoped-enum"><a class="header" href="#where-unscoped-enum-is-better-than-scoped-enum">Where Unscoped-enum is Better Than Scoped-enum</a></h2>
+<p>虽然scoped-enum具有许多优点：防止隐式转换，防止命名空间的污染，具有前置声明之类的。但是有一个地方enum比scoped-enum更加适用-tuple：</p>
+<pre><code>using UserInfo = std::tuple&lt;string,     // Name. 
+                            string,     // Email.
+                            size_t&gt;     // Reputation.
+
+UserInfo uInfo;     // Object of UserInfo.
+auto val = std::get&lt;1&gt;(uInfo);      // Get the field 1-email.
+</code></pre>
+<p>就和注释中所言，字段1代表了uInfo的email，但是1代表email总是不直观的。</p>
+<pre><code>enum UserInfoField { uiName, uiEmail, uiReputation };
+auto val = std::get&lt;uiEmail&gt;(uInfo);        // Get the field uiemail.
+</code></pre>
+<p>这就利用了enum的隐式转换，使用scoped-enum显然就要费事的多。</p>
+<p>或许可以通过外加的包装实现更简单的语法，但是注意field-1是一个template parameter，这意味着值需要在编译期间确定，enum具有这样的能力（或者宏），所以这层包装就需要用到constexpr function:</p>
+<pre><code>template&lt;typename E&gt;
+constexpr auto
+toUType(E enumerator) noexcept {
+    return static_cast&lt;typename 
+        std::underlyting_type&lt;E&gt;::type&gt;(enumerator);
+}
+
+enum class UserInfoField { uiName, uiEmail, uiReputation };
+
+auto val = std::get&lt;toUType(uiEmail)&gt;(uInfo);
+</code></pre>
+<p>即使加上封装，还是不如enum来的简单，但是这又避免了污染命名空间。</p>
+<h2 id="things-to-remember-9"><a class="header" href="#things-to-remember-9">Things to Remember</a></h2>
+<ul>
+<li>scoped-enum不会污染命名空间，而且只能通过cast转换为其他类型。</li>
+<li>scoped-enum和unscoped-enum都具有指定underlying-type的方法，不同的是，scoped-enum具有默认的int，而unscoped-enum没有。</li>
+<li>scoped-enum总是可以前置声明，而unscoped只有在指定underlying-type时才可以，注意enum工作在编译期。</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../C++/C++-Concurrency-In-Action/Memory-Model-And-Atomic-Operation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../C++/Effective-Modern-C++/Part2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../C++/C++-Concurrency-In-Action/Memory-Model-And-Atomic-Operation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../C++/Effective-Modern-C++/Part2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
