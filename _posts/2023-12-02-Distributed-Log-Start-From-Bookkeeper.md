@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "分布式日志-从Bookkeeper开始"
-date:   2024-08-17 21:14:30 +0800
+date:   2023-12-02 21:14:30 +0800
 categories: ["Distributed System"]
 tags: ["Distributed Log", "Bookkeeper"]
 ---
