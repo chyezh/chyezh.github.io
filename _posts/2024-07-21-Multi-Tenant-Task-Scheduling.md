@@ -1,10 +1,22 @@
 ---
 layout: post
-title:  "Task Schedling In Multi Tenant"
+title:  "多租环境下的任务调度问题"
 date:   2024-07-21 11:32:30 +0800
 categories: ["Multi Tenant"]
-tags: [Multi-Tenant, Algorithm]
+tags: [Schedule, Algorithm]
 ---
+
+多租环境下，同一个资源会被多个租户同时占用，不同租户对服务的请求彼此会相互竞争。在多租环境下，我们一般期望有以下的特性：
+
+- Resource Isolation：资源的有限隔离。
+  - 不同特性租户彼此资源隔离，尽量减少对彼此之间的影响。
+- Fairness Schedule：公平调度：
+  - 不同租户能够公平的分享资源，不能仅仅是不饿死；类似的需求的租户要有基本一致的用户体验。
+- Smooth latency：稳定平滑的延迟：
+  - 单个租户看到的响应延迟尽可能稳定，不要出现突发的变化。
+为了实现以上的需求，我们有多种手段：限流（Rate Limiting），隔离（isolation），调度（schedule）,调权（priority），相互支撑来达到目标。
+
+本文主要介绍如何使用一些多租环境下的调度算法达成目标：
 
 <!-- more -->
 
@@ -26,17 +38,6 @@ tags: [Multi-Tenant, Algorithm]
     }
   });
 </script>
-
-# 背景
-
-多租环境下，同一个资源会被多个租户同时占用，不同租户对服务的请求彼此会相互竞争。在多租环境下，我们一般期望有以下的特性：
-- Resource Isolation：资源的有限隔离。
-  - 不同特性租户彼此资源隔离，尽量减少对彼此之间的影响。
-- Fairness Schedule：公平调度：
-  - 不同租户能够公平的分享资源，不能仅仅是不饿死；类似的需求的租户要有基本一致的用户体验。
-- Smooth latency：稳定平滑的延迟：
-  - 单个租户看到的响应延迟尽可能稳定，不要出现突发的变化。
-为了实现以上的需求，我们有多种手段：限流（Rate Limiting），隔离（isolation），调度（schedule）,调权（priority），相互支撑来达到目标。这次我们核心先介绍调度手段如何达成目标。
 
 # 多租场景下的调度模型
 
