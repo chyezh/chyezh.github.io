@@ -1,9 +1,12 @@
 ---
 layout: post
-title:  "<Effective Modern C++> Part3"
+title:  "[Effective Modern C++] Part3"
 date:   2018-07-19 14:32:05 +0800
-categories: C++-Readings
+categories: ["C++ Readings"]
+tags: [C++]
 ---
+
+<!-- more -->
 
 # Item23: Understand *std::move* and *std::forward*
 

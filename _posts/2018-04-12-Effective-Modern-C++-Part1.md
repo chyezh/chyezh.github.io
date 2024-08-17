@@ -1,9 +1,12 @@
 ---
 layout: post
-title:  "<Effective Modern C++> Part1"
+title:  "[Effective Modern C++] Part1"
 date:   2018-04-12 18:12:04 +0800
-categories: C++-Readings
+categories: ["C++ Readings"]
+tags: [C++]
 ---
+
+<!-- more -->
 
 # Item1: Understand Template Type Dedution
 

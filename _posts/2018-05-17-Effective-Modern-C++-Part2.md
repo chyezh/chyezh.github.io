@@ -1,9 +1,12 @@
 ---
 layout: post
-title:  "<Effective Modern C++> Part2"
+title:  "[Effective Modern C++] Part2"
 date:   2018-05-17 09:18:33 +0800
-categories: C++-Readings
+categories: ["C++ Readings"]
+tags: [C++]
 ---
+
+<!-- more -->
 
 # Item11: Prefer deleted Functions to Private Undefined Ones
 

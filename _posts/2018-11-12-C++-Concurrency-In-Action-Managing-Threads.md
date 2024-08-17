@@ -1,9 +1,12 @@
 ---
 layout: post
-title:  "<C++ Concurrency In Action> Managing Threads"
+title:  "[C++ Concurrency In Action] Managing Threads"
 date:   2018-11-12 19:42:09 +0800
-categories: C++-Readings
+categories: ["C++ Readings"]
+tags: [C++]
 ---
+
+<!-- more -->
 
 # Managing Threads
 

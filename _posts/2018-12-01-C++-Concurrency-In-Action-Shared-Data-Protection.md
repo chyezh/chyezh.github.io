@@ -1,9 +1,12 @@
 ---
 layout: post
-title:  "<C++ Concurrency In Action> Shared Data Protection"
+title:  "[C++ Concurrency In Action] Shared Data Protection"
 date:   2018-12-01 13:52:23 +0800
-categories: C++-Readings
+categories: ["C++ Readings"]
+tags: [C++]
 ---
+
+<!-- more -->
 
 # Share Date Protection
 
