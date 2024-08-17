@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "<C++ Concurrency In Action> Memory Model And Atomic Operation"
+date:   2019-02-10 10:14:30 +0800
+categories: C++-Readings
+---
+
 # Memory Model And Atomic Operation
 
 在C++中，内存是一块或者多块连续的*byte*序列，所有*byte*在程序中都有唯一的地址。

@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "<Effective Modern C++> Part1"
+date:   2018-04-12 18:12:04 +0800
+categories: C++-Readings
+---
+
 # Item1: Understand Template Type Dedution
 
 函数模板的形式如下:

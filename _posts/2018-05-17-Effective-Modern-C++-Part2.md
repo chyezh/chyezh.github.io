@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "<Effective Modern C++> Part2"
+date:   2018-05-17 09:18:33 +0800
+categories: C++-Readings
+---
+
 # Item11: Prefer deleted Functions to Private Undefined Ones
 
 在C++中，有一类成员函数是特殊的，这些成员函数在某些情况下会被编译器默认实现：'member function5'，即：默认构造函数、复制构造函数、复制赋值操作符、移动构造函数、移动赋值操作符。

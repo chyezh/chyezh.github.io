@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "<Effective Modern C++> Part3"
+date:   2018-07-19 14:32:05 +0800
+categories: C++-Readings
+---
+
 # Item23: Understand *std::move* and *std::forward*
 
 C++11的一大特性就是引入了右值引用(*rvalue reference*)，移动语义(Move Semantics)与完美转发(Perfect Forwarding)就是由右值引用联结起来的：

@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "Task Schedling In Multi Tenant"
+date:   2024-07-21 11:32:30 +0800
+categories: Multi-Tenant
+---
+
 <script type="text/javascript"
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML">
 </script>
@@ -30,7 +37,7 @@
 
 # 多租场景下的调度模型
 
-![](./assets/Multi-Tenant/scheduling%20model.png)
+![](/assets/Multi-Tenant/scheduling%20model.png)
 
 如上图所示，用户A、B、C分别发出请求：
 - Queuing过程：这个过程主要控制如何入队，一般由于Scheduler有调度上限，因此在容量打满后，Queuing还有额外的行为，如Blocking/Droping/Timeout等等。不是本文的重点。
@@ -40,7 +47,7 @@
 
 最简单的调度方式，这个情况下Scheduler本质上是一个Queue或者PriorityQueue。
 
-![](./assets/Multi-Tenant/fifo.png)
+![](/assets/Multi-Tenant/fifo.png)
 
 由于调度只是简单的将入队位置忠实的反应出来，所以最终我们看到的调度结果受非常多因素影响，比如：
 - 锁竞争时的唤醒顺序。
@@ -54,11 +61,11 @@
 - 每个用户单独维护一个队列。
 - Scheduler依照顺序依次轮询每个队列，并取出一个请求作为下一个请求。
 
-![](./assets/Multi-Tenant/user%20round%20robin%20queue.png)
+![](/assets/Multi-Tenant/user%20round%20robin%20queue.png)
 
 可以看到出队顺序确实更加公平了，但是如果每个请求的开销并不那么一致呢？
 
-![](./assets/Multi-Tenant/user%20round%20robin%20queue%202.png)
+![](/assets/Multi-Tenant/user%20round%20robin%20queue%202.png)
 
 - 用户A发出的请求需要两倍于B和C的时间。
 - 最终的调度结果导致A占用了50%的资源，而B和C只能占用25%。
@@ -68,7 +75,7 @@
 GPS（generalized processor sharing）是一个理想的公平调度模型，可以理解成流式的，任意的任意大小的时间间隔内，服务方都按照权重公平的进行资源占用。
 - 如下图，S1这个租户占用0.5的权重，其他10个用户分别占用0.05的权重。理想的GPS服务如右图所示。
 
-![](./assets/Multi-Tenant/gps.png)
+![](/assets/Multi-Tenant/gps.png)
 
 但是真实世界中，请求都是有最小不可分割的大小，而且过小的请求粒度对系统会造成额外的上下文切换成本。因此公平调度是尽可能逼近GPS模型，在尽可能小的粒度上公平。
 
@@ -85,7 +92,7 @@ GPS（generalized processor sharing）是一个理想的公平调度模型，可
   - $F_f^j=S_f^j + L_f^j$：租户f 第j个请求预计的完成虚拟时钟时间。
 - 调度器按照$F_f^j$的从小到大的顺序出队。
 
-![](./assets/Multi-Tenant/fq.png)
+![](/assets/Multi-Tenant/fq.png)
 
 - 最终，按长期的平均下来，A/B/C分别占用33%的资源。
 
@@ -95,7 +102,7 @@ GPS（generalized processor sharing）是一个理想的公平调度模型，可
 - $F_f^j=max(A_f^j, F_f^{j-1}) + L_f^j/W_f$
 在上面的Case中，如果我们将B租户增加两倍权重：
 
-![](./assets/Multi-Tenant/wfq.png)
+![](/assets/Multi-Tenant/wfq.png)
 
 就可以达到B用户占用50%资源，而A/C用户各占用25%资源了。
 
@@ -104,12 +111,12 @@ GPS（generalized processor sharing）是一个理想的公平调度模型，可
 WF²Q是WFQ的拓展版本，用于解决极端情况下的不公平，由于WFQ引入了权重，$F_f^j$不再能反应真实的请求结束时间，重新考虑GPS的场景：
 - 由于S1的10倍权重占用，导致S1的前9个请求的$F_f^j$都小于其他租户同时到达的$F_f^j$，WFQ最终会调度出后面这个结果：其他租户的响应时间都增加了10倍。
 
-![](./assets/Multi-Tenant/wfq1.png)![](./assets/Multi-Tenant/wfq2.png)
+![](/assets/Multi-Tenant/wfq1.png)![](/assets/Multi-Tenant/wfq2.png)
 
 WF²Q为了解决这个问题，添加出队约束：
 - 只有当$S_f^j \le V_{now}$时，才允许这个任务被调度。
 
-![](./assets/Multi-Tenant/wfq3.png)
+![](/assets/Multi-Tenant/wfq3.png)
 
 相较于WFQ，WF²Q的结果更加接近于GPS模型，在更小的粒度上实现了公平。
 
@@ -124,14 +131,14 @@ Scheduler的下游是一般是一个并发单元，可以并行处理多个任�
 - W1和W2分别是系统中的两个并发单元。
 如果直接使用WFQ，我们会得到如下的调度结果：
 
-![](./assets/Multi-Tenant/wfq4.png)
+![](/assets/Multi-Tenant/wfq4.png)
 
 - A和B用户的请求，会被C和D用户的请求Block，从而观察到请求响应的剧烈波动，称之为bursty schedule。
 
 在无并发的场景下，我们无法做更深入的优化，但是在并发的场景下，我们有如下的优化空间：
 
 
-![](./assets/Multi-Tenant/wfq5.png)
+![](/assets/Multi-Tenant/wfq5.png)
 
 - 耗时小和耗时大的请求会分别在两个并发单元中调度，从而彼此观察到的响应波动的比例大幅度缩减，称之为smooth schedule。
 
@@ -142,7 +149,7 @@ Scheduler的下游是一般是一个并发单元，可以并行处理多个任�
 不同租户的不同请求的资源开销与耗时跨度极大（可能是3-4个数量级的差距，）
 如图是论文作者在Azure Storage多租服务上的统计：
 
-![](./assets/Multi-Tenant/l1.png)![](./assets/Multi-Tenant/l2.png)
+![](/assets/Multi-Tenant/l1.png)![](/assets/Multi-Tenant/l2.png)
 
 浮动越大（方差越大），越容易让调度器调度出bursty schedule。
 
@@ -162,7 +169,7 @@ WFQ不能实现平滑调度的核心原因是所有并发单元都是平等的�
 - 有$n$个并发工作单元，并且按固定下标$W_0,W_1,...W_{n-1}$排列。
 - 在$W_i$上，只有当$S_f^j \le V_{now}-L_f^j \times \frac{i}{n}$时，才允许这个任务被调度。
 
-![](./assets/Multi-Tenant/2dfq1.png)
+![](/assets/Multi-Tenant/2dfq1.png)
 
 - $W_0$这个并发单元的行为和WF²Q是完全一致的，所以他不会区分高开销和低开销任务。
 - $W_1$这个并发单元会倾向于调度低耗时任务，因为它们的允许调度的阈值更小。
