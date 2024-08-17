@@ -3,8 +3,11 @@ layout: post
 title:  "[C++ Concurrency In Action] Memory Model And Atomic Operation"
 date:   2019-02-10 10:14:30 +0800
 categories: ["C++ Readings"]
-tags: [C++]
+tags: ["C++", "C++ Concurrency In Action"]
 ---
+
+- Memory Model And Atomic Operation
+- Atomic Operation
 
 <!-- more -->
 
