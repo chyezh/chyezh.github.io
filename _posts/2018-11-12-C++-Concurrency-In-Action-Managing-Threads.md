@@ -3,12 +3,18 @@ layout: post
 title:  "[C++ Concurrency In Action] Managing Threads"
 date:   2018-11-12 19:42:09 +0800
 categories: ["C++ Readings"]
-tags: [C++]
+tags: ["C++", "C++ Concurrency In Action"]
 ---
 
-<!-- more -->
+- std::thread
+- ensure that the data accessed by the thread is valid
+- join or detach
+- Passing arguments to a thread function
+- Transferring ownership of a thread
+- Choosing the number of threads at runtime
+- Identifying threads
 
-# Managing Threads
+<!-- more -->
 
 ## *std::thread*
 

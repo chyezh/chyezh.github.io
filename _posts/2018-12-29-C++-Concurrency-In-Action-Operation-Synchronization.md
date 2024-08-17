@@ -1,14 +1,17 @@
 ---
 layout: post
 title:  "[C++ Concurrency In Action] Operation Synchronization"
-date:   2018-12-20 22:01:03 +0800
+date:   2018-12-29 22:01:03 +0800
 categories: ["C++ Readings"]
-tags: [C++]
+tags: ["C++", "C++ Concurrency In Action"]
 ---
 
-<!-- more -->
+- Waiting for events
+- Waiting for one-off events
+- Time limit
+- Using synchronization of operations to simplify code
 
-# Operation Synchronization
+<!-- more -->
 
 # Waiting for events
 
