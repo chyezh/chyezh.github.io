@@ -6,7 +6,6 @@ categories: ["Distributed System"]
 tags: ["Distributed Log", "Bookkeeper"]
 ---
 
-
 分布式日志是部分分布式系统实现中的基础设施。如果一个系统具备一个完备的分布式日志，辅以订阅等能力，那么这个系统就可以实现很多高级功能，比如分布式事务、分布式快照、分布式复制等。在许多系统中，如Kafka，Pulsar等消息队列实现分布式组件之间的同步。
 
 但对于更基础的分布式实现中，直接使用MQ会引入额外的复杂度，因此我们需要一个更加基础的分布式日志。Bookkeeper通过一定的开发可以快速构建一个分布式日志，本文主要围绕Bookkeeper展开。
@@ -60,7 +59,7 @@ Bookkeeper是通过Client协调实现的分布式系统，是个Leaderless系统
 
 其他的诸如Auto-Recovery等组件不属于基础组件，这里暂不做讨论。
 
-![DLog Architechture](/assets/img/DLog-Start-From-Bookkeeper/bookkeeper-architechture.png){: width="750" }
+![DLog Architechture](/assets/img/DLog-Start-From-Bookkeeper/bookkeeper-architechture.png){: width="80%" }
 
 ## 有界日志Ledger
 
@@ -73,7 +72,7 @@ Bookkeeper是通过Client协调实现的分布式系统，是个Leaderless系统
 
 Bookkeeper提供的日志单元式Ledger，一个Ledger是一个有界的日志，即不可能无限增长，其生命周期是有限的，并且按照几个操作行为进行状态迁移：
 
-![Ledger State](/assets/img/DLog-Start-From-Bookkeeper/ledger-state.png){: width="750" }
+![Ledger State](/assets/img/DLog-Start-From-Bookkeeper/ledger-state.png){: width="80%" }
 
 - Ledger是通过**CreateLedger**创建**WriteHandler**，其生命周期中只允许该**WriteHandler**执行写入。只有**OPEN**状态的Ledger是可写的。
 - Ledger的生命周期的终结有两条路线：
@@ -96,7 +95,7 @@ Ledger这一层已经具备多副本能力，其不同的副本会分散在不�
 
 直接描述可能有些抽象，这里举个例子，比如一个$E=4;W=3;A=2$的Ledger，其Entry在Bookie上的分布可能是这样的：
 
-![Ledger Replica](/assets/img/DLog-Start-From-Bookkeeper/ledger-replica.png){: width="750" }
+![Ledger Replica](/assets/img/DLog-Start-From-Bookkeeper/ledger-replica.png){: width="80%" }
 
 - 该Ledger允许在4个Bookie上存储，每个Entry有3个副本，写入时需要2个Bookie响应。
 - 初始化时，选中了B1、B2、B3、B4作为存储节点。
@@ -130,7 +129,7 @@ Ledger这一层已经具备多副本能力，其不同的副本会分散在不�
 
 如图Enssemble=4，Ack Quorum=2的情况，可计算出EC=3
 
-![Fence](/assets/img/DLog-Start-From-Bookkeeper/ec.png){: width="750" }
+![Fence](/assets/img/DLog-Start-From-Bookkeeper/ec.png){: width="80%" }
 
 - **RecoverReadHandler**先通过对Meta状态迁移到**IN-RECOVERY**状态，来保证**WriteHandler**无法再修改**Enssemble Group**
 - **RecoverReadHandler**对**Enssemble Group**的所有节点发出**Fence**要求，要求所有节点禁写对应的Ledger，其中只要求EC个节点返回成功，保证了**WriteHandler**的任意一个**AQ Group**都包含一个被**Fence**的节点。从而保证了在EC节点返回**Fence**成功之后，**WriteHandler**无法再做任何一个满足AQ要求的写操作，即实现了**WriteHandler**的禁写。
@@ -141,7 +140,7 @@ Ledger这一层已经具备多副本能力，其不同的副本会分散在不�
 
 以下为Write Quorum=3，Ack Quorum=2的情况，可计算出QC=2。
 
-![Recover](/assets/img/DLog-Start-From-Bookkeeper/qc.png){: width="750" }
+![Recover](/assets/img/DLog-Start-From-Bookkeeper/qc.png){: width="80%" }
 
 - Meta中持久化有**LastConfirmed**（LC），以及Entry Log中也持久化有LC（反应**WriteHandler**最后一次Commit的有效EntryID），
 - **RecoverReadHandler**从LC+1开始修复数据，请求对应WQ的Bookie，如果对应的Bookie存在Entry，则响应存在 ；不存在该Entry，则响应在不存在；典型存在以下几种情况：
